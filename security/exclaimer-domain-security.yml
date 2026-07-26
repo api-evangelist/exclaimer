@@ -1,0 +1,23 @@
+generated: '2026-07-19'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: exclaimer.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 12 03:45:51 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+domains:
+- domain: exclaimer.com
+  dnssec: true
+  caa:
+  - 0 issue "comodoca.com"
+  - 0 issue "digicert.com"
+  - 0 issue "godaddy.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog"
+  - 0 issue "sectigo.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

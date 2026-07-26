@@ -1,0 +1,17 @@
+generated: '2026-07-19'
+method: searched
+source: https://status.exclaimer.com/
+status_page: https://status.exclaimer.com/
+status_page_note: >-
+  Exclaimer Cloud multi-region status page (Australia, Canada, Europe, Germany,
+  UAE) covering mail routing, signature application, admin UI, user sync, and
+  click tracking, with 90-day uptime metrics.
+versioning: null
+deprecation: null
+sla:
+  uptime_target: '99.9%'
+  source: https://status.exclaimer.com/
+notes: >-
+  Exclaimer publishes no public REST API reference, versioning policy, or
+  deprecation/Sunset-header policy; only the operational status page and SLA
+  posture were found. Update if a documented public API surface is published.

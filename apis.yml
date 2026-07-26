@@ -1,7 +1,28 @@
 aid: exclaimer
 name: Exclaimer
-description: Exclaimer is a company surfaced as a portfolio company of insight-partners and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Exclaimer is an email signature management platform used by IT, marketing, and
+  sales teams to centrally create, deploy, and govern corporate email signatures
+  across Microsoft 365, Microsoft Exchange, and Google Workspace. It manages
+  signatures for more than 9 million email accounts, adding campaign banners,
+  meeting-branding backgrounds, click-tracking analytics, directory
+  synchronization with Azure AD and Google Directory, and role-based access
+  control. Exclaimer does not publish a public developer API reference, but
+  operates a multi-region Exclaimer Cloud with a real-time status page and a
+  strong security and compliance program (SOC 2 Type II, ISO 27001/27018, HIPAA,
+  PCI DSS, CSA STAR, Cyber Essentials).
+accessModel:
+  pricing: unknown
+  onboarding: approval
+  trial: false
+  try_now: false
+  public: false
+  label: Requires approval
+  confidence: medium
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://exclaimer.com/img/og-image.jpg
 url: https://raw.githubusercontent.com/api-evangelist/exclaimer/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,9 +32,18 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
 - Company
+- Email
+- Email Signatures
+- Email Signature Management
+- Microsoft 365
+- Google Workspace
+- Marketing
+- Productivity
+- SaaS
+- Security
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -23,3 +53,38 @@ maintainers:
 common:
 - type: Website
   url: https://exclaimer.com/
+- type: Pricing
+  url: https://exclaimer.com/pricing/
+- type: Blog
+  url: https://exclaimer.com/blog/
+- type: SignUp
+  url: https://go.exclaimer.com/trial
+- type: HelpCenter
+  url: https://support.exclaimer.com/hc/en-gb
+- type: TermsOfService
+  url: https://exclaimer.com/legal/website-terms-of-use/
+- type: PrivacyPolicy
+  url: https://exclaimer.com/legal/privacy-policy/
+- type: StatusPage
+  url: https://status.exclaimer.com/
+- type: Lifecycle
+  url: lifecycle/exclaimer-lifecycle.yml
+- type: Compliance
+  url: https://exclaimer.com/product/security/
+- type: TrustCenter
+  url: security/exclaimer-trust-center.yml
+- type: Security
+  url: https://vdp.exclaimer.com/p/Welcome
+- type: VulnerabilityDisclosure
+  url: security/exclaimer-vulnerability-disclosure.yml
+- type: SecurityTxt
+  url: well-known/exclaimer-security.txt
+- type: WellKnown
+  url: well-known/exclaimer-well-known.yml
+- type: DomainSecurity
+  url: security/exclaimer-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
