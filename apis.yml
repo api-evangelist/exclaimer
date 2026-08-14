@@ -7,10 +7,13 @@ description: >-
   signatures for more than 9 million email accounts, adding campaign banners,
   meeting-branding backgrounds, click-tracking analytics, directory
   synchronization with Azure AD and Google Directory, and role-based access
-  control. Exclaimer does not publish a public developer API reference, but
-  operates a multi-region Exclaimer Cloud with a real-time status page and a
-  strong security and compliance program (SOC 2 Type II, ISO 27001/27018, HIPAA,
-  PCI DSS, CSA STAR, Cyber Essentials).
+  control. Exclaimer publishes the Exclaimer Cloud API — a partner/distributor
+  provisioning REST API documented at cloudapi.exclaimer.com with a machine-
+  readable OpenAPI 3.0.1 definition covering subscriptions, MSP subscriptions,
+  subscription users, resellers, end users, mailbox counts, subscription
+  transfers and reference data. It operates a multi-region Exclaimer Cloud with
+  a real-time status page and a strong security and compliance program (SOC 2
+  Type II, ISO 27001/27018, HIPAA, PCI DSS, CSA STAR, Cyber Essentials).
 accessModel:
   pricing: unknown
   onboarding: approval
@@ -28,11 +31,13 @@ x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - insight-partners
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: >-
+  Promoted from stub 2026-08-13: the Exclaimer Cloud API and its OpenAPI 3.0.1
+  were discovered and captured, with 22 artifacts wired.
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-19'
+modified: '2026-08-13'
 tags:
 - Company
 - Email
@@ -44,7 +49,70 @@ tags:
 - Productivity
 - SaaS
 - Security
-apis: []
+apis:
+- name: Exclaimer Cloud API
+  description: >-
+    Partner and distributor provisioning API for Exclaimer Cloud tenants. Covers
+    creating and managing subscriptions (add, update, activate, deactivate, end,
+    reactivate, migrate, transfer ownership, change SKU/tier/NFR status),
+    MSP subscriptions and sender usage export, subscription users and roles,
+    resellers, end users, mailbox counts and allocation, and reference data
+    (data centers, SKUs, tiers). REST over HTTPS with JSON, authenticated with
+    an ExApiToken API key header, PascalCase-or-camelCase request tolerance, and
+    ContinuationToken paging. Access is restricted to the Exclaimer distributor
+    network; tokens are issued by Exclaimer.
+  humanURL: https://cloudapi.exclaimer.com/
+  baseURL: https://cloudapi.exclaimer.com/exclaimerapi
+  tags:
+  - email-signatures
+  - provisioning
+  - subscription-management
+  - partner-api
+  - distributor
+  - msp
+  - reseller
+  - saas-management
+  properties:
+  - type: APIReference
+    url: https://cloudapi.exclaimer.com/
+  - type: Documentation
+    url: https://cloudapi.exclaimer.com/
+  - type: OpenAPI
+    url: openapi/exclaimer-subscriptions-openapi.yml
+  - type: OpenAPI
+    url: openapi/exclaimer-msp-openapi.yml
+  - type: OpenAPI
+    url: openapi/exclaimer-subscription-users-openapi.yml
+  - type: OpenAPI
+    url: openapi/exclaimer-subscription-transfers-openapi.yml
+  - type: OpenAPI
+    url: openapi/exclaimer-end-users-openapi.yml
+  - type: OpenAPI
+    url: openapi/exclaimer-resellers-openapi.yml
+  - type: OpenAPI
+    url: openapi/exclaimer-mailboxes-openapi.yml
+  - type: OpenAPI
+    url: openapi/exclaimer-reference-resources-openapi.yml
+  - type: OpenAPI
+    url: openapi/exclaimer-miscellaneous-openapi.yml
+  - type: Authentication
+    url: authentication/exclaimer-authentication.yml
+  - type: Conventions
+    url: conventions/exclaimer-conventions.yml
+  - type: ErrorCatalog
+    url: errors/exclaimer-problem-types.yml
+  - type: DataModel
+    url: data-model/exclaimer-data-model.yml
+  - type: RateLimits
+    url: rate-limits/exclaimer-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/exclaimer-sandbox.yml
+  - type: Overlay
+    url: overlays/exclaimer-cloud-api-overlay.yaml
+  - type: Conformance
+    url: conformance/exclaimer-conformance.yml
+  - type: AgentSkill
+    url: skills/_index.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -83,8 +151,36 @@ common:
   url: well-known/exclaimer-well-known.yml
 - type: DomainSecurity
   url: security/exclaimer-domain-security.yml
+- type: DeveloperPortal
+  url: https://cloudapi.exclaimer.com/
+- type: Documentation
+  url: https://support.exclaimer.com/hc/en-gb
+- type: APIReference
+  url: https://cloudapi.exclaimer.com/
+- type: GettingStarted
+  url: https://support.exclaimer.com/hc/en-gb/articles/360050643511-Onboarding-Connect-to-Microsoft-365
+- type: Support
+  url: https://support.exclaimer.com/hc/en-gb
+- type: GitHubOrganization
+  url: https://github.com/exclaimerltd
+- type: ChangeLog
+  url: changelog/exclaimer-changelog.yml
+- type: Deprecation
+  url: https://exclaimer.com/support/discontinued/
+- type: LLMsTxt
+  url: llms/exclaimer-llms.txt
+- type: Plans
+  url: plans/exclaimer-plans-pricing.yml
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 22
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
+  note: >-
+    Round 1 (2026-07-19) recorded "Exclaimer does not publish a public developer
+    API reference". That was wrong. STEP 0b contract discovery found the Exclaimer
+    Cloud API reference at https://cloudapi.exclaimer.com/ — server-rendered, not
+    a JS shell — with a real OpenAPI 3.0.1 served anonymously at
+    https://cloudapi.exclaimer.com/openapi.json (HTTP 200, 39 operations, 59
+    schemas). The docs are public; only the ExApiToken is gated to the distributor
+    network.
