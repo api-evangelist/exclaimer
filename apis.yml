@@ -35,7 +35,7 @@ x-tier: enriched
 x-tier-reason: >-
   Promoted from stub 2026-08-13: the Exclaimer Cloud API and its OpenAPI 3.0.1
   were discovered and captured, with 22 artifacts wired.
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-08-13'
 tags:
