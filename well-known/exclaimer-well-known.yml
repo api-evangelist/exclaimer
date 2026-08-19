@@ -1,16 +1,54 @@
-generated: '2026-07-19'
+generated: '2026-08-13'
 method: searched
-source: https://exclaimer.com/.well-known/
-host: https://exclaimer.com
-documents:
-- path: /.well-known/security.txt
-  status: 200
-  file: exclaimer-security.txt
-- path: /.well-known/openid-configuration
-  status: 404
-- path: /.well-known/oauth-authorization-server
-  status: 404
-- path: /.well-known/api-catalog
-  status: 404
-- path: /.well-known/ai-plugin.json
-  status: 404
+source: live probes of /.well-known/* on exclaimer.com and cloudapi.exclaimer.com
+hosts:
+- host: https://exclaimer.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: exclaimer-security.txt
+    note: RFC 9116 — real document, three lines, Contact pointing at the VDP program.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://cloudapi.exclaimer.com
+  note: >-
+    The Exclaimer Cloud API gateway answers 401 Unauthorized (empty body) for every
+    path except / (the API reference page) and /openapi.json (the specification),
+    both of which are served anonymously. The 401s below are therefore an
+    auth-gate, not an absence — no discovery document can be confirmed either way
+    without a partner ExApiToken.
+  documents:
+  - path: /.well-known/security.txt
+    status: 401
+  - path: /.well-known/openid-configuration
+    status: 401
+  - path: /.well-known/oauth-authorization-server
+    status: 401
+  - path: /.well-known/oauth-protected-resource
+    status: 401
+  - path: /.well-known/api-catalog
+    status: 401
+  - path: /.well-known/ai-plugin.json
+    status: 401
+  - path: /.well-known/agent-card.json
+    status: 401
+  - path: /.well-known/agent.json
+    status: 401
+summary:
+  hits: 1
+  documents_found:
+  - /.well-known/security.txt (exclaimer.com)
+  agent_card: none
+  oauth_metadata: none

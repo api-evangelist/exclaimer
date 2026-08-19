@@ -1,0 +1,658 @@
+{
+  "item": [
+    {
+      "id": "85968bcc-e659-4fc6-883a-1be9d0feaaf1",
+      "name": "Resellers",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3c4c3629-c94a-4dc6-a639-0b110bdd0de2",
+          "name": "Add/Update Reseller",
+          "request": {
+            "name": "Add/Update Reseller",
+            "description": {
+              "content": "This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "resellers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ResellerID\": \"<string>\",\n  \"CompanyName\": \"<string>\",\n  \"CountryCode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "253d2c67-e7cf-4685-9cbb-231c20784da0",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "resellers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"ResellerID\":\"Email Services\",\"CompanyName\":\"The Spencer Group\",\"CountryCode\":\"GBR\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a2958abe-13e3-4e97-96bb-0e749c3bb915",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "resellers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"ResellerID\":\"Email Services\",\"CompanyName\":\"The Spencer Group\",\"CountryCode\":\"GBR\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ec07dd12-9f08-4fb7-929c-b0ad1d058bf8",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "resellers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"ResellerID\":\"Email Services\",\"CompanyName\":\"The Spencer Group\",\"CountryCode\":\"GBR\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5470c5b1-d18d-462e-a7e2-d21defa2804b",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "resellers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"ResellerID\":\"Email Services\",\"CompanyName\":\"The Spencer Group\",\"CountryCode\":\"GBR\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "03cc8f01-9588-4e58-9a7e-dc3f7e5700e6",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "resellers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"ResellerID\":\"Email Services\",\"CompanyName\":\"The Spencer Group\",\"CountryCode\":\"GBR\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f9307aa3-520c-482d-998d-731a329411ac",
+          "name": "Get Resellers",
+          "request": {
+            "name": "Get Resellers",
+            "description": {
+              "content": "This request will return details about each of your resellers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "resellers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "Page",
+                  "value": "<int32>",
+                  "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the original subscription, or the reseller, was added. </p>"
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "<int32>",
+                  "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>"
+                },
+                {
+                  "disabled": false,
+                  "key": "ContinuationToken",
+                  "value": "<int32>",
+                  "description": "A token that can be used to get the next page of results without supplying paging values."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e918b953-0349-4ea2-ae96-44e2aa6b5ddb",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "resellers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"Resellers\\\":[{\\\"ResellerID\\\":\\\"FINTECH-01-D\\\",\\\"CompanyName\\\":\\\"Kings Ltd\\\",\\\"CountryCode\\\":\\\"DE\\\"},{\\\"ResellerID\\\":\\\"ENT-11-U\\\",\\\"CompanyName\\\":\\\"Lang & Co\\\",\\\"CountryCode\\\":\\\"GBR\\\"},{\\\"ResellerID\\\":\\\"ED-85-T\\\",\\\"CompanyName\\\":\\\"Bucks Ed\\\",\\\"CountryCode\\\":\\\"GBR\\\"}],\\\"ResellerCount\\\":15,\\\"ContinuationToken\\\":26145,\\\"Page\\\":4,\\\"PageSize\\\":3}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00996d45-036a-48e8-876b-5672f3242e3f",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "resellers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "abc99fb9-73c5-4e77-b059-66d3a6da5bba",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "resellers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e170fcd4-271f-46e4-8ff9-6d4f0d605749",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "resellers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8408104f-a705-416b-8f5f-ed6417f049df",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "resellers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cloudapi.exclaimer.com/exclaimerapi",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "ExApiToken"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7c916cda-cfdb-4bc9-81b8-5a2a9d588f82",
+    "name": "Exclaimer Cloud API — Resellers",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Resellers operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.",
+      "type": "text/plain"
+    }
+  }
+}

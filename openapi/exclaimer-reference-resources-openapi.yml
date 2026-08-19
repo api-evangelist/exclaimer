@@ -1,0 +1,196 @@
+openapi: 3.0.1
+info:
+  title: Exclaimer Cloud API — Reference Resources
+  version: '1'
+  description: The Reference Resources operations of the Exclaimer Cloud API, the partner/distributor
+    provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at
+    https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation
+    content is carried verbatim from the source specification.
+servers:
+- url: https://cloudapi.exclaimer.com/exclaimerapi
+  description: Local
+tags:
+- name: Reference Resources
+paths:
+  /1.0/reference/data-centers:
+    get:
+      tags:
+      - Reference Resources
+      summary: Get Data Centers
+      description: This request will return a list of data centers along with which ones can be used with
+        Office 365, and which can be used with GSuite. If a data center is not available for a provider,
+        then the corresponding field will not be returned.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataCentersResponse'
+              examples:
+                Basic response:
+                  value: '{"DataCenters":[{"Location":"Australia","Office365Code":"AUS"},{"Location":"Canada","Office365Code":"CAN"},{"Location":"Europe","Office365Code":"EU","GSuiteCode":"EU"},{"Location":"UAE","Office365Code":"IND"},{"Location":"UK","Office365Code":"UK"},{"Location":"US","Office365Code":"US","GSuiteCode":"US"},{"Location":"DE","Office365Code":"DE","GSuiteCode":"DE"}]}'
+        '401':
+          description: Unauthorized
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /reference/data-centers
+            value: '{}'
+  /1.0/reference/skus:
+    get:
+      tags:
+      - Reference Resources
+      summary: Get SKUs
+      description: This request will return a list of codes used by the API when referencing SKUs. This
+        value is used when adding a subscription, or when changing the SKU. <deprecated-note><em>2023-04-03</em><br
+        /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter,
+        ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will
+        still include SKUs relating to the original tiers, along with SKUs for the new tiers. The results
+        for new consumers will only include SKUs relating to the new tiers. </deprecated-note>
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SKUReferencesResponse'
+              examples:
+                Basic response:
+                  value: '{"SKUs":[{"SKU":"EXCL-G-PRO","Description":"Exclaimer Pro for Google Workspace"},{"SKU":"EXCL-G-PRO-NFR","Description":"Exclaimer
+                    Pro for Google Workspace, Not for Resale"},{"SKU":"EXCL-G-STAND","Description":"Exclaimer
+                    Standard for Google Workspace"},{"SKU":"EXCL-G-STAND-NFR","Description":"Exclaimer
+                    Standard for Google Workspace, Not for Resale"},{"SKU":"EXCL-G-START","Description":"Exclaimer
+                    Starter for Google Workspace"},{"SKU":"EXCL-G-START-NFR","Description":"Exclaimer
+                    Starter for Google Workspace, Not for Resale"},{"SKU":"EXCL-M-PRO","Description":"Exclaimer
+                    Pro for Microsoft"},{"SKU":"EXCL-M-PRO-NFR","Description":"Exclaimer Pro for Microsoft,
+                    Not for Resale"},{"SKU":"EXCL-M-STAND","Description":"Exclaimer Standard for Microsoft"},{"SKU":"EXCL-M-STAND-NFR","Description":"Exclaimer
+                    Standard for Microsoft, Not for Resale"},{"SKU":"EXCL-M-START","Description":"Exclaimer
+                    Starter for Microsoft"},{"SKU":"EXCL-M-START-NFR","Description":"Exclaimer Starter
+                    for Microsoft, Not for Resale"}]}'
+                Basic response relating to original tiers (DEPRECATED):
+                  value: '{"SKUs":[{"SKU":"EXCL-G-MNGT-CLOUD","Description":"Exclaimer Signature Management
+                    Cloud for Google Workspace"},{"SKU":"EXCL-G-MNGT-CLOUD-NFR","Description":"Exclaimer
+                    Signature Management Cloud for Google Workspace, Not for Resale"},{"SKU":"EXCL-G-MRKT-CLOUD","Description":"Exclaimer
+                    Signature Marketing Cloud for Google Workspace"},{"SKU":"EXCL-G-MRKT-CLOUD-NFR","Description":"Exclaimer
+                    Signature Marketing Cloud for Google Workspace, Not for Resale"},{"SKU":"EXCL-M-MNGT-CLOUD","Description":"Exclaimer
+                    Signature Management Cloud for Microsoft"},{"SKU":"EXCL-M-MNGT-CLOUD-NFR","Description":"Exclaimer
+                    Signature Management Cloud for Microsoft, Not for Resale"},{"SKU":"EXCL-M-MRKT-CLOUD","Description":"Exclaimer
+                    Signature Marketing Cloud for Microsoft"},{"SKU":"EXCL-M-MRKT-CLOUD-NFR","Description":"Exclaimer
+                    Signature Marketing Cloud for Microsoft, Not for Resale"}]}'
+                  x-documentation:
+                    deprecated: true
+        '401':
+          description: Unauthorized
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /reference/skus
+            value: '{}'
+  /1.0/reference/tiers:
+    get:
+      tags:
+      - Reference Resources
+      summary: Get Tiers
+      description: This request will return a list of codes used by the API when referencing tiers. This
+        value is used when adding a subscription, or when changing the tier. <deprecated-note><em>2023-04-03</em><br
+        /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter,
+        ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will
+        still include the original tiers, along with the new tiers. The results for new consumers will
+        only include the new tiers. </deprecated-note>
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TierReferencesResponse'
+              examples:
+                Basic response:
+                  value: '{"Tiers":[{"Tier":"ExclaimerStarter","Description":"Exclaimer Starter"},{"Tier":"ExclaimerStandard","Description":"Exclaimer
+                    Standard"},{"Tier":"ExclaimerPro","Description":"Exclaimer Pro"}]}'
+                Basic response for original tiers (DEPRECATED):
+                  value: '{"Tiers":[{"Tier":"ExclaimerCloud","Description":"Exclaimer Signature Management
+                    Cloud"},{"Tier":"SignatureMarketingSuite","Description":"Exclaimer Signature Marketing
+                    Cloud"}]}'
+                  x-documentation:
+                    deprecated: true
+        '401':
+          description: Unauthorized
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /reference/tiers
+            value: '{}'
+components:
+  schemas:
+    DataCenter:
+      title: DataCenter
+      properties:
+        Location:
+          type: string
+          description: The country, or region, where the data center is located.
+        Office365Code:
+          type: string
+          description: The code to use in <b>Add Subscription</b> when using Office365.
+        GSuiteCode:
+          type: string
+          description: The code to use in <b>Add Subscription</b> when using GSuite.
+    DataCentersResponse:
+      title: DataCentersResponse
+      properties:
+        DataCenters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataCenter'
+    SKUReference:
+      title: SKUReference
+      properties:
+        SKU:
+          type: string
+          description: The code to use when referencing the SKU.
+        Description:
+          type: string
+          description: A human readable description of the SKU.
+    SKUReferencesResponse:
+      title: SKUReferencesResponse
+      properties:
+        SKUs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SKUReference'
+    TierReference:
+      title: TierReference
+      properties:
+        Tier:
+          type: string
+          description: The code to use when referencing the tier.
+        Description:
+          type: string
+          description: A human readable description of the tier.
+    TierReferencesResponse:
+      title: TierReferencesResponse
+      properties:
+        Tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TierReference'
+  securitySchemes:
+    Exclaimer:
+      type: apiKey
+      name: ExApiToken
+      in: header
+security:
+- Exclaimer: []

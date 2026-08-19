@@ -1,0 +1,108 @@
+generated: '2026-08-13'
+method: searched
+source: https://support.exclaimer.com/hc/en-gb/sections/21233569689629-What-s-New
+description: >-
+  Exclaimer maintains a dated "What's New" section in its knowledge base, one
+  article per calendar year, each listing product releases newest-first with a
+  right-aligned release date, the audience the change applies to, and a
+  description linking to the feature article.
+scheme:
+  style: dated product release notes, grouped by year
+  cadence: irregular — roughly monthly
+  location: knowledge base section, not a developer changelog
+  archive:
+  - year: '2026'
+    url: https://support.exclaimer.com/hc/en-gb/articles/33355164121373-2026
+  - year: '2025'
+    url: https://support.exclaimer.com/hc/en-gb/articles/25645576048797-2025
+  - year: '2024'
+    url: https://support.exclaimer.com/hc/en-gb/articles/15984694412445-2024
+  - year: '2023'
+    url: https://support.exclaimer.com/hc/en-gb/articles/360050180772-2023
+api_changelog:
+  separate_api_changelog: false
+  note: >-
+    There is no changelog dedicated to the Exclaimer Cloud API. API changes are
+    surfaced inside the reference itself: the header carries "Documentation
+    Version: 5.2" and "Date Published: 2025-07-23", and deprecated endpoints and
+    properties are annotated in place with a date-of-change note (hidden by
+    default; reveal with ?showDeprecatedFeatures=true). The most recent such
+    annotation is the 2025-02-17 deprecation of POST /1.0/subscriptions in favour
+    of POST /v2.0/subscriptions.
+  reference_documentation_version: '5.2'
+  reference_published: '2025-07-23'
+
+current_version: '2026'
+entry_count: 8
+entries:
+- date: '2026-08-10'
+  title: Edit personal details in the Add-in
+  audience: Users with access to the User Details Editor
+  type: addition
+  breaking: false
+  summary: >-
+    Users can update their own personal details (job title, phone number, other
+    admin-permitted fields) directly in the Exclaimer Outlook Add-in, with changes
+    flowing straight into their signature. Administrators control which fields are
+    editable.
+- date: '2026-08-03'
+  title: Default Signature Source
+  audience: Microsoft users
+  type: addition
+  breaking: false
+  summary: >-
+    Administrators can choose whether the sender's personal signature or the
+    mailbox signature is applied by default when a user sends from a mailbox other
+    than their own.
+- date: '2026-06-03'
+  title: Sent Items for Google Workspace
+  audience: All Google Workspace users
+  type: addition
+  breaking: false
+  summary: >-
+    Option to insert the signed message into the user's Sent Items folder so the
+    applied signature is visible after sending.
+- date: '2026-05-05'
+  title: UKG Ready integration
+  audience: Pro plan
+  type: addition
+  breaking: false
+  summary: >-
+    UKG Ready added as an employee data source in Sender Management, powered by
+    BindBee, usable instead of or alongside Microsoft Entra ID, Google Directory
+    or manual upload.
+- date: '2026-04-16'
+  title: Workday integration
+  audience: Pro plan
+  type: addition
+  breaking: false
+  summary: >-
+    Workday added as an HRIS employee data source for signatures and meeting
+    themes, powered by BindBee, syncing new hires and job changes automatically.
+- date: '2026-03-17'
+  title: Assigning users for Meeting Branding
+  audience: Resellers
+  type: addition
+  breaking: false
+  summary: >-
+    Meeting Branding themes can be assigned to individuals or groups by rule
+    rather than applied organization-wide, across Zoom and the UDE download for
+    Teams and Google Meet.
+- date: '2026-02-09'
+  title: Reseller enhancements
+  audience: Resellers
+  type: addition
+  breaking: false
+  summary: >-
+    Resellers can add employee or external users in the product portal with
+    clearer permission control, and can select the hosting region when creating a
+    new customer subscription.
+- date: '2026-01-20'
+  title: Brand Kits
+  audience: All users
+  type: change
+  breaking: false
+  summary: >-
+    Brand Kits replaces the Branding screen with named collections of branded
+    assets that can be applied and switched per signature, managed from a
+    centralized Brand Kits list.

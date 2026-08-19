@@ -1,0 +1,171 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Exclaimer Cloud API — Subscription Users",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "ExApiToken",
+      "value": "{{ExApiToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscription Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Subscription Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/users",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              },
+              {
+                "name": "Page",
+                "value": "",
+                "type": "query",
+                "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the subscription was added. </p>"
+              },
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>"
+              },
+              {
+                "name": "ContinuationToken",
+                "value": "",
+                "type": "query",
+                "description": "A token that can be used to get the next page of results without supplying paging values."
+              }
+            ]
+          },
+          "docs": "This request will return details of each of the users for a given subscription. If there are currently no users against the subscription, an empty array will be returned."
+        },
+        {
+          "info": {
+            "name": "Add Subscription User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/users",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e. when calling <b>Add Subscription</b>."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request allows you to add new users to a subscription. <p> The same user can be added to multiple subscriptions. </p><p> Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added. </p>"
+        },
+        {
+          "info": {
+            "name": "Delete Subscription User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/users/:UserID",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              },
+              {
+                "name": "UserID",
+                "value": "",
+                "type": "path",
+                "description": "This can either be your reference for the user, or the user's email address.<br /> Both of these are the same as the ID you specified, or was automatically generated, or the email address used, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+              }
+            ]
+          },
+          "docs": "This request allows you to remove a user from a subscription. <p> Note that this only removes the user from the specified subscription. If they have also been added to other subscriptions, those will remain unaffected. </p><p> You cannot remove the subscription owner, added during <b>Add Subscription</b>. You will receive a 403 Forbidden if you try. </p><p> If you wish to re-add a deleted user, just call <b>Add Subscription User</b> again. </p>"
+        },
+        {
+          "info": {
+            "name": "Get All Subscription Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/users",
+            "params": [
+              {
+                "name": "Page",
+                "value": "",
+                "type": "query",
+                "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the subscription was added. </p>"
+              },
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>"
+              },
+              {
+                "name": "ContinuationToken",
+                "value": "",
+                "type": "query",
+                "description": "A token that can be used to get the next page of results without supplying paging values."
+              }
+            ]
+          },
+          "docs": "This request returns a list of all users across all of your subscriptions. <p> An entry is returned for each unique user along with details of which subscriptions they have access to, and the roles they're assigned within those subscriptions. </p><p> The same user, determined by email address, can have a different UserID within each subscription. </p>"
+        },
+        {
+          "info": {
+            "name": "Update Subscription User Roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/users/:UserID/roles",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              },
+              {
+                "name": "UserID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request allows you to modify the roles of an existing subscription user. <p> Note that the subscription owner, added during <b>Add Subscription</b>, must have the Admin role. You will receive a 403 Forbidden if you try to remove it. </p>"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

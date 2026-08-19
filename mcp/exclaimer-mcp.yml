@@ -1,0 +1,217 @@
+generated: '2026-08-13'
+method: derived
+status: candidate
+source: >-
+  Searched for an official Exclaimer MCP server (web search, npm registry search
+  for "exclaimer", GitHub org exclaimerltd, the Exclaimer Cloud API reference and
+  the knowledge base) — none exists. The tool list below is DERIVED from the
+  operations in openapi/_original/exclaimer-cloud-api-openapi.json as a candidate
+  design, not something Exclaimer ships.
+
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: searched
+  note: >-
+    Exclaimer publishes no MCP server, hosted or local. No remote endpoint, no npx
+    package, no registry listing. `auth: api-key` records what a server WOULD need
+    (the ExApiToken header), not an auth flow Exclaimer offers to agents. No
+    MCPServer pointer is wired into apis.yml — a derived candidate is not an agent
+    surface and must not be scored as one.
+
+search_evidence:
+- source: registry.npmjs.org search "exclaimer"
+  result: 0 packages
+- source: https://api.github.com/orgs/exclaimerltd
+  result: 6 public repos, all Zendesk themes / job board / internal PowerShell scripts
+- source: https://cloudapi.exclaimer.com/
+  result: cURL examples only; no MCP, no agent tooling
+- source: web search for "Exclaimer MCP server"
+  result: no Exclaimer result
+
+server:
+  name: exclaimer-cloud
+  description: >-
+    Candidate MCP server over the Exclaimer Cloud API partner provisioning
+    surface.
+  transport: not implemented
+  auth:
+    type: api-key
+    header: ExApiToken
+    note: >-
+      Tokens are issued by Exclaimer to distributor-network partners only, so any
+      such server would be a partner-operated local server, never a public hosted
+      one.
+
+tools:
+- name: list_subscriptions
+  rest: GET /1.0/subscriptions
+  category: subscriptions
+  read_only: true
+- name: get_subscription
+  rest: GET /1.0/subscriptions/{SubscriptionID}
+  category: subscriptions
+  read_only: true
+- name: get_subscription_history
+  rest: GET /1.0/subscriptions/{SubscriptionID}/history
+  category: subscriptions
+  read_only: true
+- name: create_subscription
+  rest: POST /v2.0/subscriptions
+  category: subscriptions
+  read_only: false
+  consequence: creates a billable tenant subscription
+- name: update_subscription
+  rest: PUT /1.0/subscriptions/{SubscriptionID}
+  category: subscriptions
+  read_only: false
+- name: activate_full_subscription
+  rest: PUT /1.0/subscriptions/{SubscriptionID}/activate-full
+  category: subscriptions
+  read_only: false
+  consequence: converts a trial into a paid subscription
+- name: deactivate_subscription
+  rest: PUT /1.0/subscriptions/{SubscriptionID}/deactivate
+  category: subscriptions
+  read_only: false
+  consequence: stops signature processing for the tenant
+- name: reactivate_subscription
+  rest: PUT /1.0/subscriptions/{SubscriptionID}/reactivate
+  category: subscriptions
+  read_only: false
+- name: end_subscription
+  rest: PUT /1.0/subscriptions/{SubscriptionID}/end
+  category: subscriptions
+  read_only: false
+  consequence: terminates the subscription
+- name: migrate_subscription
+  rest: POST /1.0/subscriptions/{SubscriptionID}/migrate
+  category: subscriptions
+  read_only: false
+- name: change_subscription_tier
+  rest: PUT /1.0/subscriptions/{SubscriptionID}/change-tier
+  category: subscriptions
+  read_only: false
+  consequence: changes what the customer is billed
+- name: change_subscription_sku
+  rest: PUT /1.0/subscriptions/{SubscriptionID}/change-sku
+  category: subscriptions
+  read_only: false
+  consequence: changes what the customer is billed
+- name: set_not_for_resale
+  rest: PUT /1.0/subscriptions/{SubscriptionID}/nfr
+  category: subscriptions
+  read_only: false
+- name: change_subscription_owner
+  rest: POST /1.0/subscriptions/{SubscriptionID}/change-owner
+  category: subscriptions
+  read_only: false
+- name: get_mailbox_count
+  rest: GET /1.0/subscriptions/{SubscriptionID}/mailbox-count
+  category: mailboxes
+  read_only: true
+- name: update_mailbox_count
+  rest: PUT /1.0/subscriptions/{SubscriptionID}/mailbox-count
+  category: mailboxes
+  read_only: false
+  consequence: changes the billable seat count
+- name: get_mailbox_allocation
+  rest: GET /1.0/mailbox-allocation
+  category: miscellaneous
+  read_only: true
+- name: list_subscription_users
+  rest: GET /1.0/subscriptions/{SubscriptionID}/users
+  category: subscription-users
+  read_only: true
+- name: list_all_subscription_users
+  rest: GET /1.0/subscriptions/users
+  category: subscription-users
+  read_only: true
+- name: add_subscription_user
+  rest: POST /1.0/subscriptions/{SubscriptionID}/users
+  category: subscription-users
+  read_only: false
+- name: update_subscription_user_roles
+  rest: PUT /1.0/subscriptions/{SubscriptionID}/users/{UserID}/roles
+  category: subscription-users
+  read_only: false
+  consequence: grants or removes admin privileges
+- name: delete_subscription_user
+  rest: DELETE /1.0/subscriptions/{SubscriptionID}/users/{UserID}
+  category: subscription-users
+  read_only: false
+  consequence: 403 if the user is the subscription owner
+- name: upsert_end_user
+  rest: PUT /1.0/end-users
+  category: end-users
+  read_only: false
+- name: list_end_users
+  rest: GET /1.0/end-users
+  category: end-users
+  read_only: true
+- name: upsert_reseller
+  rest: PUT /1.0/resellers
+  category: resellers
+  read_only: false
+- name: list_resellers
+  rest: GET /1.0/resellers
+  category: resellers
+  read_only: true
+- name: initiate_subscription_transfer
+  rest: POST /1.0/subscriptions/{SubscriptionID}/transfer
+  category: subscription-transfers
+  read_only: false
+- name: claim_subscription_transfer
+  rest: POST /1.0/subscriptions/transfer/claim
+  category: subscription-transfers
+  read_only: false
+  consequence: moves commercial ownership of a tenant between partners
+- name: cancel_subscription_transfer
+  rest: PUT /1.0/subscriptions/{SubscriptionID}/transfer/cancel
+  category: subscription-transfers
+  read_only: false
+- name: list_data_centers
+  rest: GET /1.0/reference/data-centers
+  category: reference
+  read_only: true
+- name: list_skus
+  rest: GET /1.0/reference/skus
+  category: reference
+  read_only: true
+- name: list_tiers
+  rest: GET /1.0/reference/tiers
+  category: reference
+  read_only: true
+- name: get_api_status
+  rest: GET /1.0/status
+  category: miscellaneous
+  read_only: true
+- name: create_msp_subscription
+  rest: POST /1.0/msp/subscriptions
+  category: msp
+  read_only: false
+- name: list_msp_subscriptions
+  rest: GET /1.0/msp/subscriptions
+  category: msp
+  read_only: true
+- name: get_msp_subscription
+  rest: GET /1.0/msp/subscriptions/{SubscriptionID}
+  category: msp
+  read_only: true
+- name: get_msp_subscription_status
+  rest: GET /1.0/msp/subscriptions/{SubscriptionID}/status
+  category: msp
+  read_only: true
+- name: get_msp_senders
+  rest: GET /1.0/msp/subscriptions/{SubscriptionID}/senders/json
+  category: msp
+  read_only: true
+  note: The only operation declaring 429 Too Many Requests.
+
+tool_count: 38
+excluded:
+- rest: POST /1.0/subscriptions
+  reason: Deprecated 2025-02-17 in favour of POST /v2.0/subscriptions; new consumers get 400/404.

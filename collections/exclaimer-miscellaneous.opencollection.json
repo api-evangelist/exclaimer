@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Exclaimer Cloud API — Miscellaneous",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "ExApiToken",
+      "value": "{{ExApiToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Miscellaneous",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Mailbox Allocation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/mailbox-allocation"
+          },
+          "docs": "This request returns the current usage against the ApiUser's mailbox allocation. <p><b>Note:</b> This end-point is only available to Managed Service Providers on the Elite program. </p>"
+        },
+        {
+          "info": {
+            "name": "Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/status"
+          },
+          "docs": "This request can be used to verify that the server is available."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

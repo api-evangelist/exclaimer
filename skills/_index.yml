@@ -1,0 +1,54 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  Packaged Agent Skills generated from the Exclaimer Cloud API OpenAPI 3.0.1 at
+  openapi/_original/exclaimer-cloud-api-openapi.json (fetched from
+  https://cloudapi.exclaimer.com/openapi.json on 2026-08-13) plus the
+  Introduction/Usage prose at https://cloudapi.exclaimer.com/. Exclaimer publishes
+  no skills, AGENTS.md or agent instructions of its own — these are authored by
+  API Evangelist and every step is grounded in a verified method + path.
+api: Exclaimer Cloud API
+grounding_note: >-
+  The published specification declares NO operationIds on any of its 39
+  operations. Skills therefore reference operations by METHOD + PATH, which are
+  verifiable against the spec. Where an operationId appears in parentheses it is
+  the suggested id from overlays/exclaimer-cloud-api-overlay.yaml, clearly ours
+  and not Exclaimer's.
+skill_count: 4
+skills:
+- name: exclaimer-provision-subscription
+  file: exclaimer-provision-subscription.md
+  description: >-
+    Provision a new Exclaimer Cloud tenant for a customer — resolve SKU, tier and
+    data centre from reference data, create via the V2 endpoint, add the admin
+    user, confirm seats.
+  operations: 7
+  tags: [subscriptions, reference-resources, subscription-users, provisioning]
+- name: exclaimer-transfer-subscription
+  file: exclaimer-transfer-subscription.md
+  description: >-
+    Move a subscription between partners with the two-party transfer-token flow —
+    initiate, claim, cancel.
+  operations: 4
+  tags: [subscription-transfers, subscriptions, partner]
+- name: exclaimer-msp-usage-reporting
+  file: exclaimer-msp-usage-reporting.md
+  description: >-
+    Pull per-sender imprint usage for an MSP-billed subscription over a date range
+    and reconcile it against status — including the API's only rate-limited call.
+  operations: 4
+  tags: [msp, billing, usage, rate-limits]
+- name: exclaimer-manage-seats-and-users
+  file: exclaimer-manage-seats-and-users.md
+  description: >-
+    Day-two management — mailbox counts, portal users and roles, tier/SKU/NFR
+    changes, ownership, and the change history to audit them.
+  operations: 13
+  tags: [subscriptions, subscription-users, mailboxes, billing]
+cross_references:
+  conventions: conventions/exclaimer-conventions.yml
+  errors: errors/exclaimer-problem-types.yml
+  authentication: authentication/exclaimer-authentication.yml
+  rate_limits: rate-limits/exclaimer-rate-limits.yml
+  lifecycle: lifecycle/exclaimer-lifecycle.yml
+  data_model: data-model/exclaimer-data-model.yml

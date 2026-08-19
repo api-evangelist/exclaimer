@@ -1,0 +1,658 @@
+{
+  "item": [
+    {
+      "id": "ee36367c-c394-48a3-8da4-573e2768284d",
+      "name": "End Users",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "848f48a6-c8c6-4f51-a606-85771003b03f",
+          "name": "Add/Update End User",
+          "request": {
+            "name": "Add/Update End User",
+            "description": {
+              "content": "This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "end-users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"EndUserID\": \"<string>\",\n  \"CompanyName\": \"<string>\",\n  \"CountryCode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a5a1f5a7-253c-4aad-bab1-6143d5610340",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "end-users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"EndUserID\":\"Brown\",\"CompanyName\":\"Cloud Solutions Ltd\",\"CountryCode\":\"GBR\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "46c909b9-92c3-428c-82c0-ffa6495f4278",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "end-users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"EndUserID\":\"Brown\",\"CompanyName\":\"Cloud Solutions Ltd\",\"CountryCode\":\"GBR\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ff84451d-fb82-4538-8d6c-ed8f9ec026b4",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "end-users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"EndUserID\":\"Brown\",\"CompanyName\":\"Cloud Solutions Ltd\",\"CountryCode\":\"GBR\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ead70641-0f52-4c33-8fe6-161950e9c80b",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "end-users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"EndUserID\":\"Brown\",\"CompanyName\":\"Cloud Solutions Ltd\",\"CountryCode\":\"GBR\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fe6cdfcc-31cd-4d44-90b5-81d2cd0110e2",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "end-users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"EndUserID\":\"Brown\",\"CompanyName\":\"Cloud Solutions Ltd\",\"CountryCode\":\"GBR\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d37bba14-69e1-4cd1-bcfa-e31d1933b7af",
+          "name": "Get End Users",
+          "request": {
+            "name": "Get End Users",
+            "description": {
+              "content": "This request will return details about each of your custom users.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "end-users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "Page",
+                  "value": "<int32>",
+                  "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the original subscription, or the custom user, was added. </p>"
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "<int32>",
+                  "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>"
+                },
+                {
+                  "disabled": false,
+                  "key": "ContinuationToken",
+                  "value": "<int32>",
+                  "description": "A token that can be used to get the next page of results without supplying paging values."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "06aed189-6cd5-4a44-a1cb-2dfced3416f8",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "end-users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"EndUsers\\\":[{\\\"EndUserID\\\":\\\"B-Taylor-01\\\",\\\"CompanyName\\\":\\\"Kings Ltd\\\",\\\"CountryCode\\\":\\\"DE\\\"},{\\\"EndUserID\\\":\\\"R-Collins\\\",\\\"CompanyName\\\":\\\"Williams & Co\\\",\\\"CountryCode\\\":\\\"GBR\\\"},{\\\"EndUserID\\\":\\\"S-Crown-01-A\\\",\\\"CompanyName\\\":\\\"Greys Ltd\\\",\\\"CountryCode\\\":\\\"GBR\\\"}],\\\"EndUserCount\\\":15,\\\"ContinuationToken\\\":26145,\\\"Page\\\":4,\\\"PageSize\\\":3}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23db1ecc-660e-4f31-bd66-6348573e5662",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "end-users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6ee8b506-c223-446e-8606-a6e76c6a4c7b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "end-users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5ba35178-f294-44cb-a5a0-098ada4832c9",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "end-users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "66e62f27-1a87-4251-97c9-3b85dca1a0d8",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "end-users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cloudapi.exclaimer.com/exclaimerapi",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "ExApiToken"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e2eefed5-dd6a-447f-89f0-d7f506eb87f6",
+    "name": "Exclaimer Cloud API — End Users",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The End Users operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.",
+      "type": "text/plain"
+    }
+  }
+}

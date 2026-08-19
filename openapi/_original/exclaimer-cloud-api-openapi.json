@@ -1,0 +1,4188 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Exclaimer Cloud API",
+    "description": "<introduction><h1>Introduction</h1><p> The Exclaimer Cloud API is designed to offer partners the ability to provision and manage Exclaimer Cloud tenants. The endpoints are as follows: </p><ul><li>Development:</li><ul><li>https://sandbox-cloudapi.exclaimer.com</li></ul><li>Live:</li><ul><li>https://cloudapi.exclaimer.com</li></ul></ul><p> The URL required to call the API is made up of three parts: </p><p><b>[endpoint]/[version]/[resource-or-action]</b></p><p> In addition to the URL you must use the correct HTTP method, GET, PUT, POST, DELETE, etc. </p><p> e.g. To add a new subscription<br /> Method: POST<br /> Endpoint URL: https://cloudapi.exclaimer.com/exclaimerapi<br /> Version: 1.0<br /> Resource: subscriptions </p><p> This results in:<br /><b>POST https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions</b></p><p> e.g. To determine how many mailboxes are associated with the subscription<br /> Method: GET<br /> Endpoint URL: https://cloudapi.exclaimer.com/exclaimerapi<br /> Version: 1.0<br /> Resource: subscriptions/{SubscriptionID}/mailbox-count </p><p> {SubscriptionID} represents a placeholder where you provide the subscription you are interested in </p><p> This would results in:<br /><b>GET https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/sub123/mailbox-count</b></p><p> You may also be provided with a custom endpoint such as \"yourcompany\". In this case the above example URLs would look like this: </p><p><b>https://cloudapi.exclaimer.com/yourcompany/1.0/subscriptions</b><br /><b>https://cloudapi.exclaimer.com/yourcompany/1.0/subscriptions/sub123/mailbox-count</b></p><p> Although the examples in the API Reference section of this document start with \"exclaimerapi\", just remember to use the URL provided. </p></introduction><usage><h1>Usage</h1><p> All calls to the Exclaimer Cloud API must include a header called <b>ExAPIToken</b> with a value that will be provided to you separately. This will allow the API to identify you. Any calls to the API without this token will result in a 401 Unauthorized error. </p><h3>Issues with the service</h3><p> If any issues arise when using with the service, such as an invalid request or a server problem, you will be notified via standard HTTP status codes, as documented below and against each API. </p><table><tr><td><p>400 Missing Field</p></td><td><p>This can occur when required fields have either not been supplied, or have been supplied but are empty.</p><p>A json structure will be returned detailing the missing fields.</p></td></tr><tr><td><p>400 Bad Request</p></td><td><p> This can occur when the provided values do not meet the expected format. e.g., The value contains too many characters, or is supplied as a string when a number is expected. </p><p> A json structure will be returned detailing the error. </p></td></tr><tr><td><p>401 Unauthorized</p></td><td><p>This can occur when either the API token is not supplied, or is invalid.</p></td></tr><tr><td><p>403 Forbidden</p></td><td><p> This can occur if the caller of the API has provided a valid token, but does not have the required permissions to perform the action. </p><p> This can also occur if the caller of the API owns a resource and attempts an action that would leave the resource in a problem state. e.g. trying to delete the owner of a subscription. </p></td></tr><tr><td><p>404 Not Found</p></td><td><p> This can occur when the URL does not match a valid API signature, or when a parameter is specified with a resource that does not exist, for example you supplied a subscription ID that we have no record of. </p></td></tr><tr><td><p>415 Unsupported Media Type</p></td><td><p>This can occur if the HTTP Content-Type header contains a media type that is not supported by the API.</p><p>Please specify <b>application/json</b>.</p></td></tr><tr><td><p>500 Internal Server Error</p></td><td><p>This indicates that an unexpected error has occurred.</p><p>Please let Exclaimer support know about these issues.</p></td></tr></table><h3>Casing</h3><p> The Exclaimer Cloud API uses Pascal case JSON, i.e. a capital letter at the beginning of each word, and abbreviations. e.g. SubscriptionID, NumberOfNFRUsers. Another popular convention is to use camel case, i.e. the first word using a lower case letter followed by a capital letter for each subsequent word. e.g. subscriptionId, numberOfNfrUsers. To cater for both of these conventions, Exclaimer Cloud API will accept JSON in either format. <p><b>{ \"SubscriptionID\": \"sub-1\", CountryCode: \"GB\" }</b><br /> ... is treated as equivalent to ...<br /><b>{ \"subscriptionId\": \"sub-1\", countryCode: \"GB\" }</b></p><p> This also applies to query string parameters. </p><p><b>/subscriptions?ContinuationToken=262145</b><br /> ... is treated as equivalent to ...<br /><b>/subscriptions?continuationToken=262145</b></p><p><b>N.B.</b> This does not apply to path parameters or JSON values, which may be treated in a case sensitive manner. </p><p> Responses are always return in Pascal case. </p></p><h3>Paging of results</h3><p> Some requests can potentially return a large number of items.In this case the results are automatically paged, and only a subset of the results will be returned. You can specify which page you want and how many items the page should contain.If no paging details are specified in the request, then the first 50 items will be returned. </p><p> The response will contain paging information allowing you manually calculate how to page through all items. </p><p> Alternatively, you can use the simplified <b>ContinuationToken</b>. When this is returned, you can simply provide it in the next request, and the next page of results will be returned, based on the same page size. When there are no more pages, ContinuationToken will no longer be returned*. You can also provide a ContinuationToken value of 0 to get the first page using defaults. This way you never need to think about paging at all. i.e. Make a call with ContinuationToken set to 0, then keep calling with the ContinuationToken returned until ContinuationToken is no longer present*. </p><p> If both the ContinuationToken and Page/PageSize values are specified, then ContinuationToken takes precedence and Page/PageSize will be ignored. </p><p> * The property will not be returned in the results, so depending on your programming language, this may appear as <b>null</b>, or <b>undefined</b>. </p><h3>Deprecated features and APIs</h3><p> From time-to-time the Exclaimer Cloud API needs to change to reflect features that are no longer available, or that have been replaced with alternative features that offer added value. For compatibility, we make every effort to ensure that existing consumers can continue to use both the old and new features until all subscriptions have been migrated. </p><p> When this type of change is made, existing consumers can continue to use the API as normal, but we encourage you to take advantage of the new features as soon as practical. New consumers will only have access to the new features, and will not be able to access the deprecated features or associated APIs. In such cases, if you try to use deprecated functionality, you will receive a <b>400 Bad Request</b>, or a <b>404 Not Found</b>, depending on the scenario. </p><p> These changes will be marked with a deprecated indicator and an explanation: </p><b>API/Property</b><deprecated-api></deprecated-api><deprecated-note><em>Date of change</em><br /> Details of the deprecated feature, API, or property. </deprecated-note><p> By default, deprecated APIs, properties, and examples, are not shown. To view them, click the \"Show deprecated features\" checkbox at the top-right of the page. This can also be done via a query parameter so you can bookmark the page with this on by default. </p><p> e.g. <b>https://cloudapi.exclaimer.com/?showDeprecatedFeatures=true</b></p><h3>Issues with the documentation</h3><p> If you discover any errors within this document, please let Exclaimer know. We make every effort to keep the document accurate and up-to-date. </p></usage>",
+    "version": "1",
+    "x-documentation": {
+      "documentVersion": "5.2",
+      "datePublished": "2025-07-23 14:34:13Z"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://cloudapi.exclaimer.com/exclaimerapi",
+      "description": "Local"
+    }
+  ],
+  "paths": {
+    "/1.0/subscriptions/{SubscriptionID}/activate-full": {
+      "put": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Activate Full Subscription",
+        "description": "This request will convert a trial subscription into a full subscription.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions/TriangleInc/activate-full"
+            }
+          },
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/activate-full",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/end-users": {
+      "put": {
+        "tags": [
+          "End Users"
+        ],
+        "summary": "Add/Update End User",
+        "description": "This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEndUser"
+              },
+              "examples": {
+                "Basic usage": {
+                  "value": "{\"EndUserID\":\"Brown\",\"CompanyName\":\"Cloud Solutions Ltd\",\"CountryCode\":\"GBR\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/end-users",
+              "value": "{\"EndUserID\":\"EX-EndUser-001\",\"CompanyName\":\"EX-Company-001\",\"CountryCode\":\"USA\"}"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "End Users"
+        ],
+        "summary": "Get End Users",
+        "description": "This request will return details about each of your custom users.",
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the original subscription, or the custom user, was added. </p>",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ContinuationToken",
+            "in": "query",
+            "description": "A token that can be used to get the next page of results without supplying paging values.",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndUsersResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"EndUsers\":[{\"EndUserID\":\"B-Taylor-01\",\"CompanyName\":\"Kings Ltd\",\"CountryCode\":\"DE\"},{\"EndUserID\":\"R-Collins\",\"CompanyName\":\"Williams & Co\",\"CountryCode\":\"GBR\"},{\"EndUserID\":\"S-Crown-01-A\",\"CompanyName\":\"Greys Ltd\",\"CountryCode\":\"GBR\"}],\"EndUserCount\":15,\"ContinuationToken\":26145,\"Page\":4,\"PageSize\":3}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/end-users"
+            },
+            "Paging": {
+              "value": "/end-users?Page=4&PageSize=3"
+            }
+          },
+          "curlExamples": {
+            "Subset of custom users defined by page and size - cURL": {
+              "description": "/end-users?Page=2&PageSize=2",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/resellers": {
+      "put": {
+        "tags": [
+          "Resellers"
+        ],
+        "summary": "Add/Update Reseller",
+        "description": "This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddReseller"
+              },
+              "examples": {
+                "Basic usage": {
+                  "value": "{\"ResellerID\":\"Email Services\",\"CompanyName\":\"The Spencer Group\",\"CountryCode\":\"GBR\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/resellers",
+              "value": "{\"ResellerID\":\"EX-Reseller-001\",\"CompanyName\":\"EX-Company-002\",\"CountryCode\":\"GB\"}"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Resellers"
+        ],
+        "summary": "Get Resellers",
+        "description": "This request will return details about each of your resellers.",
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the original subscription, or the reseller, was added. </p>",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ContinuationToken",
+            "in": "query",
+            "description": "A token that can be used to get the next page of results without supplying paging values.",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResellersResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"Resellers\":[{\"ResellerID\":\"FINTECH-01-D\",\"CompanyName\":\"Kings Ltd\",\"CountryCode\":\"DE\"},{\"ResellerID\":\"ENT-11-U\",\"CompanyName\":\"Lang & Co\",\"CountryCode\":\"GBR\"},{\"ResellerID\":\"ED-85-T\",\"CompanyName\":\"Bucks Ed\",\"CountryCode\":\"GBR\"}],\"ResellerCount\":15,\"ContinuationToken\":26145,\"Page\":4,\"PageSize\":3}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/resellers"
+            },
+            "Paging": {
+              "value": "/resellers?Page=4&PageSize=3"
+            }
+          },
+          "curlExamples": {
+            "Subset of resellers defined by page and size - cURL": {
+              "description": "/resellers?Page=2&PageSize=2",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions": {
+      "post": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Add Subscription",
+        "deprecated": true,
+        "description": "<deprecated-note><em>2025-02-17</em><br /> This endpoint is deprecated. Please use the V2 endpoint at /v2.0/subscriptions instead, which provides enhanced support for marketplace scenarios and SKU-based product specification. </deprecated-note><p> This request will create a new subscription and adds it to the Exclaimer Cloud service. </p><p> A new user will be created for the email address provided if one doesn't already exist. </p><p> If you pass a <b>SubscriptionID</b> and <b>UserID</b>, these values will be used when creating the subscription, otherwise they'll be randomly generated and returned to you. You will need the subscription ID for other operations, such as updating the mailbox count, or ending the subscription. </p>",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddSubscription"
+              },
+              "examples": {
+                "Minimum": {
+                  "value": "{\"EmailAddress\":\"joe.bloggs@example.com\",\"MailboxCount\":100,\"CountryCode\":\"GB\"}"
+                },
+                "Activate immediately": {
+                  "value": "{\"EmailAddress\":\"john.smith@example.com\",\"MailboxCount\":100,\"CountryCode\":\"GB\",\"SubscriptionProductCode\":\"GSuite\",\"SkipTrial\":true}"
+                },
+                "Don't send a welcome email": {
+                  "value": "{\"SubscriptionID\":\"Subscription-UQN-935\",\"UserID\":\"U1196-BDT-63\",\"EmailAddress\":\"sarah.hall@example.com\",\"MailboxCount\":200,\"CountryCode\":\"US\",\"SendWelcomeEmailToCustomer\":false}"
+                },
+                "Include End User and Reseller": {
+                  "value": "{\"SubscriptionID\":\"Subscription-FHZ-592\",\"UserID\":\"AugustHayes\",\"EmailAddress\":\"august.hayes@example.com\",\"MailboxCount\":300,\"CountryCode\":\"FR\",\"EndUser\":{\"EndUserID\":\"U-ABC-123\",\"CompanyName\":\"Users Ltd\",\"CountryCode\":\"GBR\"},\"Reseller\":{\"ResellerID\":\"R-12345\",\"CompanyName\":\"Resellers & Co.\",\"CountryCode\":\"GBR\"}}"
+                },
+                "Using a SKU": {
+                  "value": "{\"SubscriptionID\":\"Subscription-UQN-935\",\"EmailAddress\":\"user.seven@example.com\",\"MailboxCount\":100,\"CountryCode\":\"DN\",\"SKU\":\"EXCL-M-STAND\"}"
+                },
+                "Complete": {
+                  "value": "{\"SubscriptionID\":\"Subscription-JJE-619\",\"UserID\":\"John-A-Smith\",\"EmailAddress\":\"john.smith@example.com\",\"MailboxCount\":100,\"CountryCode\":\"GB\",\"CurrencyCode\":\"GBP\",\"TrialDays\":28,\"SendWelcomeEmailToCustomer\":false,\"SubscriptionName\":\"The Company Ltd\",\"SubscriptionProductCode\":\"GSuite\",\"Tier\":\"ExclaimerPro\",\"EndUser\":{\"EndUserID\":\"W-JJJ-555\",\"CompanyName\":\"A365 Ltd\",\"CountryCode\":\"GBR\"},\"Reseller\":{\"ResellerID\":\"DJJ-3372\",\"CompanyName\":\"Miller & Co.\",\"CountryCode\":\"GBR\"},\"NFR\":true,\"NumberOfNFRUsers\":50}"
+                },
+                "Complete (DEPRECATED)": {
+                  "value": "{\"SubscriptionID\":\"Subscription-JJE-619\",\"UserID\":\"John-A-Smith\",\"EmailAddress\":\"john.smith@example.com\",\"MailboxCount\":100,\"CountryCode\":\"GB\",\"CurrencyCode\":\"GBP\",\"TrialDays\":28,\"SendWelcomeEmailToCustomer\":false,\"SubscriptionName\":\"The Company Ltd\",\"SubscriptionProductCode\":\"GSuite\",\"Tier\":\"ExclaimerCloud\",\"EndUser\":{\"EndUserID\":\"W-JJJ-555\",\"CompanyName\":\"A365 Ltd\",\"CountryCode\":\"GBR\"},\"Reseller\":{\"ResellerID\":\"DJJ-3372\",\"CompanyName\":\"Miller & Co.\",\"CountryCode\":\"GBR\"},\"NFR\":true,\"NumberOfNFRUsers\":50,\"Features\":[\"Feedback\"]}",
+                  "x-documentation": {
+                    "deprecated": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddSubscriptionResponse"
+                },
+                "examples": {
+                  "Auto-generated": {
+                    "value": "{\"SubscriptionID\":\"98xjD6BGyE5yq3g8A9MCXNHudobRxX\",\"UserID\":\"NEomSQPVTe4ETKS92LcuEBT5dxZEnm\"}"
+                  },
+                  "Specified": {
+                    "value": "{\"SubscriptionID\":\"Subscription-JSY-612\",\"UserID\":\"Mike-Jones\"}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Providing a subscription ID and user ID - cURL": {
+              "description": "/1.0/subscriptions",
+              "value": "{\"SubscriptionID\":\"EX-Subscription-001\",\"UserID\":\"EX-User-001\",\"EmailAddress\":\"ex.user.001@example.com\",\"MailboxCount\":100,\"CountryCode\":\"826\",\"CurrencyCode\":\"GBP\",\"TrialDays\":30,\"SubscriptionProductCode\":\"Office365\"}"
+            },
+            "Allowing Exclaimer Cloud API to auto-generate a subscription ID and user ID - cURL": {
+              "description": "/1.0/subscriptions",
+              "value": "{\"EmailAddress\":\"ex.user.002@example.com\",\"MailboxCount\":25,\"CountryCode\":\"DE\",\"CurrencyCode\":\"GBP\",\"SendWelcomeEmailToCustomer\":false,\"SubscriptionProductCode\":\"GSuite\"}"
+            },
+            "Including reseller and end user - cURL": {
+              "description": "/1.0/subscriptions",
+              "value": "{\"SubscriptionID\":\"EX-Subscription-005\",\"UserID\":\"EX-User-005\",\"EmailAddress\":\"ex.user.005@example.com\",\"MailboxCount\":10,\"CountryCode\":\"GB\",\"CurrencyCode\":\"GBP\",\"TrialDays\":30,\"SubscriptionProductCode\":\"Office365\",\"EndUser\":{\"EndUserID\":\"EX-EndUser-005\",\"CompanyName\":\"EX-EndUserCompany-005\",\"CountryCode\":\"GB\"},\"Reseller\":{\"ResellerID\":\"EX-Reseller-005\",\"CompanyName\":\"EX-ResellerCompany-005\",\"CountryCode\":\"GB\"}}"
+            },
+            "Skipping a trial and creating an active subscription immediately - cURL": {
+              "description": "/1.0/subscriptions",
+              "value": "{\"EmailAddress\":\"ex.user.010@example.com\",\"MailboxCount\":10,\"CountryCode\":\"GB\",\"CurrencyCode\":\"GBP\",\"SubscriptionName\":\"EX-Subscription-010\",\"SubscriptionProductCode\":\"Office365\",\"SkipTrial\":true}"
+            },
+            "Specifying a data center - cURL": {
+              "description": "/1.0/subscriptions",
+              "value": "{\"EmailAddress\":\"ex.user.010@example.com\",\"MailboxCount\":10,\"CountryCode\":\"GB\",\"DataCenter\":\"US\",\"CurrencyCode\":\"GBP\",\"SubscriptionName\":\"EX-Subscription-010\",\"SubscriptionProductCode\":\"Office365\"}"
+            },
+            "Specifying a tier - cURL": {
+              "description": "/1.0/subscriptions",
+              "value": "{\"EmailAddress\":\"ex.user.012@example.com\",\"MailboxCount\":25,\"CountryCode\":\"DE\",\"CurrencyCode\":\"GBP\",\"SendWelcomeEmailToCustomer\":false,\"SubscriptionProductCode\":\"GSuite\",\"Tier\":\"ExclaimerPro\"}"
+            },
+            "Using a SKU - cURL": {
+              "description": "/1.0/subscriptions",
+              "value": "{\"EmailAddress\":\"ex.user.014@example.com\",\"MailboxCount\":50,\"CountryCode\":\"GB\",\"NumberOfNFRUsers\":10,\"SKU\":\"EXCL-M-STAND-NFR\"}"
+            },
+            "Specifying a tier - cURL (DEPRECATED)": {
+              "description": "/1.0/subscriptions",
+              "value": "{\"EmailAddress\":\"ex.user.012@example.com\",\"MailboxCount\":25,\"CountryCode\":\"DE\",\"CurrencyCode\":\"GBP\",\"SendWelcomeEmailToCustomer\":false,\"SubscriptionProductCode\":\"GSuite\",\"Tier\":\"SignatureMarketingSuite\"}",
+              "x-documentation": {
+                "deprecated": true
+              }
+            },
+            "Add visibility of paid features - cURL (DEPRECATED)": {
+              "description": "/1.0/subscriptions",
+              "value": "{\"EmailAddress\":\"ex.user.015@example.com\",\"MailboxCount\":10,\"CountryCode\":\"GB\",\"NumberOfNFRUsers\":10,\"SKU\":\"EXCL-M-MRKT-CLOUD-NFR\",\"Features\":[\"Feedback\"]}",
+              "x-documentation": {
+                "deprecated": true
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Get Subscriptions",
+        "description": "This request will return details of each of your subscriptions held in the Exclaimer Cloud service.<br /> You can apply filters: <ul><li>to only return active subscriptions, otherwise all subscriptions, including inactive ones, will be returned.</li><li>to only return subscriptions associated with a specific reseller.</li></ul> If no subscriptions match the filter, an empty array will be returned.",
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the subscription was added. </p>",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ContinuationToken",
+            "in": "query",
+            "description": "A token that can be used to get the next page of results without supplying paging values.",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ActiveOnly",
+            "in": "query",
+            "description": "When true, returns only subscriptions with an Active status. When false, returns all subscriptions irrespective of status*. <p> *When used in conjunction with <b>OverageOnly</b> this will return only active subscriptions that have an overage. </p>",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "OverageOnly",
+            "in": "query",
+            "description": "When true, returns only subscriptions with an overage. When false, returns all subscriptions irrespective of whether there is overage or not*. <p> *When used in conjunction with <b>ActiveOnly</b> this will return only active subscriptions that have an overage. </p>",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "ResellerID",
+            "in": "query",
+            "description": "When provided, returns only subscriptions for this reseller. When not provided, returns all subscriptions irrespective of reseller.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionsResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"Subscriptions\":[{\"SubscriptionID\":\"Sub-IJZ-471\",\"Name\":\"VIP Services\",\"UserID\":\"kkJKcWgGU54Ro43vKV58jkCKnZg8uL\",\"EndUserID\":\"U-DDX-332\",\"ResellerID\":\"R-UWM-842\",\"StartDate\":\"2025-09-02T07:54:59.836885Z\",\"NumberOfUsers\":100,\"AggregatedUsers\":72,\"ProcessedUsers\":29,\"Currency\":\"GBP\",\"Status\":\"Active\",\"BillableUsers\":42,\"Tier\":\"ExclaimerStandard\",\"SKU\":\"EXCL-M-STAND\"},{\"SubscriptionID\":\"Abc-2-6522\",\"Name\":\"S-DT-BN-096\",\"UserID\":\"O-7676-PC\",\"ResellerID\":\"R-3344\",\"StartDate\":\"2025-09-02T07:54:59.836885Z\",\"NumberOfUsers\":50,\"AggregatedUsers\":48,\"ProcessedUsers\":42,\"Currency\":\"GBP\",\"Status\":\"Active\",\"InTrial\":true,\"TrialEndDate\":\"2025-09-12T07:54:59.836885Z\",\"BillableUsers\":50,\"Tier\":\"ExclaimerPro\",\"NFR\":true,\"NFRDetails\":{\"NumberOfUsers\":15,\"DateApplied\":\"2025-09-02T07:54:59.836885Z\"},\"SKU\":\"EXCL-M-PRO-NFR\"}],\"SubscriptionCount\":21,\"ContinuationToken\":26145,\"Page\":6,\"PageSize\":2}"
+                  },
+                  "Basic response (DEPRECATED)": {
+                    "value": "{\"Subscriptions\":[{\"SubscriptionID\":\"Sub-IJZ-471\",\"Name\":\"VIP Services\",\"UserID\":\"kkJKcWgGU54Ro43vKV58jkCKnZg8uL\",\"EndUserID\":\"U-DDX-332\",\"ResellerID\":\"R-UWM-842\",\"StartDate\":\"2025-09-02T07:54:59.836885Z\",\"NumberOfUsers\":100,\"AggregatedUsers\":72,\"ProcessedUsers\":29,\"Currency\":\"GBP\",\"Status\":\"Active\",\"BillableUsers\":42,\"Tier\":\"ExclaimerCloud\",\"SKU\":\"EXCL-M-MNGT-CLOUD\"},{\"SubscriptionID\":\"Abc-2-6522\",\"Name\":\"S-DT-BN-096\",\"UserID\":\"O-7676-PC\",\"ResellerID\":\"R-3344\",\"StartDate\":\"2025-09-02T07:54:59.836885Z\",\"NumberOfUsers\":50,\"AggregatedUsers\":48,\"ProcessedUsers\":42,\"Currency\":\"GBP\",\"Status\":\"Active\",\"InTrial\":true,\"TrialEndDate\":\"2025-09-12T07:54:59.836885Z\",\"BillableUsers\":50,\"Tier\":\"SignatureMarketingSuite\",\"NFR\":true,\"NFRDetails\":{\"NumberOfUsers\":15,\"DateApplied\":\"2025-09-02T07:54:59.836885Z\"},\"SKU\":\"EXCL-M-MRKT-CLOUD-NFR\"}],\"SubscriptionCount\":21,\"ContinuationToken\":26145,\"Page\":6,\"PageSize\":2}",
+                    "x-documentation": {
+                      "deprecated": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions"
+            },
+            "Paging": {
+              "value": "/subscriptions?Page=6&PageSize=2"
+            },
+            "Using a continuation token": {
+              "value": "/subscriptions?ContinuationToken=262145"
+            },
+            "Filter by active": {
+              "value": "/subscriptions?ActiveOnly=true"
+            },
+            "Filter by overage": {
+              "value": "/subscriptions?OverageOnly=true"
+            },
+            "Filter by reseller": {
+              "value": "/subscriptions?ResellerID=RYW-6391"
+            }
+          },
+          "curlExamples": {
+            "All subscriptions with default paging - cURL": {
+              "description": "/subscriptions",
+              "value": "{}"
+            },
+            "Subset of subscriptions defined by page and size - cURL": {
+              "description": "/subscriptions?Page=2&PageSize=2",
+              "value": "{}"
+            },
+            "Filter to return active subscriptions only - cURL": {
+              "description": "/subscriptions?ActiveOnly=true",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/v2.0/subscriptions": {
+      "post": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Add Subscription V2",
+        "description": "This request will create a new subscription using Version 2 of the API, which introduces SKU-based product specification and enhanced support for marketplace scenarios. <p> V2 changes include: <ul><li>SKU is now required and determines the product, tier, and NFR status</li><li>EndUser is required and includes a Domain field</li><li>Reseller includes a Domain field (required for non-Marketplace subscriptions)</li><li>BillingGroup is a new optional field for grouping subscriptions</li><li>SubscriptionProductCode, Tier, NFR, and NumberOfNFRUsers fields are deprecated and should not be used</li></ul></p><p> A new user will be created for the email address provided if one doesn't already exist. </p><p> If you pass a <b>SubscriptionID</b> and <b>UserID</b>, these values will be used when creating the subscription, otherwise they'll be randomly generated and returned to you. You will need the subscription ID for other operations, such as updating the mailbox count, or ending the subscription. </p><p> <b>Currency Immutability:</b> Once a subscription is created, the currency cannot be changed. </p><p> <b>Marketplace Behavior:</b> For Marketplace subscriptions, the system will auto-populate EndUser fields from the email address if not explicitly provided. The Reseller field is optional for Marketplace subscriptions. </p>",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddSubscriptionV2"
+              },
+              "examples": {
+                "Minimum": {
+                  "value": "{\"EmailAddress\":\"joe.bloggs@example.com\",\"MailboxCount\":100,\"CountryCode\":\"GB\",\"SKU\":\"EXCL-M-STAND\",\"EndUser\":{\"Domain\":\"example.com\"}}"
+                },
+                "With BillingGroup": {
+                  "value": "{\"EmailAddress\":\"john.smith@example.com\",\"MailboxCount\":100,\"CountryCode\":\"GB\",\"SKU\":\"EXCL-M-PRO\",\"BillingGroup\":\"Enterprise-001\",\"EndUser\":{\"Domain\":\"smithcorp.com\"}}"
+                },
+                "Non-Marketplace with Reseller": {
+                  "value": "{\"EmailAddress\":\"sarah.hall@example.com\",\"MailboxCount\":200,\"CountryCode\":\"US\",\"SKU\":\"EXCL-G-STAND\",\"EndUser\":{\"Domain\":\"hallenterprises.com\"},\"Reseller\":{\"Domain\":\"reseller.com\"}}"
+                },
+                "Marketplace with full EndUser": {
+                  "value": "{\"EmailAddress\":\"august.hayes@example.com\",\"MailboxCount\":300,\"CountryCode\":\"FR\",\"SKU\":\"EXCL-M-START\",\"EndUser\":{\"Domain\":\"hayes-industries.com\",\"FirstName\":\"August\",\"LastName\":\"Hayes\",\"EmailAddress\":\"august@hayes-industries.com\",\"AddressLine1\":\"123 Main St\",\"AddressLine2\":\"Suite 100\",\"State\":\"CA\",\"PhoneNumber\":\"+1-555-0100\"}}"
+                },
+                "NFR Subscription": {
+                  "value": "{\"EmailAddress\":\"user.seven@example.com\",\"MailboxCount\":100,\"CountryCode\":\"DN\",\"SKU\":\"EXCL-M-STAND-NFR\",\"EndUser\":{\"Domain\":\"nfrcompany.com\"}}"
+                },
+                "Complete": {
+                  "value": "{\"SubscriptionID\":\"Subscription-JJE-619\",\"UserID\":\"John-A-Smith\",\"EmailAddress\":\"john.smith@example.com\",\"MailboxCount\":100,\"CountryCode\":\"GB\",\"CurrencyCode\":\"GBP\",\"TrialDays\":28,\"SendWelcomeEmailToCustomer\":false,\"SubscriptionName\":\"The Company Ltd\",\"SKU\":\"EXCL-M-PRO\",\"BillingGroup\":\"UK-Division\",\"EndUser\":{\"Domain\":\"thecompany.com\",\"FirstName\":\"John\",\"LastName\":\"Smith\",\"EmailAddress\":\"john@thecompany.com\",\"AddressLine1\":\"10 Corporate Blvd\",\"State\":\"London\",\"PhoneNumber\":\"+44-20-1234-5678\"},\"Reseller\":{\"Domain\":\"miller-resellers.com\"}}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddSubscriptionResponse"
+                },
+                "examples": {
+                  "Auto-generated": {
+                    "value": "{\"SubscriptionID\":\"98xjD6BGyE5yq3g8A9MCXNHudobRxX\",\"UserID\":\"NEomSQPVTe4ETKS92LcuEBT5dxZEnm\"}"
+                  },
+                  "Specified": {
+                    "value": "{\"SubscriptionID\":\"Subscription-JSY-612\",\"UserID\":\"Mike-Jones\"}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Minimum - cURL": {
+              "description": "/v2.0/subscriptions",
+              "value": "{\"EmailAddress\":\"user.001@example.com\",\"MailboxCount\":100,\"CountryCode\":\"GB\",\"SKU\":\"EXCL-M-STAND\",\"EndUser\":{\"Domain\":\"example.com\"}}"
+            },
+            "With BillingGroup - cURL": {
+              "description": "/v2.0/subscriptions",
+              "value": "{\"EmailAddress\":\"user.002@example.com\",\"MailboxCount\":100,\"CountryCode\":\"GB\",\"SKU\":\"EXCL-M-PRO\",\"BillingGroup\":\"Enterprise-001\",\"EndUser\":{\"Domain\":\"example.com\"}}"
+            },
+            "Non-Marketplace with Reseller - cURL": {
+              "description": "/v2.0/subscriptions",
+              "value": "{\"EmailAddress\":\"user.003@example.com\",\"MailboxCount\":200,\"CountryCode\":\"US\",\"SKU\":\"EXCL-G-STAND\",\"EndUser\":{\"Domain\":\"example.com\"},\"Reseller\":{\"Domain\":\"reseller.com\"}}"
+            },
+            "Marketplace with full EndUser - cURL": {
+              "description": "/v2.0/subscriptions",
+              "value": "{\"EmailAddress\":\"user.004@example.com\",\"MailboxCount\":300,\"CountryCode\":\"FR\",\"SKU\":\"EXCL-M-START\",\"EndUser\":{\"Domain\":\"example.com\",\"FirstName\":\"August\",\"LastName\":\"Hayes\",\"EmailAddress\":\"august@example.com\",\"AddressLine1\":\"123 Main St\",\"AddressLine2\":\"Suite 100\",\"State\":\"CA\",\"PhoneNumber\":\"+1-555-0100\"}}"
+            },
+            "NFR Subscription - cURL": {
+              "description": "/v2.0/subscriptions",
+              "value": "{\"EmailAddress\":\"user.005@example.com\",\"MailboxCount\":100,\"CountryCode\":\"DN\",\"SKU\":\"EXCL-M-STAND-NFR\",\"EndUser\":{\"Domain\":\"example.com\"}}"
+            },
+            "Complete - cURL": {
+              "description": "/v2.0/subscriptions",
+              "value": "{\"SubscriptionID\":\"Subscription-JJE-619\",\"UserID\":\"John-A-Smith\",\"EmailAddress\":\"john.smith@example.com\",\"MailboxCount\":100,\"CountryCode\":\"GB\",\"CurrencyCode\":\"GBP\",\"TrialDays\":28,\"SendWelcomeEmailToCustomer\":false,\"SubscriptionName\":\"The Company Ltd\",\"SKU\":\"EXCL-M-PRO\",\"BillingGroup\":\"UK-Division\",\"EndUser\":{\"Domain\":\"thecompany.com\",\"FirstName\":\"John\",\"LastName\":\"Smith\",\"EmailAddress\":\"john@thecompany.com\",\"AddressLine1\":\"10 Corporate Blvd\",\"State\":\"London\",\"PhoneNumber\":\"+44-20-1234-5678\"},\"Reseller\":{\"Domain\":\"miller-resellers.com\"}}"
+            },
+            "Skip Trial - cURL": {
+              "description": "/v2.0/subscriptions",
+              "value": "{\"EmailAddress\":\"user.006@example.com\",\"MailboxCount\":10,\"CountryCode\":\"GB\",\"CurrencyCode\":\"GBP\",\"SubscriptionName\":\"EX-Subscription-010\",\"SKU\":\"EXCL-M-STAND\",\"SkipTrial\":true,\"EndUser\":{\"Domain\":\"example.com\"}}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/users": {
+      "post": {
+        "tags": [
+          "Subscription Users"
+        ],
+        "summary": "Add Subscription User",
+        "description": "This request allows you to add new users to a subscription. <p> The same user can be added to multiple subscriptions. </p><p> Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e. when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddSubscriptionUser"
+              },
+              "examples": {
+                "Basic usage": {
+                  "value": "{\"UserID\":\"S-JF-093\",\"EmailAddress\":\"sales.john.fisher@example.com\",\"Roles\":[\"Admin\",\"Editor\"]}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/users",
+              "value": "{\"UserID\":\"EX-User-003\",\"EmailAddress\":\"ex.user.003@example.com\",\"Roles\":[\"Admin\",\"Editor\"],\"SendWelcomeEmailToCustomer\":false}"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Subscription Users"
+        ],
+        "summary": "Get Subscription Users",
+        "description": "This request will return details of each of the users for a given subscription. If there are currently no users against the subscription, an empty array will be returned.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the subscription was added. </p>",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ContinuationToken",
+            "in": "query",
+            "description": "A token that can be used to get the next page of results without supplying paging values.",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionUsersResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"Users\":[{\"Email\":\"finance.harry.miles@example.com\",\"UserID\":\"FIN-HM-102\",\"Roles\":[\"Admin\"]},{\"Email\":\"finance.robert.davis@example.com\",\"UserID\":\"FIN-RD-005\",\"Roles\":[\"Admin\",\"Editor\"]}],\"UserCount\":21,\"ContinuationToken\":262145,\"Page\":6,\"PageSize\":2}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions/SUB-SXU-409/users"
+            },
+            "Paging": {
+              "value": "/subscriptions/SUB-FFP-381/users?Page=6&PageSize=2"
+            },
+            "Using a continuation token": {
+              "value": "/subscriptions/SUB-LMQ-598/users?ContinuationToken=262145"
+            }
+          },
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/users",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/transfer/cancel": {
+      "put": {
+        "tags": [
+          "Subscription Transfers"
+        ],
+        "summary": "Cancel Subscription Transfer",
+        "description": "This request allows you to cancel a subscription transfer that you've previously issued a transfer request for. <p> Once the transfer request is cancelled, the subscription will no longer show as pending transfer. If someone tries to claim the subscription, their request will be rejected. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription to cancel. This is the same ID you specified when issuing the transfer request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions/Subscription-FKV-201/transfer/cancel"
+            }
+          },
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/Subscription-FKV-201/transfer/cancel",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/transfer/claim": {
+      "post": {
+        "tags": [
+          "Subscription Transfers"
+        ],
+        "summary": "Claim Subscription Transfer",
+        "description": "This request allows you to claim a subscription that's currently owned by someone else. <p> You can optionally specify additional details for the subscription, such as providing a meaningful ID, or associating it with one of your existing resellers, and/or end users. </p><p> This is the second half or a two part transfer handshake. See <b>Initiate Subscription Transfer</b> for the first half of the process. </p><p> In order to claim a subscription you must first have a valid token that can be used in the transfer process. This token will be provided either by the current subscription owner, or by Exclaimer. Once the token has been used, it will be invalidated, and cannot be reused. </p><p><b>Self claiming:</b> It's possible to claim a subscription that you've previously issued a transfer request for, right up until the point at which the subscription has been claimed by someone else. While we would recommend you use the <b>Cancel Subscription Transfer</b> API instead, if you do use this we recommend only specifying the <b>TransferToken</b> and no other details. In this case, all existing subscription details, including Subscription ID, Reseller, and End User, will remain unchanged. </p>",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimSubscriptionTransfer"
+              },
+              "examples": {
+                "Use an auto-generated ID, and do not associate with a reseller or end user": {
+                  "value": "{\"TransferToken\":\"e0c2669f107745b1bf1253332b4ca205\"}"
+                },
+                "Don't associate with existing any End User or Reseller": {
+                  "value": "{\"TransferToken\":\"4e9db0647cc54f51b537000a41ca4f1\",\"SubscriptionID\":\"Subscription-WON-196\"}"
+                },
+                "Associate with an existing End User and Reseller": {
+                  "value": "{\"TransferToken\":\"6a5dad1dd73904c1cb6830cef161710\",\"SubscriptionID\":\"Subscription-PPX-394\",\"ResellerID\":\"R-55782\",\"EndUserID\":\"U-ABC-592\"}"
+                },
+                "Specify End User and Reseller in full": {
+                  "value": "{\"TransferToken\":\"37a5dad1dd73904c1cb6830cef16171\",\"SubscriptionID\":\"Subscription-DFU-292\",\"Reseller\":{\"ResellerID\":\"R-55555\",\"CompanyName\":\"Resellers & Co.\",\"CountryCode\":\"GBR\"},\"EndUser\":{\"EndUserID\":\"U-ABC-321\",\"CompanyName\":\"Users Ltd\",\"CountryCode\":\"GBR\"}}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimSubscriptionTransferResponse"
+                },
+                "examples": {
+                  "Auto-generated": {
+                    "value": "{\"SubscriptionID\":\"77dmEGy5yE5apa38WMXt8udALobQoS\"}"
+                  },
+                  "Specified": {
+                    "value": "{\"SubscriptionID\":\"Subscription-CVZ-996\"}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Use an auto-generated ID, and do not associate with a reseller or end user - cURL": {
+              "description": "/subscriptions/transfer/claim",
+              "value": "{\"TransferToken\":\"e0c2669f107745b1bf1253332b4ca205\"}"
+            },
+            "Don't associate with existing any End User or Reseller - cURL": {
+              "description": "/subscriptions/transfer/claim",
+              "value": "{\"TransferToken\":\"4e9db0647cc54f51b537000a41ca4f1\",\"SubscriptionID\":\"Subscription-WON-196\"}"
+            },
+            "Associate with existing End User and Reseller - cURL": {
+              "description": "/subscriptions/transfer/claim",
+              "value": "{\"TransferToken\":\"6a5dad1dd73904c1cb6830cef161710\",\"SubscriptionID\":\"Subscription-PPX-394\",\"ResellerID\":\"R-55782\",\"EndUserID\":\"U-ABC-592\"}"
+            },
+            "Specify End User and Reseller in full - cURL": {
+              "description": "/subscriptions/transfer/claim",
+              "value": "{\"TransferToken\":\"37a5dad1dd73904c1cb6830cef16171\",\"SubscriptionID\":\"Subscription-DFU-292\",\"Reseller\":{\"ResellerID\":\"R-55555\",\"CompanyName\":\"Resellers & Co.\",\"CountryCode\":\"GBR\"},\"EndUser\":{\"EndUserID\":\"U-ABC-321\",\"CompanyName\":\"Users Ltd\",\"CountryCode\":\"GBR\"}}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/reference/data-centers": {
+      "get": {
+        "tags": [
+          "Reference Resources"
+        ],
+        "summary": "Get Data Centers",
+        "description": "This request will return a list of data centers along with which ones can be used with Office 365, and which can be used with GSuite. If a data center is not available for a provider, then the corresponding field will not be returned.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataCentersResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"DataCenters\":[{\"Location\":\"Australia\",\"Office365Code\":\"AUS\"},{\"Location\":\"Canada\",\"Office365Code\":\"CAN\"},{\"Location\":\"Europe\",\"Office365Code\":\"EU\",\"GSuiteCode\":\"EU\"},{\"Location\":\"UAE\",\"Office365Code\":\"IND\"},{\"Location\":\"UK\",\"Office365Code\":\"UK\"},{\"Location\":\"US\",\"Office365Code\":\"US\",\"GSuiteCode\":\"US\"},{\"Location\":\"DE\",\"Office365Code\":\"DE\",\"GSuiteCode\":\"DE\"}]}"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/reference/data-centers",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/deactivate": {
+      "put": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Deactivate Subscription",
+        "description": "This request will deactivate a subscription. <p> The service will no longer stamp emails for this subscription and the end user will no longer be able to load the template editor, however we will not block the users email. This endpoint should be used if you intend to reactivate the subscription in the near future. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions/miller-ltd-487d/deactivate"
+            }
+          },
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/deactivate",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/users/{UserID}": {
+      "delete": {
+        "tags": [
+          "Subscription Users"
+        ],
+        "summary": "Delete Subscription User",
+        "description": "This request allows you to remove a user from a subscription. <p> Note that this only removes the user from the specified subscription. If they have also been added to other subscriptions, those will remain unaffected. </p><p> You cannot remove the subscription owner, added during <b>Add Subscription</b>. You will receive a 403 Forbidden if you try. </p><p> If you wish to re-add a deleted user, just call <b>Add Subscription User</b> again. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "UserID",
+            "in": "path",
+            "description": "This can either be your reference for the user, or the user's email address.<br /> Both of these are the same as the ID you specified, or was automatically generated, or the email address used, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions/SUB-VBY-329/users/HazelWild"
+            },
+            "Delete using an email address": {
+              "value": "/subscriptions/SUB-JWO-830/users/george.miller@example.com"
+            }
+          },
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/users/EX-User-003",
+              "value": "{}"
+            },
+            "Delete using an email address - cURL": {
+              "description": "/subscriptions/EX-Subscription-002/users/george.miller@example.com",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/users": {
+      "get": {
+        "tags": [
+          "Subscription Users"
+        ],
+        "summary": "Get All Subscription Users",
+        "description": "This request returns a list of all users across all of your subscriptions. <p> An entry is returned for each unique user along with details of which subscriptions they have access to, and the roles they're assigned within those subscriptions. </p><p> The same user, determined by email address, can have a different UserID within each subscription. </p>",
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the subscription was added. </p>",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ContinuationToken",
+            "in": "query",
+            "description": "A token that can be used to get the next page of results without supplying paging values.",
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DistributorLevelSubscriptionUsersResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"Users\":[{\"Email\":\"brian.anderson@example.com\",\"Subscriptions\":[{\"SubscriptionID\":\"SA-189036-S001\",\"UserID\":\"SA-189036-U001\",\"Roles\":[\"Admin\",\"Editor\"]}]},{\"Email\":\"joan.jones@example.com\",\"Subscriptions\":[{\"SubscriptionID\":\"SA-189036-S001\",\"UserID\":\"SA-189036-U002\",\"Roles\":[\"Admin\",\"Editor\"]},{\"SubscriptionID\":\"TK-549109-S001\",\"UserID\":\"TK-549109-U001\",\"Roles\":[\"Admin\"]},{\"SubscriptionID\":\"TK-549109-S002\",\"UserID\":\"TK-549109-U002\",\"Roles\":[\"Editor\"]}]}],\"UserCount\":21,\"ContinuationToken\":262145,\"Page\":6,\"PageSize\":2}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions/users"
+            },
+            "Paging": {
+              "value": "/subscriptions/users?Page=6&PageSize=2"
+            },
+            "Using a continuation token": {
+              "value": "/subscriptions/users?ContinuationToken=262145"
+            }
+          },
+          "curlExamples": {
+            "All users across all subscriptions, with default paging - cURL": {
+              "description": "/subscriptions/users",
+              "value": "{}"
+            },
+            "Subset of users defined by page and size, with all their subscriptions - cURL": {
+              "description": "/subscriptions/users?Page=2&PageSize=2",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/end": {
+      "put": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "End Subscription",
+        "description": "This request will end a subscription. <p> When a subscription is ended it becomes dormant and emails will no longer be processed via the Exclaimer Cloud service. <b> The user's email needs to be redirected so it no longer gets sent through our system before calling this endpoint. </b></p><p> When actioned, the subscription is ended immediately, and the subscription will no longer appear in the Exclaimer Customer Portal. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions/SUB-LNE-386/end"
+            }
+          },
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/end",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/mailbox-allocation": {
+      "get": {
+        "tags": [
+          "Miscellaneous"
+        ],
+        "summary": "Get Mailbox Allocation",
+        "description": "This request returns the current usage against the ApiUser's mailbox allocation. <p><b>Note:</b> This end-point is only available to Managed Service Providers on the Elite program. </p>",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MailboxAllocationResponse"
+                },
+                "examples": {
+                  "Response": {
+                    "value": "{\"MailboxAllocation\":10000,\"Allocated\":7000,\"Remaining\":3000}"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Usage": {
+              "value": "/mailbox-allocation"
+            }
+          },
+          "curlExamples": {
+            "Usage - cURL": {
+              "description": "/mailbox-allocation",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/transfer": {
+      "post": {
+        "tags": [
+          "Subscription Transfers"
+        ],
+        "summary": "Initiate Subscription Transfer",
+        "description": "This request initiates a subscription transfer. <p> This is the first half or a two part transfer handshake. See <b>Claim Subscription Transfer</b> for the second half of the process. </p><p> This requests puts the target subscription into a state of transfer until it gets claimed. The request returns a Transfer Token that may be used by another consumer to take ownership of the subscription. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InitiateSubscriptionTransferResponse"
+                },
+                "examples": {
+                  "Basic usage": {
+                    "value": "{\"TransferToken\":\"27sfPOh6bR0ium66SMCr5sdPLdyQxC\"}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions/Subscription-QAM-784/transfer"
+            }
+          },
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/Subscription-QAM-784/transfer",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/mailbox-count": {
+      "get": {
+        "tags": [
+          "Mailboxes"
+        ],
+        "summary": "Get Mailbox Count",
+        "description": "This request will return the number of unique mailboxes (applied on the server, or from a client) over the last 30 days. These number are updated at least once daily.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MailboxCountResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"MailboxCount\":23,\"ClientSideMailboxCount\":29}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/mailbox-count",
+              "value": "{}"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Mailboxes"
+        ],
+        "summary": "Update Mailbox Count",
+        "description": "This request will update the number of users (mailboxes) for a subscription.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling Add Subscription.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMailboxCount"
+              },
+              "examples": {
+                "Basic usage": {
+                  "value": "{\"MailboxCount\":23}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/mailbox-count",
+              "value": "{\"MailboxCount\":20}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/migrate": {
+      "post": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Migrate Subscription",
+        "description": "This request allows you to assign, transfer, or remove, a reseller and/or end user, from an existing subscription.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MigrateSubscription"
+              },
+              "examples": {
+                "Assign, or migrate, the reseller only": {
+                  "value": "{\"ResellerID\":\"Jacobi Holdings\"}"
+                },
+                "Assign, or migrate, both the reseller and the end user": {
+                  "value": "{\"ResellerID\":\"Jacobi Holdings\",\"EndUserID\":\"Jean Jones\"}"
+                },
+                "Remove an existing reseller only": {
+                  "value": "{\"ResellerID\":\"\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Assign, or migrate, the reseller only - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/migrate",
+              "value": "{\"ResellerID\":\"EX-Reseller-002\"}"
+            },
+            "Assign, or migrate, both the reseller and the end user - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/migrate",
+              "value": "{\"ResellerID\":\"EX-Reseller-001\",\"EndUserID\":\"EX-EndUSer-001\"}"
+            },
+            "Remove an existing reseller only - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/migrate",
+              "value": "{\"ResellerID\":\"\"}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/reactivate": {
+      "put": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Reactivate Subscription",
+        "description": "This request will reactivate a previously ended, or deactivated, subscription. <p> The subscription will no longer reside in a dormant state and emails will be imprinted/processed via the Exclaimer Cloud service again. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReactivateSubscription"
+              },
+              "examples": {
+                "Basic usage": {
+                  "value": "{\"InTrial\":true}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/reactivate",
+              "value": "{\"InTrial\":true}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}": {
+      "get": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Get Subscription",
+        "description": "This request will return details of the specified subscription held in the Exclaimer Cloud service.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleSubscriptionResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"Subscription\":{\"SubscriptionID\":\"SUB-UUWE-610\",\"Name\":\"VIP Services\",\"UserID\":\"ohXkcvZSZCFspKt9DYfuTmqYYjeruk\",\"EndUserID\":\"U-DDX-332\",\"ResellerID\":\"R-UWM-842\",\"StartDate\":\"2025-09-02T07:54:59.8172514Z\",\"NumberOfUsers\":220,\"AggregatedUsers\":174,\"ProcessedUsers\":205,\"Currency\":\"GBP\",\"Status\":\"Active\",\"InTrial\":true,\"TrialEndDate\":\"2025-09-12T07:54:59.8172514Z\",\"BillableUsers\":205,\"Tier\":\"ExclaimerStandard\",\"SKU\":\"EXCL-M-STAND\"}}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions/SUB-UUWE-610"
+            }
+          },
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001",
+              "value": "{}"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Update Subscription",
+        "description": "This request can be used to update the name and currency assigned to the subscription.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e. when calling Add Subscription.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriptionDetails"
+              },
+              "examples": {
+                "Update both the name and currency": {
+                  "value": "{\"SubscriptionName\":\"Test Subscription\",\"CurrencyCode\":\"USD\"}"
+                },
+                "Update only the subscription name": {
+                  "value": "{\"SubscriptionName\":\"Test Subscription\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Change both the name and currency - cURL": {
+              "description": "/subscriptions/EX-Subscription-001",
+              "value": "{\"SubscriptionName\":\"Test Company\",\"CurrencyCode\":\"USD\"}"
+            },
+            "Change only the name - cURL": {
+              "description": "/subscriptions/EX-Subscription-001",
+              "value": "{\"SubscriptionName\":\"Test Company\"}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/reference/skus": {
+      "get": {
+        "tags": [
+          "Reference Resources"
+        ],
+        "summary": "Get SKUs",
+        "description": "This request will return a list of codes used by the API when referencing SKUs. This value is used when adding a subscription, or when changing the SKU. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will still include SKUs relating to the original tiers, along with SKUs for the new tiers. The results for new consumers will only include SKUs relating to the new tiers. </deprecated-note>",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SKUReferencesResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"SKUs\":[{\"SKU\":\"EXCL-G-PRO\",\"Description\":\"Exclaimer Pro for Google Workspace\"},{\"SKU\":\"EXCL-G-PRO-NFR\",\"Description\":\"Exclaimer Pro for Google Workspace, Not for Resale\"},{\"SKU\":\"EXCL-G-STAND\",\"Description\":\"Exclaimer Standard for Google Workspace\"},{\"SKU\":\"EXCL-G-STAND-NFR\",\"Description\":\"Exclaimer Standard for Google Workspace, Not for Resale\"},{\"SKU\":\"EXCL-G-START\",\"Description\":\"Exclaimer Starter for Google Workspace\"},{\"SKU\":\"EXCL-G-START-NFR\",\"Description\":\"Exclaimer Starter for Google Workspace, Not for Resale\"},{\"SKU\":\"EXCL-M-PRO\",\"Description\":\"Exclaimer Pro for Microsoft\"},{\"SKU\":\"EXCL-M-PRO-NFR\",\"Description\":\"Exclaimer Pro for Microsoft, Not for Resale\"},{\"SKU\":\"EXCL-M-STAND\",\"Description\":\"Exclaimer Standard for Microsoft\"},{\"SKU\":\"EXCL-M-STAND-NFR\",\"Description\":\"Exclaimer Standard for Microsoft, Not for Resale\"},{\"SKU\":\"EXCL-M-START\",\"Description\":\"Exclaimer Starter for Microsoft\"},{\"SKU\":\"EXCL-M-START-NFR\",\"Description\":\"Exclaimer Starter for Microsoft, Not for Resale\"}]}"
+                  },
+                  "Basic response relating to original tiers (DEPRECATED)": {
+                    "value": "{\"SKUs\":[{\"SKU\":\"EXCL-G-MNGT-CLOUD\",\"Description\":\"Exclaimer Signature Management Cloud for Google Workspace\"},{\"SKU\":\"EXCL-G-MNGT-CLOUD-NFR\",\"Description\":\"Exclaimer Signature Management Cloud for Google Workspace, Not for Resale\"},{\"SKU\":\"EXCL-G-MRKT-CLOUD\",\"Description\":\"Exclaimer Signature Marketing Cloud for Google Workspace\"},{\"SKU\":\"EXCL-G-MRKT-CLOUD-NFR\",\"Description\":\"Exclaimer Signature Marketing Cloud for Google Workspace, Not for Resale\"},{\"SKU\":\"EXCL-M-MNGT-CLOUD\",\"Description\":\"Exclaimer Signature Management Cloud for Microsoft\"},{\"SKU\":\"EXCL-M-MNGT-CLOUD-NFR\",\"Description\":\"Exclaimer Signature Management Cloud for Microsoft, Not for Resale\"},{\"SKU\":\"EXCL-M-MRKT-CLOUD\",\"Description\":\"Exclaimer Signature Marketing Cloud for Microsoft\"},{\"SKU\":\"EXCL-M-MRKT-CLOUD-NFR\",\"Description\":\"Exclaimer Signature Marketing Cloud for Microsoft, Not for Resale\"}]}",
+                    "x-documentation": {
+                      "deprecated": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/reference/skus",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/status": {
+      "get": {
+        "tags": [
+          "Miscellaneous"
+        ],
+        "summary": "Status",
+        "description": "This request can be used to verify that the server is available.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                },
+                "examples": {
+                  "Basic usage": {
+                    "value": "{\"CurrentTime\":\"2025-09-02T07:54:59\"}"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/status",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/history": {
+      "get": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Get Subscription History",
+        "description": "Provides information relating to the history of the subscription.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionHistoryResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"TierHistory\":[{\"Date\":\"2025-09-02T07:54:59.8348859Z\",\"Tier\":\"Exclaimer Pro Edition for Office 365\",\"PreviousTier\":\"Exclaimer Standard Edition for Office 365\"},{\"Date\":\"2025-08-28T07:54:59.8348859Z\",\"Tier\":\"Exclaimer Pro Edition for Office 365\",\"PreviousTier\":\"Exclaimer Standard Edition for Office 365\"}],\"SkuHistory\":[{\"Date\":\"2025-09-02T07:54:59.8348859Z\",\"Sku\":\"EXCL-M-START\",\"PreviousSku\":\"EXCL-M-START-NFR\"},{\"Date\":\"2025-08-23T07:54:59.8348859Z\",\"Sku\":\"EXCL-M-START-NFR\",\"PreviousSku\":\"EXCL-M-START\"}]}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "routeExamples": {
+            "Basic usage": {
+              "value": "/subscriptions/EX-Subscription-001/history"
+            }
+          },
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/history",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/reference/tiers": {
+      "get": {
+        "tags": [
+          "Reference Resources"
+        ],
+        "summary": "Get Tiers",
+        "description": "This request will return a list of codes used by the API when referencing tiers. This value is used when adding a subscription, or when changing the tier. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will still include the original tiers, along with the new tiers. The results for new consumers will only include the new tiers. </deprecated-note>",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TierReferencesResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"Tiers\":[{\"Tier\":\"ExclaimerStarter\",\"Description\":\"Exclaimer Starter\"},{\"Tier\":\"ExclaimerStandard\",\"Description\":\"Exclaimer Standard\"},{\"Tier\":\"ExclaimerPro\",\"Description\":\"Exclaimer Pro\"}]}"
+                  },
+                  "Basic response for original tiers (DEPRECATED)": {
+                    "value": "{\"Tiers\":[{\"Tier\":\"ExclaimerCloud\",\"Description\":\"Exclaimer Signature Management Cloud\"},{\"Tier\":\"SignatureMarketingSuite\",\"Description\":\"Exclaimer Signature Marketing Cloud\"}]}",
+                    "x-documentation": {
+                      "deprecated": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/reference/tiers",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/nfr": {
+      "put": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Change Not For Resale",
+        "description": "This request allows you to specify that the subscription is not for resale. <p> A subscription can be changed from being not for resale to a standard subscription, and vise versa, at any time. </p><p><b>N.B.</b> This feature is only available to consumers that support NFR licenses. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriptionNFR"
+              },
+              "examples": {
+                "Set as not for resale": {
+                  "value": "{\"NFR\":true,\"NumberOfNFRUsers\":25}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Set subscription as 'not for resale' - cURL": {
+              "description": "/subscriptions/EX-Subscription-002/nfr",
+              "value": "{\"NFR\":true,\"NumberOfNFRUsers\":20}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/change-owner": {
+      "post": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Change Subscription Owner",
+        "description": "This request will assign a different user to be the owner of a subscription. <p> The new owner must already exist against the subscription, and must have the Admin role. </p><p> If you want to change the owner to a new subscription user, you can use the <b>Add Subscription User</b> API to create that user first. </p><p> If the existing subscription user does not have the Admin role, you can use the <b>Update Subscription User Roles</b> API to give them that role. </p><p> If you wish to delete the original owner, you can use the <b>Delete Subscription User</b> API after this request. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriptionOwner"
+              },
+              "examples": {
+                "Change owner based on User ID": {
+                  "value": "{\"UserID\":\"U7301-JJP-06\"}"
+                },
+                "Change owner based on email": {
+                  "value": "{\"EmailAddress\":\"helen.kirby@example.com\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Change owner based on User ID - cURL": {
+              "description": "/subscriptions/EX-Subscription-021/change-owner",
+              "value": "{\"UserID\":\"U7301-JJP-06\"}"
+            },
+            "Change owner based on email - cURL": {
+              "description": "/subscriptions/EX-Subscription-021/change-owner",
+              "value": "{\"EmailAddress\":\"helen.kirby@example.com\"}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/change-sku": {
+      "put": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Change Stock Keeping Unit",
+        "description": "This request allows you to use a code to change specific aspects of an existing subscription. <p><b>N.B.</b> You cannot change from an Office365 subscription to a GSuite subscription, or vise versa. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriptionSKU"
+              },
+              "examples": {
+                "Update to a SKU for a standard subscription": {
+                  "value": "{\"SKU\":\"EXCL-M-STAND\"}"
+                },
+                "Update to a SKU for a not for resale pro subscription": {
+                  "value": "{\"SKU\":\"EXCL-M-PRO-NFR\",\"NumberOfNFRUsers\":25}"
+                },
+                "Update to a SKU for a standard subscription (DEPRECATED)": {
+                  "value": "{\"SKU\":\"EXCL-M-MRKT-CLOUD \"}",
+                  "x-documentation": {
+                    "deprecated": true
+                  }
+                },
+                "Update to a SKU for a not for resale subscription (DEPRECATED)": {
+                  "value": "{\"SKU\":\"EXCL-M-MNGT-CLOUD-NFR\",\"NumberOfNFRUsers\":25}",
+                  "x-documentation": {
+                    "deprecated": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Set subscription as 'not for resale' - cURL": {
+              "description": "/subscriptions/EX-Subscription-002/change-sku",
+              "value": "{\"SKU\":\"EXCL-M-STAND-NFR\",\"NumberOfNFRUsers\":10}"
+            },
+            "Change a 'not for resale' subscription into a pro subscription - cURL": {
+              "description": "/subscriptions/EX-Subscription-002/change-sku",
+              "value": "{\"SKU\":\"EXCL-M-PRO\"}"
+            },
+            "Set subscription as 'not for resale' - cURL (DEPRECATED)": {
+              "description": "/subscriptions/EX-Subscription-002/change-sku",
+              "value": "{\"SKU\":\"EXCL-M-MNGT-CLOUD-NFR\",\"NumberOfNFRUsers\":10}",
+              "x-documentation": {
+                "deprecated": true
+              }
+            },
+            "Change a 'not for resale' subscription into a standard subscription - cURL (DEPRECATED)": {
+              "description": "/subscriptions/EX-Subscription-002/change-sku",
+              "value": "{\"SKU\":\"EXCL-M-MRKT-CLOUD\"}",
+              "x-documentation": {
+                "deprecated": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/change-tier": {
+      "put": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Change Tier",
+        "description": "This request allows you to change the subscription tier.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriptionTier"
+              },
+              "examples": {
+                "Basic usage": {
+                  "value": "{\"Tier\":\"ExclaimerPro\"}"
+                },
+                "Basic usage (DEPRECATED)": {
+                  "value": "{\"Tier\":\"SignatureMarketingSuite\"}",
+                  "x-documentation": {
+                    "deprecated": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-002/change-tier",
+              "value": "{\"Tier\":\"ExclaimerPro\"}"
+            },
+            "Basic usage - cURL (DEPRECATED)": {
+              "description": "/subscriptions/EX-Subscription-002/change-tier",
+              "value": "{\"Tier\":\"SignatureMarketingSuite\"}",
+              "x-documentation": {
+                "deprecated": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/1.0/subscriptions/{SubscriptionID}/users/{UserID}/roles": {
+      "put": {
+        "tags": [
+          "Subscription Users"
+        ],
+        "summary": "Update Subscription User Roles",
+        "description": "This request allows you to modify the roles of an existing subscription user. <p> Note that the subscription owner, added during <b>Add Subscription</b>, must have the Admin role. You will receive a 403 Forbidden if you try to remove it. </p>",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "UserID",
+            "in": "path",
+            "description": "Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriptionUserRoles"
+              },
+              "examples": {
+                "Basic usage": {
+                  "value": "{\"Roles\":[\"Admin\",\"Editor\"]}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/EX-Subscription-001/users/{UserID}/roles",
+              "value": "{\"Roles\":[\"Admin\"]}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/msp/subscriptions": {
+      "post": {
+        "tags": [
+          "MSP"
+        ],
+        "summary": "Add MSP Subscription",
+        "description": "Creates a new subscription for Managed Service Provider (MSP) API users. <p> This endpoint is only available to API users with MSP (Managed Service Provider) access. </p><p> If you provide a <b>SubscriptionID</b>, it must be unique for your API user account. You will need this ID for subsequent operations such as updating the subscription or ending it. </p><p> The <b>EndUser</b> and <b>Reseller</b> objects are optional. If provided, all fields within them become required. These allow you to associate the subscription with your own end user and reseller references. </p>",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMspSubscription"
+              },
+              "examples": {
+                "Minimum": {
+                  "value": "{\"DataCenter\":\"EU\"}"
+                },
+                "With custom Subscription ID": {
+                  "value": "{\"DataCenter\":\"US\",\"SubscriptionID\":\"MSP-SUB-001\"}"
+                },
+                "With End User": {
+                  "value": "{\"DataCenter\":\"EU\",\"EndUser\":{\"EndUserID\":\"EU-001\",\"CompanyName\":\"Acme Corp\",\"CountryCode\":\"GB\"}}"
+                },
+                "Complete": {
+                  "value": "{\"DataCenter\":\"EU\",\"SubscriptionID\":\"MSP-SUB-002\",\"SKU\":\"EXCL-M-PRO\",\"SubscriptionName\":\"Tech Solutions Subscription\",\"EndUser\":{\"EndUserID\":\"EU-002\",\"CompanyName\":\"Tech Solutions Ltd\",\"CountryCode\":\"GB\"},\"Reseller\":{\"ResellerID\":\"RES-001\",\"CompanyName\":\"Partner Inc\",\"CountryCode\":\"US\"}}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddMspSubscriptionResponse"
+                },
+                "examples": {
+                  "Auto-generated": {
+                    "value": "{\"SubscriptionID\":\"98xjD6BGyE5yq3g8A9MCXNHudobRxX\"}"
+                  },
+                  "Specified": {
+                    "value": "{\"SubscriptionID\":\"MSP-SUB-001\"}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - API user is not an MSP type"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Minimum - data center only": {
+              "description": "/1.0/msp/subscriptions",
+              "value": "{\"DataCenter\":\"EU\"}"
+            },
+            "With custom subscription ID": {
+              "description": "/1.0/msp/subscriptions",
+              "value": "{\"DataCenter\":\"US\",\"SubscriptionID\":\"MSP-SUB-001\"}"
+            },
+            "Complete with end user and reseller": {
+              "description": "/1.0/msp/subscriptions",
+              "value": "{\"DataCenter\":\"EU\",\"SubscriptionID\":\"MSP-SUB-002\",\"SKU\":\"EXCL-M-PRO\",\"SubscriptionName\":\"Tech Solutions Subscription\",\"EndUser\":{\"EndUserID\":\"EU-002\",\"CompanyName\":\"Tech Solutions Ltd\",\"CountryCode\":\"GB\"},\"Reseller\":{\"ResellerID\":\"RES-001\",\"CompanyName\":\"Partner Inc\",\"CountryCode\":\"US\"}}"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "MSP"
+        ],
+        "summary": "Get MSP Subscriptions",
+        "description": "Returns a paged list of MSP subscriptions. This endpoint is only available to API users with MSP (Managed Service Provider) access. Set IncludeUsage to true to include usage data (TotalMailboxes) in the response. When IncludeUsage is true and no date range is provided, usage data defaults to the previous calendar month.",
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Page numbers start at 1. See the section \"Paging of results\" at the beginning of the document. Results are ordered by the date the subscription was added.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Defaults to 50. Maximum 200.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ContinuationToken",
+            "in": "query",
+            "description": "A token that can be used to get the next page of results without supplying paging values.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "DateFrom",
+            "in": "query",
+            "description": "Start date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "DateTo",
+            "in": "query",
+            "description": "End date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "IncludeUsage",
+            "in": "query",
+            "description": "When set to true, usage data (TotalMailboxes) will be included in the response. Defaults to false.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMspSubscriptionsResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"Subscriptions\":[{\"SubscriptionID\":\"MSP-SUB-001\",\"Name\":\"Acme Corp Subscription\",\"EndUserID\":\"EU-001\",\"ResellerID\":\"RES-001\"},{\"SubscriptionID\":\"MSP-SUB-002\",\"Name\":\"Tech Solutions Subscription\",\"EndUserID\":\"EU-002\",\"ResellerID\":\"RES-001\"}],\"SubscriptionCount\":12,\"ContinuationToken\":26145,\"Page\":1,\"PageSize\":50}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - API user is not an MSP type"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/1.0/msp/subscriptions",
+              "value": "{}"
+            },
+            "With usage data - cURL": {
+              "description": "/1.0/msp/subscriptions?IncludeUsage=true",
+              "value": "{}"
+            },
+            "With usage data and date range - cURL": {
+              "description": "/1.0/msp/subscriptions?IncludeUsage=true&DateFrom=2025-01-01&DateTo=2025-01-31",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/msp/subscriptions/{SubscriptionID}": {
+      "get": {
+        "tags": [
+          "MSP"
+        ],
+        "summary": "Get MSP Subscription",
+        "description": "Returns details of a specific MSP subscription. This endpoint is only available to API users with MSP (Managed Service Provider) access. Set IncludeUsage to true to include usage data (TotalMailboxes) in the response. When IncludeUsage is true and no date range is provided, usage data defaults to the previous calendar month.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DateFrom",
+            "in": "query",
+            "description": "Start date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "DateTo",
+            "in": "query",
+            "description": "End date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "IncludeUsage",
+            "in": "query",
+            "description": "When set to true, usage data (TotalMailboxes) will be included in the response. Defaults to false.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMspSubscriptionResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"Subscription\":{\"SubscriptionID\":\"MSP-SUB-001\",\"Name\":\"Acme Corp Subscription\",\"EndUserID\":\"EU-001\",\"ResellerID\":\"RES-001\",\"TotalMailboxes\":150}}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - API user is not an MSP type"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/1.0/msp/subscriptions/MSP-SUB-001",
+              "value": "{}"
+            },
+            "With usage data - cURL": {
+              "description": "/1.0/msp/subscriptions/MSP-SUB-001?IncludeUsage=true",
+              "value": "{}"
+            },
+            "With usage data and date range - cURL": {
+              "description": "/1.0/msp/subscriptions/MSP-SUB-001?IncludeUsage=true&DateFrom=2025-01-01&DateTo=2025-01-31",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/msp/subscriptions/{SubscriptionID}/status": {
+      "get": {
+        "tags": [
+          "MSP"
+        ],
+        "summary": "Get MSP Subscription Status",
+        "description": "Returns the subscription status and onboarding state for an MSP subscription.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMspSubscriptionStatusResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"Status\":\"Active\",\"Onboarded\":true}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - API user is not an MSP type"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/subscriptions/MSP-SUB-001/status",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/1.0/msp/subscriptions/{SubscriptionID}/senders/json": {
+      "get": {
+        "tags": [
+          "MSP"
+        ],
+        "summary": "Get MSP Senders",
+        "description": "Returns sender usage data as JSON for a specific MSP subscription. Only available to MSP API users. Defaults to previous calendar month if no date range is provided.",
+        "parameters": [
+          {
+            "name": "SubscriptionID",
+            "in": "path",
+            "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DateFrom",
+            "in": "query",
+            "description": "Start date for usage data (format: YYYY-MM-DD). Both DateFrom and DateTo must be provided together.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "DateTo",
+            "in": "query",
+            "description": "End date for usage data (format: YYYY-MM-DD). Both DateFrom and DateTo must be provided together.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMspSendersResponse"
+                },
+                "examples": {
+                  "Basic response": {
+                    "value": "{\"Senders\":[{\"UserId\":\"user-001\",\"Sender\":\"john.doe@example.com\",\"Total\":150,\"ImprintedServer\":50,\"ImprintedCloud\":60,\"ImprintedOnPremises\":40,\"Outlook\":100,\"Gmail\":50}]}"
+                  },
+                  "Empty senders": {
+                    "value": "{\"Senders\":[]}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Missing Field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - API user is not an MSP type"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "x-documentation": {
+          "curlExamples": {
+            "Basic usage - cURL": {
+              "description": "/1.0/msp/subscriptions/MSP-SUB-001/senders/json",
+              "value": "{}"
+            },
+            "With date range - cURL": {
+              "description": "/1.0/msp/subscriptions/MSP-SUB-001/senders/json?DateFrom=2025-01-01&DateTo=2025-01-31",
+              "value": "{}"
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddEndUser": {
+        "title": "AddEndUserRequest",
+        "required": [
+          "EndUserID",
+          "CompanyName",
+          "CountryCode"
+        ],
+        "properties": {
+          "EndUserID": {
+            "type": "string",
+            "description": "Your reference for the user."
+          },
+          "CompanyName": {
+            "type": "string",
+            "description": "The name of the company."
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric."
+          }
+        },
+        "description": "This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>"
+      },
+      "AddMspSubscription": {
+        "title": "AddMspSubscriptionRequest",
+        "required": [
+          "DataCenter"
+        ],
+        "properties": {
+          "DataCenter": {
+            "type": "string",
+            "description": "The data center where the subscription will be created. <p> EU - Europe<br /> UK - UK<br /> US - US<br /> AUS - Australia<br /> CAN - Canada<br /> DE - Germany<br /> IND - UAE </p>"
+          },
+          "SubscriptionID": {
+            "type": "string",
+            "description": "Your reference for the subscription. If not specified, this will be automatically generated (30 characters). Must be unique for your API user account. Maximum 50 characters."
+          },
+          "SKU": {
+            "type": "string",
+            "description": "A code representing the type of product being requested. Defaults to EXCL-M-PRO if not specified. <p> MSP accounts are limited to PRO tier subscriptions. Available SKUs: </p><p> EXCL-M-PRO - Exclaimer Pro for Microsoft 365<br /> EXCL-G-PRO - Exclaimer Pro for Google Workspace </p>"
+          },
+          "SubscriptionName": {
+            "type": "string",
+            "description": "The name of the subscription. If not specified, this will default to the EndUser.CompanyName"
+          },
+          "EndUser": {
+            "$ref": "#/components/schemas/AddMspSubscriptionEndUser"
+          },
+          "Reseller": {
+            "$ref": "#/components/schemas/AddMspSubscriptionReseller"
+          }
+        },
+        "description": "Creates a new subscription for Managed Service Provider (MSP) API users."
+      },
+      "AddMspSubscriptionResponse": {
+        "title": "AddMspSubscriptionResponse",
+        "properties": {
+          "SubscriptionID": {
+            "type": "string",
+            "description": "If specified in the request, this will be the value you passed. If not specified, this will be an automatically generated value (30 characters)."
+          }
+        }
+      },
+      "AddMspSubscriptionEndUser": {
+        "title": "AddMspSubscriptionEndUser",
+        "required": [
+          "EndUserID",
+          "CompanyName",
+          "CountryCode"
+        ],
+        "properties": {
+          "EndUserID": {
+            "type": "string",
+            "description": "Your reference for the end user. Maximum 100 characters."
+          },
+          "CompanyName": {
+            "type": "string",
+            "description": "The name of the company. Maximum 100 characters."
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the end user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters)."
+          }
+        },
+        "description": "Allows you to associate the subscription with a custom end user record. If provided, all fields within are required."
+      },
+      "AddMspSubscriptionReseller": {
+        "title": "AddMspSubscriptionReseller",
+        "required": [
+          "ResellerID",
+          "CompanyName",
+          "CountryCode"
+        ],
+        "properties": {
+          "ResellerID": {
+            "type": "string",
+            "description": "Your reference for the reseller. Maximum 100 characters."
+          },
+          "CompanyName": {
+            "type": "string",
+            "description": "The name of the company. Maximum 100 characters."
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters)."
+          }
+        },
+        "description": "Allows you to associate the subscription with a custom reseller record. If provided, all fields within are required."
+      },
+      "AddReseller": {
+        "title": "AddResellerRequest",
+        "required": [
+          "ResellerID",
+          "CompanyName",
+          "CountryCode"
+        ],
+        "properties": {
+          "ResellerID": {
+            "type": "string",
+            "description": "Your reference for the reseller."
+          },
+          "CompanyName": {
+            "type": "string",
+            "description": "The name of the company."
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric."
+          }
+        },
+        "description": "This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>"
+      },
+      "AddSubscription": {
+        "title": "AddSubscriptionRequest",
+        "required": [
+          "EmailAddress",
+          "MailboxCount",
+          "CountryCode"
+        ],
+        "properties": {
+          "SubscriptionID": {
+            "type": "string",
+            "description": "Your reference for the subscription. If not specified, this will be automatically generated."
+          },
+          "UserID": {
+            "type": "string",
+            "description": "Your reference for the user. If not specified, this will be automatically generated."
+          },
+          "EmailAddress": {
+            "type": "string",
+            "description": "The email address of the user."
+          },
+          "MailboxCount": {
+            "type": "number",
+            "description": "The number of mailboxes that will be imprinted. You can update this value at a later date by calling the <b>Update Mailbox Count</b> API. <p> Where the caller is a <b>Managed Service Provider</b> on the <b>Elite Program</b> the mailbox count must not cause the total count across all subscriptions to exceed the Mailbox Allocation. </p>",
+            "format": "int32"
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the user is based. This will be used to locate which data centre to use, unless otherwise indicated via <b>DataCenter</b>. Specify in ISO 3166-1 alpha-2/alpha-3 or numeric."
+          },
+          "DataCenter": {
+            "type": "string",
+            "description": "The data centre to use to host your Exclaimer cloud service. If not specified a default will be used based on the <b>CountryCode</b>. To determine which data centers can be used for which products see <b>Get Data Centers</b>. <p> EU - Europe<br /> IND - UAE<br /> UK - UK<br /> US - US<br /> AUS - Australia<br /> CAN - Canada<br /> DE - Germany </p>"
+          },
+          "CurrencyCode": {
+            "type": "string",
+            "description": "The currency ID for which the user will be charged. <p> USD - US Dollar<br /> GBP - UK Sterling<br /> EUR - Euro<br /> AUD - Australian Dollars<br /> CAD - Canadian Dollars </p><p> If not specified this defaults to GBP. </p>"
+          },
+          "TrialDays": {
+            "type": "number",
+            "description": "The length of time the subscription should be in trial (in days). A value of zero will cause the subscription to be activated with a default length of 14 days.",
+            "format": "int32"
+          },
+          "SendWelcomeEmailToCustomer": {
+            "type": "boolean",
+            "description": "Specifies whether an email will be sent to the customer asking them to login for the first time. This defaults to true."
+          },
+          "SubscriptionName": {
+            "type": "string",
+            "description": "The name of the subscription."
+          },
+          "SubscriptionProductCode": {
+            "type": "string",
+            "description": "The type of product being requested. If not specified a default of \"Office365\" will be used. <p> Office365<br /> GSuite </p>"
+          },
+          "Tier": {
+            "type": "string",
+            "description": "<deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use the original tiers, along with the new tiers. New consumers can only use the new tiers. </deprecated-note> If not specified, existing consumers will be assigned \"ExclaimerCloud\" as a default, and new consumers will be assigned \"ExclaimerStandard\" as a default. <p> ExclaimerStarter<br /> ExclaimerStandard<br /> ExclaimerPro<br /><deprecated>ExclaimerCloud <deprecated-indicator /><br /></deprecated><deprecated>SignatureMarketingSuite <deprecated-indicator /></deprecated></p><p> Note: Managed-Service-Provider accounts are limited to only creating ExclaimerPro tier subscriptions. </p>"
+          },
+          "EndUser": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AddSubscriptionEndUser"
+              },
+              {
+                "description": "Allows you to associate the subscription with a custom user record."
+              },
+              { }
+            ]
+          },
+          "Reseller": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AddSubscriptionReseller"
+              },
+              {
+                "description": "Allows you to associate the subscription with a custom reseller record."
+              },
+              { }
+            ]
+          },
+          "SkipTrial": {
+            "type": "boolean",
+            "description": "When set to true, specifies that no trial period is needed and that the subscriptions should become active immediately. If <b>TrialDays</b> is specified when this is true, it will be ignore. Defaults to false."
+          },
+          "NFR": {
+            "type": "boolean",
+            "description": "When true, the subscription is treated as not for resale. When false, the subscription is treated as a standard subscription. Defaults to false. <p><b>N.B.</b> This feature is only available to consumers that support NFR licenses. </p>"
+          },
+          "NumberOfNFRUsers": {
+            "type": "number",
+            "description": "Specifies the number of users allocated as not for resale. <p><b>N.B.</b> When <b>NFR</b> is true, or including an NFR SKU, this value is required; when false or not specified, providing this value will result in an error. </p>",
+            "format": "int32"
+          },
+          "SKU": {
+            "type": "string",
+            "description": "A code representing the type of product being requested. <p> If <b>SKU</b> is specified in conjunction with <b>SubscriptionProductCode</b>, <b>Tier</b>, or <b>NFR</b>, they will be ignored and this value will take precedence. <p></p><b>N.B.</b> The use of <b>NFR</b> within a SKU is only available to consumers that support NFR licenses.<br /> When including <b>NFR</b>, you must also include the <b>NumberOfNFRUsers</b> field. </p><deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use SKUs relating to the original tiers, along with SKUs for the new tiers. New consumers can only use SKUs relating to the new tiers. </deprecated-note><p> M - Office365<br /> G - GSuite<br /> START - ExclaimerStarter<br /> STAND - ExclaimerStandard<br /> PRO - ExclaimerPro<br /><deprecated>MNGT - ExclaimerCloud <deprecated-indicator /><br /></deprecated><deprecated>MRKT - SignatureMarketingSuite <deprecated-indicator /><br /></deprecated> NFR - Not For Resale </p><p> EXCL-M-START<br /> EXCL-M-STAND<br /> EXCL-M-PRO<br /> EXCL-G-START<br /> EXCL-G-STAND<br /> EXCL-G-PRO<br /> EXCL-M-START-NFR<br /> EXCL-M-STAND-NFR<br /> EXCL-M-PRO-NFR<br /> EXCL-G-START-NFR<br /> EXCL-G-STAND-NFR<br /> EXCL-G-PRO-NFR<br /><deprecated>EXCL-M-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD-NFR <deprecated-indicator /></deprecated></p><p> Note: Managed-Service-Provider accounts are limited to only creating PRO (ExclaimerPro) tier subscriptions. </p>"
+          }
+        },
+        "description": "This request will create a new subscription and adds it to the Exclaimer Cloud service. <p> A new user will be created for the email address provided if one doesn't already exist. </p><p> If you pass a <b>SubscriptionID</b> and <b>UserID</b>, these values will be used when creating the subscription, otherwise they'll be randomly generated and returned to you. You will need the subscription ID for other operations, such as updating the mailbox count, or ending the subscription. </p>"
+      },
+      "AddSubscriptionEndUser": {
+        "title": "EndUser",
+        "required": [
+          "EndUserID",
+          "CompanyName",
+          "CountryCode"
+        ],
+        "properties": {
+          "EndUserID": {
+            "type": "string",
+            "description": "Your reference for the user. This will associate the user with the new subscription. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>"
+          },
+          "CompanyName": {
+            "type": "string",
+            "description": "The name of the company to associate the subscription with."
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric."
+          }
+        }
+      },
+      "AddSubscriptionReseller": {
+        "title": "Reseller",
+        "required": [
+          "ResellerID",
+          "CompanyName",
+          "CountryCode"
+        ],
+        "properties": {
+          "ResellerID": {
+            "type": "string",
+            "description": "Your reference for the reseller. This will associate the reseller with the new subscription. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>"
+          },
+          "CompanyName": {
+            "type": "string",
+            "description": "The name of the company to associated the subscription with."
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric."
+          }
+        }
+      },
+      "AddSubscriptionResponse": {
+        "title": "AddSubscriptionResponse",
+        "properties": {
+          "SubscriptionID": {
+            "type": "string",
+            "description": "If specified in the request, this will be the value you passed. If not specified, this will be an automatically generated value."
+          },
+          "UserID": {
+            "type": "string",
+            "description": "If specified in the request, this will be the value you passed. If not specified, this will be an automatically generated value."
+          }
+        }
+      },
+      "AddSubscriptionV2": {
+        "title": "AddSubscriptionV2Request",
+        "required": [
+          "EmailAddress",
+          "MailboxCount",
+          "CountryCode",
+          "SKU",
+          "EndUser"
+        ],
+        "properties": {
+          "SubscriptionID": {
+            "type": "string",
+            "description": "Your reference for the subscription. If not specified, this will be automatically generated."
+          },
+          "UserID": {
+            "type": "string",
+            "description": "Your reference for the user. If not specified, this will be automatically generated."
+          },
+          "EmailAddress": {
+            "type": "string",
+            "description": "The email address of the user."
+          },
+          "MailboxCount": {
+            "type": "number",
+            "description": "The number of mailboxes that will be imprinted. You can update this value at a later date by calling the <b>Update Mailbox Count</b> API. <p> Where the caller is a <b>Managed Service Provider</b> on the <b>Elite Program</b> the mailbox count must not cause the total count across all subscriptions to exceed the Mailbox Allocation. </p>",
+            "format": "int32"
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the user is based. This will be used to locate which data centre to use, unless otherwise indicated via <b>DataCenter</b>. Specify in ISO 3166-1 alpha-2/alpha-3 or numeric."
+          },
+          "DataCenter": {
+            "type": "string",
+            "description": "The data centre to use to host your Exclaimer cloud service. If not specified a default will be used based on the <b>CountryCode</b>. To determine which data centers can be used for which products see <b>Get Data Centers</b>. <p> EU - Europe<br /> IND - UAE<br /> UK - UK<br /> US - US<br /> AUS - Australia<br /> CAN - Canada<br /> DE - Germany </p>"
+          },
+          "CurrencyCode": {
+            "type": "string",
+            "description": "The currency ID for which the user will be charged. Cannot be changed after subscription creation. <p> USD - US Dollar<br /> GBP - UK Sterling<br /> EUR - Euro<br /> AUD - Australian Dollars<br /> CAD - Canadian Dollars </p><p> If not specified this defaults to GBP. </p>"
+          },
+          "TrialDays": {
+            "type": "number",
+            "description": "The length of time the subscription should be in trial (in days). A value of zero will cause the subscription to be activated with a default length of 14 days.",
+            "format": "int32"
+          },
+          "SendWelcomeEmailToCustomer": {
+            "type": "boolean",
+            "description": "Specifies whether an email will be sent to the customer asking them to login for the first time. This defaults to true."
+          },
+          "SubscriptionName": {
+            "type": "string",
+            "description": "The name of the subscription."
+          },
+          "SKU": {
+            "type": "string",
+            "description": "A code representing the type of product being requested. This field determines the product, tier, and NFR status. <p> M - Office365<br /> G - GSuite<br /> START - ExclaimerStarter<br /> STAND - ExclaimerStandard<br /> PRO - ExclaimerPro<br /> NFR - Not For Resale </p><p> EXCL-M-START<br /> EXCL-M-STAND<br /> EXCL-M-PRO<br /> EXCL-G-START<br /> EXCL-G-STAND<br /> EXCL-G-PRO<br /> EXCL-M-START-NFR<br /> EXCL-M-STAND-NFR<br /> EXCL-M-PRO-NFR<br /> EXCL-G-START-NFR<br /> EXCL-G-STAND-NFR<br /> EXCL-G-PRO-NFR </p><p> Note: Managed-Service-Provider accounts are limited to only creating PRO (ExclaimerPro) tier subscriptions. </p>"
+          },
+          "BillingGroup": {
+            "type": "string",
+            "description": "Optional field to associate the subscription with a billing group for organizational purposes."
+          },
+          "EndUser": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AddSubscriptionEndUserV2"
+              },
+              {
+                "description": "Allows you to associate the subscription with a custom user record."
+              },
+              { }
+            ]
+          },
+          "Reseller": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AddSubscriptionResellerV2"
+              },
+              {
+                "description": "Allows you to associate the subscription with a custom reseller record. Required for non-Marketplace subscriptions. Optional for Marketplace subscriptions."
+              },
+              { }
+            ]
+          },
+          "SkipTrial": {
+            "type": "boolean",
+            "description": "When set to true, specifies that no trial period is needed and that the subscriptions should become active immediately. If <b>TrialDays</b> is specified when this is true, it will be ignore. Defaults to false."
+          }
+        },
+        "description": "This request will create a new subscription using Version 2 of the API. V2 requires SKU and EndUser (with Domain) fields. The SubscriptionProductCode, Tier, NFR, and NumberOfNFRUsers fields from V1 are deprecated in V2. <p> A new user will be created for the email address provided if one doesn't already exist. </p><p> If you pass a <b>SubscriptionID</b> and <b>UserID</b>, these values will be used when creating the subscription, otherwise they'll be randomly generated and returned to you. You will need the subscription ID for other operations, such as updating the mailbox count, or ending the subscription. </p>"
+      },
+      "AddSubscriptionEndUserV2": {
+        "title": "EndUserV2",
+        "required": [
+          "Domain"
+        ],
+        "properties": {
+          "Domain": {
+            "type": "string",
+            "description": "The domain associated with the end user."
+          },
+          "FirstName": {
+            "type": "string",
+            "description": "The first name of the end user. Optional for Marketplace subscriptions."
+          },
+          "LastName": {
+            "type": "string",
+            "description": "The last name of the end user. Optional for Marketplace subscriptions."
+          },
+          "EmailAddress": {
+            "type": "string",
+            "description": "The email address of the end user. Optional for Marketplace subscriptions."
+          },
+          "AddressLine1": {
+            "type": "string",
+            "description": "The first line of the address. Optional for Marketplace subscriptions."
+          },
+          "AddressLine2": {
+            "type": "string",
+            "description": "The second line of the address. Optional for Marketplace subscriptions."
+          },
+          "State": {
+            "type": "string",
+            "description": "The state or region. Optional for Marketplace subscriptions."
+          },
+          "PhoneNumber": {
+            "type": "string",
+            "description": "The phone number of the end user. Optional for Marketplace subscriptions."
+          }
+        }
+      },
+      "AddSubscriptionResellerV2": {
+        "title": "ResellerV2",
+        "required": [
+          "Domain"
+        ],
+        "properties": {
+          "Domain": {
+            "type": "string",
+            "description": "The domain associated with the reseller. This field is required for non-Marketplace subscriptions in V2."
+          }
+        }
+      },
+      "AddSubscriptionUser": {
+        "title": "AddSubscriptionUserRequest",
+        "required": [
+          "UserID",
+          "EmailAddress",
+          "Roles"
+        ],
+        "properties": {
+          "UserID": {
+            "type": "string",
+            "description": "Your reference for the user. Must only contain upper case letters, lower case letters, numbers, '-' and '_'."
+          },
+          "EmailAddress": {
+            "type": "string",
+            "description": "The email address of the user."
+          },
+          "Roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive."
+          },
+          "SendWelcomeEmailToCustomer": {
+            "type": "boolean",
+            "description": "Specifies whether an email will be sent to the customer asking them to login for the first time, or informing them they have been added to the subscription. This defaults to true."
+          }
+        },
+        "description": "This request allows you to add new users to a subscription. <p> The same user can be added to multiple subscriptions. </p><p> Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added. </p>"
+      },
+      "ClaimSubscriptionTransfer": {
+        "title": "ClaimSubscriptionTransferRequest",
+        "required": [
+          "TransferToken"
+        ],
+        "properties": {
+          "TransferToken": {
+            "type": "string",
+            "description": "This token grants you the rights to transfer the subscription, and will be provided either by the current subscription owner, or by Exclaimer. The token can only be used for one valid request. This excludes validation errors, in which case the token will remain valid."
+          },
+          "SubscriptionID": {
+            "type": "string",
+            "description": "Your reference for the subscription once it's been transferred. If not specified, or a subscription with the same ID already exists, this will be automatically generated."
+          },
+          "ResellerID": {
+            "type": "string",
+            "description": "Allows you to associate the transferred subscription with an existing custom reseller record. <p><b>N.B. ResellerID</b> and <b>Reseller</b> are mutually exclusive. If both are provided, this will result in an error. If neither are provided, then the subscription will not be associated with a reseller. </p>"
+          },
+          "Reseller": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ClaimSubscriptionTransferReseller"
+              },
+              {
+                "description": "Allows you to associate the transferred subscription with a custom reseller record. <p><b>N.B. Reseller</b> and <b>ResellerID</b> are mutually exclusive. If both are provided, this will result in an error. If neither are provided, then the subscription will not be associated with a reseller. </p>"
+              },
+              { }
+            ]
+          },
+          "EndUserID": {
+            "type": "string",
+            "description": "Allows you to associate the transferred subscription with an existing custom user record. <p><b>N.B. EndUserID</b> and <b>EndUser</b> are mutually exclusive. If both are provided, this will result in an error. If neither are provided, then the subscription will not be associated with an end user. </p>"
+          },
+          "EndUser": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ClaimSubscriptionTransferEndUser"
+              },
+              {
+                "description": "Allows you to associate the transferred subscription with a custom user record. <p><b>N.B. EndUser</b> and <b>EndUserID</b> are mutually exclusive. If both are provided, this will result in an error. If neither are provided, then the subscription will not be associated with an end user. </p>"
+              },
+              { }
+            ]
+          }
+        },
+        "description": "This request allows you to claim a subscription that's currently owned by someone else. <p> You can optionally specify additional details for the subscription, such as providing a meaningful ID, or associating it with one of your existing resellers, and/or end users. </p><p> This is the second half or a two part transfer handshake. See <b>Initiate Subscription Transfer</b> for the first half of the process. </p><p> In order to claim a subscription you must first have a valid token that can be used in the transfer process. This token will be provided either by the current subscription owner, or by Exclaimer. Once the token has been used, it will be invalidated, and cannot be reused. </p><p><b>Self claiming:</b> It's possible to claim a subscription that you've previously issued a transfer request for, right up until the point at which the subscription has been claimed by someone else. While we would recommend you use the <b>Cancel Subscription Transfer</b> API instead, if you do use this we recommend only specifying the <b>TransferToken</b> and no other details. In this case, all existing subscription details, including Subscription ID, Reseller, and End User, will remain unchanged. </p>"
+      },
+      "ClaimSubscriptionTransferEndUser": {
+        "title": "EndUser",
+        "required": [
+          "EndUserID",
+          "CompanyName",
+          "CountryCode"
+        ],
+        "properties": {
+          "EndUserID": {
+            "type": "string",
+            "description": "Your reference for the user. This will associate the user with the transferred subscription. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>"
+          },
+          "CompanyName": {
+            "type": "string",
+            "description": "The name of the company to associate the transferred subscription with."
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric."
+          }
+        }
+      },
+      "ClaimSubscriptionTransferReseller": {
+        "title": "Reseller",
+        "required": [
+          "ResellerID",
+          "CompanyName",
+          "CountryCode"
+        ],
+        "properties": {
+          "ResellerID": {
+            "type": "string",
+            "description": "Your reference for the reseller. This will associate the reseller with the transferred subscription. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>"
+          },
+          "CompanyName": {
+            "type": "string",
+            "description": "The name of the company to associated the transferred subscription with."
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric."
+          }
+        }
+      },
+      "ClaimSubscriptionTransferResponse": {
+        "title": "ClaimSubscriptionTransferResponse",
+        "properties": {
+          "SubscriptionID": {
+            "type": "string",
+            "description": "This is the ID that's been assigned to the transferred subscription. If you specified a <b>SubscriptionID</b> when claiming the subscription, then that value will be returned. However, if you already have a subscription with the same <b>SubscriptionID</b>, or you did not specify a <b>SubscriptionID</b>, then an automatically generated value will have been used."
+          }
+        }
+      },
+      "DataCenter": {
+        "title": "DataCenter",
+        "properties": {
+          "Location": {
+            "type": "string",
+            "description": "The country, or region, where the data center is located."
+          },
+          "Office365Code": {
+            "type": "string",
+            "description": "The code to use in <b>Add Subscription</b> when using Office365."
+          },
+          "GSuiteCode": {
+            "type": "string",
+            "description": "The code to use in <b>Add Subscription</b> when using GSuite."
+          }
+        }
+      },
+      "DataCentersResponse": {
+        "title": "DataCentersResponse",
+        "properties": {
+          "DataCenters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataCenter"
+            }
+          }
+        }
+      },
+      "DistributorLevelSubscriptionUser": {
+        "title": "User",
+        "properties": {
+          "Email": {
+            "type": "string",
+            "description": "Email address of the user."
+          },
+          "Subscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DistributorLevelSubscriptionUserInfo"
+            },
+            "description": "The subscriptions the user is a member of."
+          }
+        }
+      },
+      "DistributorLevelSubscriptionUserInfo": {
+        "title": "UserSubscriptionDetails",
+        "properties": {
+          "SubscriptionID": {
+            "type": "string",
+            "description": "Your reference to the subscription. This is the same ID you specified when the subscription was create via <b>Add Subscription</b>."
+          },
+          "UserID": {
+            "type": "string",
+            "description": "Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>. <p> The same user can have a different UserID for each subscription. </p><p> If the user was not created via the Cloud API, then this value will not be returned. This means that although you can view their details, you will not be able to reference this user when making calls to the Cloud API. </p>"
+          },
+          "Roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The same user can have different roles for each subscription. <p> Admin<br /> Editor </p>"
+          }
+        }
+      },
+      "DistributorLevelSubscriptionUsersResponse": {
+        "title": "DistributorLevelSubscriptionUsersResponse",
+        "properties": {
+          "Users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DistributorLevelSubscriptionUser"
+            },
+            "description": "If there are more users than the <b>PageSize</b>, then this will contain a subset of all users."
+          },
+          "UserCount": {
+            "type": "number",
+            "description": "The total number of users available. This is useful for when the number users is greater than the current page size.",
+            "format": "int32"
+          },
+          "ContinuationToken": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          },
+          "Page": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          },
+          "PageSize": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          }
+        }
+      },
+      "EndUserResponse": {
+        "title": "EndUser",
+        "properties": {
+          "EndUserID": {
+            "type": "string",
+            "description": "Your reference for the custom user. This is the same ID you specified when the subscription was created via <b>Add Subscription</b>, or when calling <b>Add/Update End User</b>."
+          },
+          "CompanyName": {
+            "type": "string",
+            "description": "The name of the company."
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the user is based.<br /> Returned as alpha-3 ISO 3166-1."
+          }
+        }
+      },
+      "EndUsersResponse": {
+        "title": "EndUsersResponse",
+        "properties": {
+          "EndUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EndUserResponse"
+            },
+            "description": "If there are more custom users than the <b>PageSize</b>, then this will contain a subset of all custom users."
+          },
+          "EndUserCount": {
+            "type": "number",
+            "description": "The total number of custom users available. This is useful for when the number of custom users is greater than the current page size.",
+            "format": "int32"
+          },
+          "ContinuationToken": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          },
+          "Page": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          },
+          "PageSize": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          }
+        }
+      },
+      "GetMspSubscriptionResponse": {
+        "title": "GetMspSubscriptionResponse",
+        "properties": {
+          "Subscription": {
+            "$ref": "#/components/schemas/MspSubscription"
+          }
+        }
+      },
+      "GetMspSubscriptionsResponse": {
+        "title": "GetMspSubscriptionsResponse",
+        "properties": {
+          "Subscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MspSubscription"
+            },
+            "description": "If there are more subscriptions than the PageSize, then this will contain a subset of all subscriptions."
+          },
+          "SubscriptionCount": {
+            "type": "number",
+            "description": "The total number of subscriptions available.",
+            "format": "int32"
+          },
+          "ContinuationToken": {
+            "type": "number",
+            "description": "See the section \"Paging of results\" at the beginning of the document.",
+            "format": "int32"
+          },
+          "Page": {
+            "type": "number",
+            "description": "See the section \"Paging of results\" at the beginning of the document.",
+            "format": "int32"
+          },
+          "PageSize": {
+            "type": "number",
+            "description": "See the section \"Paging of results\" at the beginning of the document.",
+            "format": "int32"
+          }
+        }
+      },
+      "GetMspSubscriptionStatusResponse": {
+        "title": "GetMspSubscriptionStatusResponse",
+        "required": [
+          "Status",
+          "Onboarded"
+        ],
+        "properties": {
+          "Status": {
+            "type": "string",
+            "description": "Active<br /> Suspended<br /> Cancelled<br /> Ended<br /> Unknown"
+          },
+          "Onboarded": {
+            "type": "boolean",
+            "description": "Indicates whether the tenant has completed onboarding."
+          }
+        }
+      },
+      "GetMspSendersResponse": {
+        "title": "GetMspSendersResponse",
+        "properties": {
+          "Senders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MspSenderUsage"
+            },
+            "description": "An array of sender usage objects."
+          }
+        }
+      },
+      "MspSenderUsage": {
+        "title": "MspSenderUsage",
+        "properties": {
+          "UserId": {
+            "type": "string",
+            "description": "The unique identifier of the user."
+          },
+          "Sender": {
+            "type": "string",
+            "description": "The email address of the sender."
+          },
+          "Total": {
+            "type": "number",
+            "description": "The total number of messages sent.",
+            "format": "int32"
+          },
+          "ImprintedServer": {
+            "type": "number",
+            "description": "The number of messages imprinted via server-side.",
+            "format": "int32"
+          },
+          "ImprintedCloud": {
+            "type": "number",
+            "description": "The number of messages imprinted via cloud.",
+            "format": "int32"
+          },
+          "ImprintedOnPremises": {
+            "type": "number",
+            "description": "The number of messages imprinted via on-premises.",
+            "format": "int32"
+          },
+          "Outlook": {
+            "type": "number",
+            "description": "The number of messages sent via Outlook.",
+            "format": "int32"
+          },
+          "Gmail": {
+            "type": "number",
+            "description": "The number of messages sent via Gmail.",
+            "format": "int32"
+          }
+        }
+      },
+      "InitiateSubscriptionTransferResponse": {
+        "title": "InitiateSubscriptionTransferResponse",
+        "properties": {
+          "TransferToken": {
+            "type": "string",
+            "description": "The issued token that can be used to claim the subscription."
+          }
+        }
+      },
+      "MspSubscription": {
+        "title": "MspSubscription",
+        "properties": {
+          "EndUserID": {
+            "type": "string",
+            "description": "Your reference for the end user."
+          },
+          "Name": {
+            "type": "string",
+            "description": "The name of the subscription."
+          },
+          "ResellerID": {
+            "type": "string",
+            "description": "Your reference for the reseller."
+          },
+          "SubscriptionID": {
+            "type": "string",
+            "description": "Your reference for the subscription."
+          },
+          "TotalMailboxes": {
+            "type": "number",
+            "description": "The total number of mailboxes with usage for the supplied date range. Only returned when IncludeUsage is true. Defaults to the previous calendar month if no dates are supplied.",
+            "format": "int32"
+          }
+        }
+      },
+      "MailboxAllocationResponse": {
+        "title": "MailboxAllocationResponse",
+        "properties": {
+          "MailboxAllocation": {
+            "type": "number",
+            "description": "The limit to the total number of mailboxes that can be allocated.",
+            "format": "int32"
+          },
+          "Allocated": {
+            "type": "number",
+            "description": "The number of mailboxes that have been allocated.",
+            "format": "int32"
+          },
+          "Remaining": {
+            "type": "number",
+            "description": "The number of mailboxes remaining that may be allocated.",
+            "format": "int32"
+          }
+        }
+      },
+      "MailboxCountResponse": {
+        "title": "MailboxCountResponse",
+        "properties": {
+          "MailboxCount": {
+            "type": "number",
+            "description": "The number of imprinted signatures applied as the email went through your email system.",
+            "format": "int32"
+          },
+          "ClientSideMailboxCount": {
+            "type": "number",
+            "description": "The number of downloaded signatures added directly via a client running on a machine, e.g. in Outlook.",
+            "format": "int32"
+          }
+        }
+      },
+      "MigrateSubscription": {
+        "title": "MigrateSubscriptionRequest",
+        "properties": {
+          "ResellerID": {
+            "type": "string",
+            "description": "Your reference for the reseller you want to migrate the subscription to. <p> If you don't want to change the existing reseller, then don't specify this property.<br /> If you want to remove, or clear, the existing reseller, supply an empty value.<br /> When providing the <b>ResellerID</b>, a reseller with that ID must already exist. </p>"
+          },
+          "EndUserID": {
+            "type": "string",
+            "description": "Your reference for the end user you want to migrate the subscription to. <p> If you don't want to change the existing end user, then don't specify this property.<br /> If you want to remove, or clear, the existing end user, supply an empty value.<br /> When providing the <b>EndUserID</b>, an end user with that ID must already exist. </p>"
+          }
+        },
+        "description": "This request allows you to assign, transfer, or remove, a reseller and/or end user, from an existing subscription."
+      },
+      "ReactivateSubscription": {
+        "title": "ReactivateSubscriptionRequest",
+        "properties": {
+          "InTrial": {
+            "type": "boolean",
+            "description": "When true, the subscription will be reactivated as if it were a new trial. When false, the existing trial status will be unchanged. i.e. If the subscription is still within the original trial period, you will continue to get those remaining days. If the subscription was fully active then no additional trial will be provided. Defaults to false."
+          }
+        },
+        "description": "This request will reactivate a previously ended, or deactivated, subscription. <p> The subscription will no longer reside in a dormant state and emails will be imprinted/processed via the Exclaimer Cloud service again. </p>"
+      },
+      "ResellerResponse": {
+        "title": "Reseller",
+        "properties": {
+          "ResellerID": {
+            "type": "string",
+            "description": "Your reference for the reseller. This is the same ID you specified when the subscription was created via <b>Add Subscription</b>, or when calling <b>Add/Update Reseller</b>."
+          },
+          "CompanyName": {
+            "type": "string",
+            "description": "The name of the company."
+          },
+          "CountryCode": {
+            "type": "string",
+            "description": "The country code where the reseller is based.<br /> Returned as alpha-3 ISO 3166-1."
+          }
+        }
+      },
+      "ResellersResponse": {
+        "title": "ResellersResponse",
+        "properties": {
+          "Resellers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResellerResponse"
+            },
+            "description": "If there are more resellers than the <b>PageSize</b>, then this will contain a subset of all resellers."
+          },
+          "ResellerCount": {
+            "type": "number",
+            "description": "The total number of resellers available. This is useful for when the number of resellers is greater than the current page size.",
+            "format": "int32"
+          },
+          "ContinuationToken": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          },
+          "Page": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          },
+          "PageSize": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          }
+        }
+      },
+      "SingleSubscriptionResponse": {
+        "title": "SingleSubscriptionResponse",
+        "properties": {
+          "Subscription": {
+            "$ref": "#/components/schemas/Subscription"
+          }
+        }
+      },
+      "SkuHistory": {
+        "title": "SkuHistory",
+        "properties": {
+          "Date": {
+            "type": "string",
+            "description": "The date of the SKU was changed.",
+            "format": "date-time"
+          },
+          "Sku": {
+            "type": "string",
+            "description": "The name of the new SKU that was assigned."
+          },
+          "PreviousSku": {
+            "type": "string",
+            "description": "The name of the previously assigned SKU."
+          }
+        }
+      },
+      "SKUReference": {
+        "title": "SKUReference",
+        "properties": {
+          "SKU": {
+            "type": "string",
+            "description": "The code to use when referencing the SKU."
+          },
+          "Description": {
+            "type": "string",
+            "description": "A human readable description of the SKU."
+          }
+        }
+      },
+      "SKUReferencesResponse": {
+        "title": "SKUReferencesResponse",
+        "properties": {
+          "SKUs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SKUReference"
+            }
+          }
+        }
+      },
+      "StatusResponse": {
+        "title": "StatusResponse",
+        "properties": {
+          "CurrentTime": {
+            "type": "string",
+            "description": "The current time on the Exclaimer Cloud API server."
+          }
+        }
+      },
+      "Subscription": {
+        "title": "Subscription",
+        "properties": {
+          "SubscriptionID": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "UserID": {
+            "type": "string",
+            "description": "The current owner of the subscription."
+          },
+          "EndUserID": {
+            "type": "string"
+          },
+          "ResellerID": {
+            "type": "string"
+          },
+          "StartDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "NumberOfUsers": {
+            "type": "number",
+            "format": "int32"
+          },
+          "AggregatedUsers": {
+            "type": "number",
+            "format": "int32"
+          },
+          "ProcessedUsers": {
+            "type": "number",
+            "format": "int32"
+          },
+          "Currency": {
+            "type": "string",
+            "description": "USD - US Dollar<br /> GBP - UK Sterling<br /> EUR - Euro<br /> AUD - Australian Dollars<br /> CAD - Canadian Dollars<br />"
+          },
+          "Status": {
+            "type": "string",
+            "description": "Active<br /> Suspended<br /> Cancelled<br /> Ended"
+          },
+          "InTrial": {
+            "type": "boolean"
+          },
+          "TrialEndDate": {
+            "type": "string",
+            "description": "The date the trial is due to end. This value will only be returned when the subscription is a trial and the status is either Active or Suspended.",
+            "format": "date-time"
+          },
+          "BillableUsers": {
+            "type": "number",
+            "format": "int32"
+          },
+          "Overage": {
+            "type": "number",
+            "description": "This value will only be returned if you've exceeded the number of licensed users.",
+            "format": "int32"
+          },
+          "Tier": {
+            "type": "string",
+            "description": "<deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use the original tiers, along with the new tiers. New consumers can only use the new tiers. </deprecated-note> ExclaimerStarter<br /> ExclaimerStandard<br /> ExclaimerPro<br /><deprecated>ExclaimerCloud <deprecated-indicator /><br /></deprecated><deprecated>SignatureMarketingSuite <deprecated-indicator /></deprecated>"
+          },
+          "NFR": {
+            "type": "boolean",
+            "description": "Indicates whether the subscription is not for resale."
+          },
+          "NFRDetails": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubscriptionNFRDetails"
+              },
+              {
+                "description": "This value will only be included when <b>NFR</b> is true."
+              },
+              { }
+            ]
+          },
+          "SKU": {
+            "type": "string",
+            "description": "A code representing the type of product. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use SKUs relating to the original tiers, along with SKUs for the new tiers. New consumers can only use SKUs relating to the new tiers. </deprecated-note><p> EXCL-M-START<br /> EXCL-M-STAND<br /> EXCL-M-PRO<br /> EXCL-G-START<br /> EXCL-G-STAND<br /> EXCL-G-PRO<br /> EXCL-M-START-NFR<br /> EXCL-M-STAND-NFR<br /> EXCL-M-PRO-NFR<br /> EXCL-G-START-NFR<br /> EXCL-G-STAND-NFR<br /> EXCL-G-PRO-NFR<br /><deprecated>EXCL-M-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD-NFR <deprecated-indicator /></deprecated></p>"
+          },
+          "PendingTransfer": {
+            "type": "boolean",
+            "description": "Indicates a transfer of the subscription has been issued, but has yet to be claimed."
+          }
+        }
+      },
+      "SubscriptionHistoryResponse": {
+        "title": "SubscriptionHistoryResponse",
+        "properties": {
+          "TierHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TierHistory"
+            },
+            "description": "An array describing changes made to subscription's tier"
+          },
+          "SkuHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkuHistory"
+            },
+            "description": "An array describing changes made to subscription's SKU"
+          }
+        }
+      },
+      "SubscriptionNFRDetails": {
+        "title": "NFRDetails",
+        "properties": {
+          "NumberOfUsers": {
+            "type": "number",
+            "format": "int32"
+          },
+          "DateApplied": {
+            "type": "string",
+            "description": "Indicates when the subscription was last set to be not for resale.",
+            "format": "date-time"
+          }
+        }
+      },
+      "SubscriptionsResponse": {
+        "title": "SubscriptionsResponse",
+        "properties": {
+          "Subscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Subscription"
+            },
+            "description": "If there are more subscriptions than the <b>PageSize</b>, then this will contain a subset of all subscriptions."
+          },
+          "SubscriptionCount": {
+            "type": "number",
+            "description": "The total number of subscriptions available. This is useful for when the number of subscriptions is greater than the current page size.",
+            "format": "int32"
+          },
+          "ContinuationToken": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          },
+          "Page": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          },
+          "PageSize": {
+            "type": "number",
+            "description": "See the section <b>\"Paging of results\"</b> at the beginning of the document.",
+            "format": "int32"
+          }
+        }
+      },
+      "SubscriptionUser": {
+        "title": "SubscriptionUser",
+        "properties": {
+          "Email": {
+            "type": "string"
+          },
+          "UserID": {
+            "type": "string",
+            "description": "Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>. <p> If the user was not created via the Cloud API, then this value will not be returned. This means that although you can view their details, you will not be able to reference this user when making calls to the Cloud API. </p>"
+          },
+          "Roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Admin<br /> Editor"
+          }
+        }
+      },
+      "SubscriptionUsersResponse": {
+        "title": "SubscriptionUsersResponse",
+        "properties": {
+          "Users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubscriptionUser"
+            },
+            "description": "If there are more users than the <b>PageSize</b>, then this will contain a subset of all users."
+          },
+          "UserCount": {
+            "type": "number",
+            "description": "The total number of users available. This is useful for when the number of users is greater than the current page size.",
+            "format": "int32"
+          }
+        }
+      },
+      "TierHistory": {
+        "title": "TierHistory",
+        "properties": {
+          "Date": {
+            "type": "string",
+            "description": "The date of the tier was changed.",
+            "format": "date-time"
+          },
+          "Tier": {
+            "type": "string",
+            "description": "The name of the new tier that was assigned."
+          },
+          "PreviousTier": {
+            "type": "string",
+            "description": "The name of the previously assigned tier."
+          }
+        }
+      },
+      "TierReference": {
+        "title": "TierReference",
+        "properties": {
+          "Tier": {
+            "type": "string",
+            "description": "The code to use when referencing the tier."
+          },
+          "Description": {
+            "type": "string",
+            "description": "A human readable description of the tier."
+          }
+        }
+      },
+      "TierReferencesResponse": {
+        "title": "TierReferencesResponse",
+        "properties": {
+          "Tiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TierReference"
+            }
+          }
+        }
+      },
+      "UpdateMailboxCount": {
+        "title": "UpdateMailboxCountRequest",
+        "required": [
+          "MailboxCount"
+        ],
+        "properties": {
+          "MailboxCount": {
+            "type": "number",
+            "description": "The total number of mailboxes for the subscription. For new accounts there is a restriction on the minimum value, ruling it may not be set less than the current number of imprinted mailboxes. <p> Where the caller is a <b>Managed Service Provider</b> on the <b>Elite Program</b> the mailbox increment must not cause the total count across all subscriptions to exceed the Mailbox Allocation. </p>",
+            "format": "int32"
+          }
+        },
+        "description": "This request will update the number of users (mailboxes) for a subscription."
+      },
+      "UpdateSubscriptionDetails": {
+        "title": "UpdateSubscriptionRequest",
+        "properties": {
+          "SubscriptionName": {
+            "type": "string",
+            "description": "The name to be assigned to the subscription."
+          },
+          "CurrencyCode": {
+            "type": "string",
+            "description": "The currency to be assigned to the subscription. <p> USD - US Dollar<br /> GBP - UK Sterling<br /> EUR - Euro<br /> AUD - Australian Dollars<br /> CAD - Canadian Dollars </p>"
+          }
+        },
+        "description": "This request can be used to update the name and currency assigned to the subscription."
+      },
+      "UpdateSubscriptionNFR": {
+        "title": "UpdateSubscriptionNFRRequest",
+        "required": [
+          "NFR"
+        ],
+        "properties": {
+          "NFR": {
+            "type": "boolean",
+            "description": "When true, the subscription is treated as not for resale.<br /> When false, the subscription will revert to a standard subscription."
+          },
+          "NumberOfNFRUsers": {
+            "type": "number",
+            "description": "Specifies the number of users allocated as not for resale.<br /><b>N.B.</b> When <b>NFR</b> is true, this value is required; when false, providing this value will result in an error.",
+            "format": "int32"
+          }
+        },
+        "description": "This request allows you to specify that the subscription is not for resale. <p> A subscription can be changed from being not for resale to a standard subscription, and vise versa, at any time. </p><p><b>N.B.</b> This feature is only available to consumers that support NFR licenses. </p>"
+      },
+      "UpdateSubscriptionOwner": {
+        "title": "UpdateSubscriptionOwnerRequest",
+        "properties": {
+          "UserID": {
+            "type": "string",
+            "description": "Your reference for the new subscription owner. This will be the reference you gave when using <b>Add Subscription User</b>. <p> If you specify the <b>UserID</b>, you cannot specify <b>EmailAddress</b>. </p>"
+          },
+          "EmailAddress": {
+            "type": "string",
+            "description": "The email address of the new subscription owner. This will be the email you gave when using <b>Add Subscription User</b>. <p> If you specify the <b>EmailAddress</b>, you cannot specify <b>UserID</b>. </p>"
+          }
+        },
+        "description": "This request will assign a different user to be the owner of a subscription. <p> The new owner must already exist against the subscription, and must have the Admin role. </p><p> If you want to change the owner to a new subscription user, you can use the <b>Add Subscription User</b> API to create that user first. </p><p> If the existing subscription user does not have the Admin role, you can use the <b>Update Subscription User Roles</b> API to give them that role. </p><p> If you wish to delete the original owner, you can use the <b>Delete Subscription User</b> API after this request. </p>"
+      },
+      "UpdateSubscriptionSKU": {
+        "title": "UpdateSubscriptionSKURequest",
+        "required": [
+          "SKU"
+        ],
+        "properties": {
+          "SKU": {
+            "type": "string",
+            "description": "A code representing the type of product being requested. <p><b>N.B.</b> The use of <b>NFR</b> within a SKU is only available to consumers that support NFR licenses.<br /> When including <b>NFR</b>, you must also include the <b>NumberOfNFRUsers</b> field. </p><deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use SKUs relating to the original tiers, along with SKUs for the new tiers. New consumers can only use SKUs relating to the new tiers. </deprecated-note><p> M - Office365<br /> G - GSuite<br /> START - ExclaimerStarter<br /> STAND - ExclaimerStandard<br /> PRO - ExclaimerPro<br /><deprecated>MNGT - ExclaimerCloud <deprecated-indicator /><br /></deprecated><deprecated>MRKT - SignatureMarketingSuite <deprecated-indicator /><br /></deprecated><deprecated>NFR - Not For Resale</deprecated></p><p> Valid values:<br /> EXCL-M-START<br /> EXCL-M-STAND<br /> EXCL-M-PRO<br /> EXCL-G-START<br /> EXCL-G-STAND<br /> EXCL-G-PRO<br /> EXCL-M-START-NFR<br /> EXCL-M-STAND-NFR<br /> EXCL-M-PRO-NFR<br /> EXCL-G-START-NFR<br /> EXCL-G-STAND-NFR<br /> EXCL-G-PRO-NFR<br /><deprecated>EXCL-M-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD-NFR <deprecated-indicator /></deprecated></p><p> Note: Managed-Service-Provider accounts are limited to only creating PRO (ExclaimerPro) tier subscriptions. </p>"
+          },
+          "NumberOfNFRUsers": {
+            "type": "number",
+            "description": "Specifies the number of users allocated as not for resale.<br /><b>N.B.</b> When the SKU includes NRF, this value is required; providing this value when NFR is not included will result in an error.",
+            "format": "int32"
+          }
+        },
+        "description": "This request allows you to use a code to change specific aspects of an existing subscription. <p><b>N.B.</b> You cannot change from an Office365 subscription to a GSuite subscription, or vise versa. </p>"
+      },
+      "UpdateSubscriptionTier": {
+        "title": "UpdateSubscriptionTierRequest",
+        "required": [
+          "Tier"
+        ],
+        "properties": {
+          "Tier": {
+            "type": "string",
+            "description": "The tier you want to change to. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use the original tiers, along with the new tiers. New consumers can only use the new tiers. </deprecated-note><p> ExclaimerStarter<br /> ExclaimerStandard<br /> ExclaimerPro<br /><deprecated>ExclaimerCloud <deprecated-indicator /><br /></deprecated><deprecated>SignatureMarketingSuite <deprecated-indicator /></deprecated></p><p> Note: Managed-Service-Provider accounts are limited to only creating ExclaimerPro tier subscriptions. </p>"
+          }
+        },
+        "description": "This request allows you to change the subscription tier."
+      },
+      "UpdateSubscriptionUserRoles": {
+        "title": "UpdateSubscriptionUserRolesRequest",
+        "required": [
+          "Roles"
+        ],
+        "properties": {
+          "Roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive."
+          }
+        },
+        "description": "This request allows you to modify the roles of an existing subscription user. <p> Note that the subscription owner, added during <b>Add Subscription</b>, must have the Admin role. You will receive a 403 Forbidden if you try to remove it. </p>"
+      }
+    },
+    "securitySchemes": {
+      "Exclaimer": {
+        "type": "apiKey",
+        "name": "ExApiToken",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Exclaimer": [ ]
+    }
+  ]
+}

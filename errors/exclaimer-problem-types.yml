@@ -1,0 +1,109 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://cloudapi.exclaimer.com/ ("Issues with the service" section of the API
+  reference) enriched against the 4xx/5xx responses declared in
+  openapi/_original/exclaimer-cloud-api-openapi.json
+format: http-status
+rfc9457: false
+content_type: application/json
+envelope:
+  declared_in_spec: false
+  description: >-
+    Exclaimer does not publish an error schema. The reference states that 400
+    responses return "a json structure ... detailing the missing fields" or
+    "detailing the error", but no components.schemas entry describes it and every
+    error response in the OpenAPI carries a description string with no content
+    block. Clients must treat the body as opaque and branch on the HTTP status.
+
+problem_types:
+- status: 400
+  title: Missing Field
+  detail: >-
+    Required fields have either not been supplied, or have been supplied but are
+    empty. A JSON structure is returned detailing the missing fields.
+  remediation: Populate every required field with a non-empty value before retrying.
+  operations_declaring: 34
+- status: 400
+  title: Bad Request
+  detail: >-
+    Provided values do not meet the expected format — e.g. the value contains too
+    many characters, or is supplied as a string where a number is expected. A JSON
+    structure is returned detailing the error. Also returned when a NEW consumer
+    calls deprecated functionality.
+  remediation: >-
+    Validate value types and lengths against the schema; if the call targets a
+    deprecated endpoint or property, move to the replacement (e.g. POST
+    /v2.0/subscriptions instead of POST /1.0/subscriptions).
+  operations_declaring: 34
+- status: 401
+  title: Unauthorized
+  detail: The ExApiToken header was not supplied, or the token is invalid.
+  remediation: >-
+    Send the partner-issued token in the ExApiToken request header on every call.
+    Tokens are issued by Exclaimer out of band; there is no self-service renewal
+    documented.
+  operations_declaring: 39
+- status: 403
+  title: Forbidden
+  detail: >-
+    The caller supplied a valid token but does not have the permissions required
+    for the action. Also returned when the caller owns a resource and attempts an
+    action that would leave it in a problem state — the reference's example is
+    trying to delete the owner of a subscription. On the MSP operations it is
+    additionally returned when the API user is not an MSP-type user.
+  remediation: >-
+    Check the caller's partner/MSP type and role. Transfer subscription ownership
+    before removing an owning user.
+  operations_declaring: 15
+- status: 404
+  title: Not Found
+  detail: >-
+    The URL does not match a valid API signature, or a parameter names a resource
+    that does not exist (for example a SubscriptionID Exclaimer has no record of).
+    Also returned when a new consumer calls a deprecated API.
+  remediation: >-
+    Verify the tenant path prefix and version segment, and confirm the resource id
+    with a GET before mutating it.
+  operations_declaring: 18
+- status: 415
+  title: Unsupported Media Type
+  detail: The HTTP Content-Type header names a media type the API does not support.
+  remediation: "Send Content-Type: application/json."
+  operations_declaring: 30
+- status: 429
+  title: Too Many Requests
+  detail: >-
+    Declared on a single operation — GET
+    /1.0/msp/subscriptions/{SubscriptionID}/senders/json (Get MSP Senders), the
+    bulk sender-usage export. No limit, window or Retry-After header is published.
+  remediation: >-
+    Back off and retry the sender export. Because no Retry-After is documented,
+    use exponential backoff.
+  operations_declaring: 1
+- status: 500
+  title: Internal Server Error
+  detail: An unexpected error has occurred on the Exclaimer side.
+  remediation: >-
+    Retry with backoff for safely repeatable calls, and report persistent
+    occurrences to Exclaimer support.
+  operations_declaring: 39
+
+coverage:
+  operations_total: 39
+  status_codes_declared:
+    '200': 22
+    '204': 17
+    '400': 34
+    '401': 39
+    '403': 15
+    '404': 18
+    '415': 30
+    '429': 1
+    '500': 39
+gaps:
+- No machine-readable error schema — no components.schemas error object, no
+  response content for any 4xx/5xx.
+- No application-level error codes; only HTTP status plus free-text prose.
+- No RFC 9457 problem+json.
+- No Retry-After documented alongside the single 429.

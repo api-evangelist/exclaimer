@@ -1,0 +1,1970 @@
+{
+  "item": [
+    {
+      "id": "af3a83c5-b284-420e-832c-62474e18393a",
+      "name": "Subscription Users",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "97bde5d9-4dc6-4528-9422-f064c80611ef",
+          "name": "Add Subscription User",
+          "request": {
+            "name": "Add Subscription User",
+            "description": {
+              "content": "This request allows you to add new users to a subscription. <p> The same user can be added to multiple subscriptions. </p><p> Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added. </p>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "subscriptions",
+                ":SubscriptionID",
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "SubscriptionID",
+                  "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e. when calling <b>Add Subscription</b>."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserID\": \"<string>\",\n  \"EmailAddress\": \"<string>\",\n  \"Roles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"SendWelcomeEmailToCustomer\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bc2dd667-24d3-4f4b-a500-4551af37de99",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e. when calling <b>Add Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"UserID\":\"S-JF-093\",\"EmailAddress\":\"sales.john.fisher@example.com\",\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ccffd8d5-6ba0-4e42-bba1-8b37e6496e79",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e. when calling <b>Add Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"UserID\":\"S-JF-093\",\"EmailAddress\":\"sales.john.fisher@example.com\",\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9c8e3361-070b-4120-a5d6-02d92e054670",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e. when calling <b>Add Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"UserID\":\"S-JF-093\",\"EmailAddress\":\"sales.john.fisher@example.com\",\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4feebf64-9d6d-4e62-8511-fc0a671ce459",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e. when calling <b>Add Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"UserID\":\"S-JF-093\",\"EmailAddress\":\"sales.john.fisher@example.com\",\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2529e6f7-7f11-43eb-bd66-70681167bb0f",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e. when calling <b>Add Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"UserID\":\"S-JF-093\",\"EmailAddress\":\"sales.john.fisher@example.com\",\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2b0494ca-bf32-4e40-b360-3781c6798880",
+          "name": "Get Subscription Users",
+          "request": {
+            "name": "Get Subscription Users",
+            "description": {
+              "content": "This request will return details of each of the users for a given subscription. If there are currently no users against the subscription, an empty array will be returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "subscriptions",
+                ":SubscriptionID",
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "Page",
+                  "value": "<int32>",
+                  "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the subscription was added. </p>"
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "<int32>",
+                  "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>"
+                },
+                {
+                  "disabled": false,
+                  "key": "ContinuationToken",
+                  "value": "<int32>",
+                  "description": "A token that can be used to get the next page of results without supplying paging values."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "SubscriptionID",
+                  "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e690d311-211c-4d1c-b873-a55c1a70d148",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"Users\\\":[{\\\"Email\\\":\\\"finance.harry.miles@example.com\\\",\\\"UserID\\\":\\\"FIN-HM-102\\\",\\\"Roles\\\":[\\\"Admin\\\"]},{\\\"Email\\\":\\\"finance.robert.davis@example.com\\\",\\\"UserID\\\":\\\"FIN-RD-005\\\",\\\"Roles\\\":[\\\"Admin\\\",\\\"Editor\\\"]}],\\\"UserCount\\\":21,\\\"ContinuationToken\\\":262145,\\\"Page\\\":6,\\\"PageSize\\\":2}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31acf37d-4632-4698-bd0d-230beefe443d",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a0d11140-2af7-4605-bde8-26121e3b164f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dce2c015-c4e9-4bc5-87a3-db64e8cd5d97",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "81dafa63-5e8e-4a0a-95fc-b6036ac16b55",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4d061e4c-a45b-41f8-aac9-de32bf926c64",
+          "name": "Delete Subscription User",
+          "request": {
+            "name": "Delete Subscription User",
+            "description": {
+              "content": "This request allows you to remove a user from a subscription. <p> Note that this only removes the user from the specified subscription. If they have also been added to other subscriptions, those will remain unaffected. </p><p> You cannot remove the subscription owner, added during <b>Add Subscription</b>. You will receive a 403 Forbidden if you try. </p><p> If you wish to re-add a deleted user, just call <b>Add Subscription User</b> again. </p>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "subscriptions",
+                ":SubscriptionID",
+                "users",
+                ":UserID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "SubscriptionID",
+                  "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "UserID",
+                  "description": "(Required) This can either be your reference for the user, or the user's email address.<br /> Both of these are the same as the ID you specified, or was automatically generated, or the email address used, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "591ff800-5207-49e7-9bbe-57499da983dc",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) This can either be your reference for the user, or the user's email address.<br /> Both of these are the same as the ID you specified, or was automatically generated, or the email address used, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a3094f40-ef3a-4bbd-82e2-6541d10f1eac",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) This can either be your reference for the user, or the user's email address.<br /> Both of these are the same as the ID you specified, or was automatically generated, or the email address used, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b27cf298-3bfa-4c8d-831a-4bdb41cc6daf",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) This can either be your reference for the user, or the user's email address.<br /> Both of these are the same as the ID you specified, or was automatically generated, or the email address used, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8c2654c2-9c84-4699-8917-c8891651e056",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) This can either be your reference for the user, or the user's email address.<br /> Both of these are the same as the ID you specified, or was automatically generated, or the email address used, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ee2ae3ee-ead6-45d8-92f6-74c26f810c60",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) This can either be your reference for the user, or the user's email address.<br /> Both of these are the same as the ID you specified, or was automatically generated, or the email address used, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0ba16047-b035-4cce-a361-2ae0cd47c967",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) This can either be your reference for the user, or the user's email address.<br /> Both of these are the same as the ID you specified, or was automatically generated, or the email address used, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f3db5df2-3954-44e0-8c01-ddf2c800a7e2",
+          "name": "Get All Subscription Users",
+          "request": {
+            "name": "Get All Subscription Users",
+            "description": {
+              "content": "This request returns a list of all users across all of your subscriptions. <p> An entry is returned for each unique user along with details of which subscriptions they have access to, and the roles they're assigned within those subscriptions. </p><p> The same user, determined by email address, can have a different UserID within each subscription. </p>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "subscriptions",
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "Page",
+                  "value": "<int32>",
+                  "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the subscription was added. </p>"
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "<int32>",
+                  "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>"
+                },
+                {
+                  "disabled": false,
+                  "key": "ContinuationToken",
+                  "value": "<int32>",
+                  "description": "A token that can be used to get the next page of results without supplying paging values."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9d51a9b9-ee72-4d90-a1c9-94aa57fd7099",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"Users\\\":[{\\\"Email\\\":\\\"brian.anderson@example.com\\\",\\\"Subscriptions\\\":[{\\\"SubscriptionID\\\":\\\"SA-189036-S001\\\",\\\"UserID\\\":\\\"SA-189036-U001\\\",\\\"Roles\\\":[\\\"Admin\\\",\\\"Editor\\\"]}]},{\\\"Email\\\":\\\"joan.jones@example.com\\\",\\\"Subscriptions\\\":[{\\\"SubscriptionID\\\":\\\"SA-189036-S001\\\",\\\"UserID\\\":\\\"SA-189036-U002\\\",\\\"Roles\\\":[\\\"Admin\\\",\\\"Editor\\\"]},{\\\"SubscriptionID\\\":\\\"TK-549109-S001\\\",\\\"UserID\\\":\\\"TK-549109-U001\\\",\\\"Roles\\\":[\\\"Admin\\\"]},{\\\"SubscriptionID\\\":\\\"TK-549109-S002\\\",\\\"UserID\\\":\\\"TK-549109-U002\\\",\\\"Roles\\\":[\\\"Editor\\\"]}]}],\\\"UserCount\\\":21,\\\"ContinuationToken\\\":262145,\\\"Page\\\":6,\\\"PageSize\\\":2}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "35ff441a-0a1c-49a7-819e-d471ad840da9",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6f6d8a31-9d03-42b5-85e1-78128a6a1761",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c023ac03-3734-445a-bab4-4d2ac3d3bcde",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "541f43f9-bc73-4fe5-b609-92e8c7cdafdd",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<int32>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<int32>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2ac70e02-cf52-40c2-9908-6ae35847ba6b",
+          "name": "Update Subscription User Roles",
+          "request": {
+            "name": "Update Subscription User Roles",
+            "description": {
+              "content": "This request allows you to modify the roles of an existing subscription user. <p> Note that the subscription owner, added during <b>Add Subscription</b>, must have the Admin role. You will receive a 403 Forbidden if you try to remove it. </p>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "subscriptions",
+                ":SubscriptionID",
+                "users",
+                ":UserID",
+                "roles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "SubscriptionID",
+                  "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "UserID",
+                  "description": "(Required) Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Roles\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "733c2999-c410-40de-966d-34622a57b3bc",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ca858244-0467-4118-a657-f4d04c37e56d",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "36f81862-fb93-4656-bdfc-c6e6df366006",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "74b4c61c-a22c-4a49-ae28-eb3e43242593",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c6ddce7c-8c10-4343-a571-a629a2854128",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6793ce00-c5b2-4794-80aa-6aba68c043da",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "users",
+                    ":UserID",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserID",
+                      "description": "(Required) Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"Roles\":[\"Admin\",\"Editor\"]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cloudapi.exclaimer.com/exclaimerapi",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "ExApiToken"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b4a6bc7f-1973-4708-9b7c-512e0ea0cd70",
+    "name": "Exclaimer Cloud API — Subscription Users",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Subscription Users operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.",
+      "type": "text/plain"
+    }
+  }
+}

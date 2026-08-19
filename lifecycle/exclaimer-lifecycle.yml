@@ -1,17 +1,106 @@
-generated: '2026-07-19'
+generated: '2026-08-13'
 method: searched
-source: https://status.exclaimer.com/
+source: >-
+  https://status.exclaimer.com/, https://exclaimer.com/support/discontinued/,
+  https://cloudapi.exclaimer.com/ (deprecation policy section), and the
+  deprecated: true flag in openapi/_original/exclaimer-cloud-api-openapi.json
+
 status_page: https://status.exclaimer.com/
 status_page_note: >-
   Exclaimer Cloud multi-region status page (Australia, Canada, Europe, Germany,
   UAE) covering mail routing, signature application, admin UI, user sync, and
-  click tracking, with 90-day uptime metrics.
-versioning: null
-deprecation: null
+  click tracking, with 90-day uptime metrics. A Statuspage-hosted service; the
+  machine-readable summary at https://status.exclaimer.com/api/v2/summary.json
+  returns 200.
+status_page_api: https://status.exclaimer.com/api/v2/summary.json
+
 sla:
   uptime_target: '99.9%'
   source: https://status.exclaimer.com/
+
+versioning:
+  style: URL path segment
+  current: '1.0'
+  additional_versions:
+  - '2.0'
+  detail: >-
+    Version is the second segment of the request path
+    ([endpoint]/[version]/[resource-or-action]). Version 1.0 carries 38 of the 39
+    operations; version 2.0 currently carries a single operation, POST
+    /v2.0/subscriptions, the replacement for the deprecated 1.0 subscription
+    create. Versions coexist — there is no cutover date published.
+  docs: https://cloudapi.exclaimer.com/
+
+deprecation:
+  policy_published: true
+  policy_url: https://cloudapi.exclaimer.com/?showDeprecatedFeatures=true
+  product_lifecycle_url: https://exclaimer.com/support/discontinued/
+  mechanism: >-
+    Deprecated APIs, properties and examples are annotated in the reference with a
+    deprecated indicator, an explanation and a date of change. They are hidden by
+    default and revealed with the "Show deprecated features" checkbox or the
+    ?showDeprecatedFeatures=true query parameter. The OpenAPI carries the standard
+    `deprecated: true` flag on the affected operation.
+  compatibility_promise: >-
+    Existing consumers may keep using both old and new features until all
+    subscriptions have been migrated. New consumers get only the new features and
+    receive 400 Bad Request or 404 Not Found when calling deprecated
+    functionality.
+  sunset_headers: false
+  sunset_headers_note: >-
+    No RFC 8594 Sunset or Deprecation response headers are declared in the
+    specification or documented in the reference; deprecation is communicated
+    through documentation and error status only.
+  deprecated_operations:
+  - method: POST
+    path: /1.0/subscriptions
+    summary: Add Subscription
+    date_of_change: '2025-02-17'
+    replacement: POST /v2.0/subscriptions
+    reason: >-
+      The V2 endpoint provides enhanced support for marketplace scenarios and
+      SKU-based product specification.
+  deprecated_schemas_flagged:
+  - AddSubscription
+  - AddSubscriptionV2
+  - Subscription
+  - UpdateSubscriptionSKU
+  - UpdateSubscriptionTier
+
+product_lifecycle:
+  url: https://exclaimer.com/support/discontinued/
+  model: >-
+    Exclaimer publishes a product lifecycle table for discontinued products with
+    two dated phases — Discontinuation Date (no longer sold) and End of Support
+    Date (technical support ceases) — plus the latest release available.
+  retired_products:
+  - product: Exclaimer Signature Manager Exchange Edition
+    discontinued: '2022-09-30'
+    end_of_support: '2024-09-30'
+  - product: Exclaimer Signature Manager Outlook Edition
+    discontinued: '2022-09-30'
+    end_of_support: '2024-09-30'
+  - product: Exclaimer Template Editor
+    discontinued: '2022-09-30'
+    end_of_support: '2024-09-30'
+  - product: Exclaimer Auto Responder
+    discontinued: '2021-07-01'
+    end_of_support: '2022-09-30'
+  - product: Exclaimer Email Alias Manager for Exchange
+    discontinued: '2021-07-01'
+    end_of_support: '2022-09-30'
+  - product: Exclaimer Mail Disclaimers
+    discontinued: '2019-08-23'
+    end_of_support: '2022-04-01'
+  - product: Exclaimer Signature Manager Office 365 Edition
+    discontinued: '2019-08-23'
+    end_of_support: '2020-10-01'
+
+changelog: changelog/exclaimer-changelog.yml
 notes: >-
-  Exclaimer publishes no public REST API reference, versioning policy, or
-  deprecation/Sunset-header policy; only the operational status page and SLA
-  posture were found. Update if a documented public API surface is published.
+  Supersedes the 2026-07-19 version of this artifact, which recorded "publishes no
+  public REST API reference, versioning policy, or deprecation policy". That was
+  wrong: the Exclaimer Cloud API reference at cloudapi.exclaimer.com is public and
+  server-rendered, carries a written deprecation policy, and ships a machine-
+  readable OpenAPI 3.0.1 at cloudapi.exclaimer.com/openapi.json. Only the API
+  TOKEN is gated, not the documentation.

@@ -1,0 +1,127 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/_original/exclaimer-cloud-api-openapi.json,
+  https://cloudapi.exclaimer.com/, https://exclaimer.com/product/security/,
+  security/exclaimer-trust-center.yml
+description: >-
+  Which cross-cutting and industry standards the Exclaimer Cloud API asserts or
+  demonstrably conforms to. Each entry records the evidence; a false conforms
+  value with evidence is as useful as a true one.
+
+standards:
+- id: openapi
+  name: OpenAPI Specification
+  conforms: true
+  version: 3.0.1
+  evidence: >-
+    Provider-published machine-readable definition served anonymously at
+    https://cloudapi.exclaimer.com/openapi.json (HTTP 200, application/json,
+    193KB), 32 paths, 39 operations, 59 component schemas, linked from the
+    reference page as "Open API Documentation: openapi.json".
+- id: rest
+  name: REST over HTTPS with JSON
+  conforms: true
+  evidence: >-
+    Resource-oriented paths, correct method semantics (GET read, PUT idempotent
+    update/state change, POST create, DELETE remove), application/json request
+    and response bodies, 415 on unsupported Content-Type.
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    No application/problem+json media type appears anywhere in the specification
+    and no error response declares a schema. Errors are HTTP status codes plus an
+    undocumented JSON body.
+- id: idempotency
+  name: Idempotency keys for unsafe methods
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header, no client request id, no documented replay
+    semantics. Retry safety depends on HTTP method semantics alone.
+- id: pagination
+  name: Documented pagination
+  conforms: true
+  evidence: >-
+    Continuation-token paging documented in the reference with a default page size
+    of 50, a Page/PageSize alternative, precedence rules, and an explicit
+    termination condition (ContinuationToken omitted on the last page).
+    ContinuationToken appears 30 times across the specification.
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: >-
+    The only securityScheme is apiKey in header (ExApiToken). No authorization
+    server, no token endpoint, no scopes. /.well-known/oauth-authorization-server
+    returns 404 on exclaimer.com and 401 on cloudapi.exclaimer.com.
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on exclaimer.com.
+- id: rfc9116
+  name: RFC 9116 security.txt
+  conforms: true
+  evidence: >-
+    https://exclaimer.com/.well-known/security.txt returns 200 with a Contact
+    field pointing at https://vdp.exclaimer.com/p/Welcome.
+- id: rfc8594
+  name: RFC 8594 Sunset header
+  conforms: false
+  evidence: >-
+    A written deprecation policy exists and one operation carries OpenAPI
+    `deprecated: true`, but no Sunset or Deprecation response header is declared
+    or documented.
+- id: asyncapi
+  name: AsyncAPI / event surface
+  conforms: false
+  applicable: false
+  evidence: >-
+    Exclaimer publishes no webhooks, no event catalog and no streaming surface for
+    the Cloud API. Not penalized — there is no event surface to describe.
+
+compliance_programs:
+- id: soc2-type-ii
+  name: SOC 2 Type II
+  conforms: true
+  evidence: https://exclaimer.com/product/security/ — "SOC 2 Type II certified by the AICPA".
+- id: iso-27001
+  name: ISO/IEC 27001
+  conforms: true
+  evidence: https://exclaimer.com/product/security/ — "ISO/IEC 27001 and 27018 certified".
+- id: iso-27018
+  name: ISO/IEC 27018
+  conforms: true
+  evidence: https://exclaimer.com/product/security/ — "ISO/IEC 27001 and 27018 certified".
+- id: pci-dss
+  name: PCI DSS
+  conforms: partial
+  evidence: >-
+    https://exclaimer.com/product/security/ — self-certified via annually reviewed
+    SAQ; card payments handled by a PCI DSS-certified third party.
+- id: csa-star
+  name: Cloud Security Alliance
+  conforms: true
+  evidence: https://exclaimer.com/product/security/ — "certified by Cloud Security Alliance".
+- id: cyber-essentials
+  name: Cyber Essentials
+  conforms: true
+  evidence: https://exclaimer.com/product/security/ — UK NCSC-managed Cyber Essentials scheme.
+- id: hipaa
+  name: HIPAA
+  conforms: true
+  evidence: https://exclaimer.com/product/security/ — "We are HIPAA compliant".
+- id: gdpr
+  name: GDPR
+  conforms: true
+  evidence: https://exclaimer.com/product/security/ — "fully compliant with the GDPR".
+- id: ccpa
+  name: CCPA
+  conforms: true
+  evidence: https://exclaimer.com/product/security/ — adherence to CCPA and other U.S. privacy laws.
+- id: fedramp
+  name: FedRAMP
+  conforms: false
+  evidence: >-
+    Not claimed anywhere on Exclaimer's own surface. A keyword probe of
+    trust.exclaimer.com matched FedRAMP inside the Conveyor trust-portal platform
+    payload, not an Exclaimer claim. See security/exclaimer-trust-center.yml.

@@ -1,0 +1,74 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://cloudapi.exclaimer.com/ ("Usage" section of the Exclaimer Cloud API
+  reference), enriched over the derived profile from the securitySchemes in
+  openapi/_original/exclaimer-cloud-api-openapi.json
+docs: https://cloudapi.exclaimer.com/
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  oauth2: false
+  openid_connect: false
+  mutual_tls: false
+  scopes: false
+  self_service_registration: false
+schemes:
+- name: Exclaimer
+  type: apiKey
+  in: header
+  parameter: ExApiToken
+  applied: global — declared at the document level, so every one of the 39 operations requires it
+  issuance: >-
+    Issued by Exclaimer to distributor-network partners out of band. The reference
+    states the header carries "a value that will be provided to you separately".
+    There is no console, no self-service key creation, and no key rotation
+    endpoint in the API.
+  failure_mode: >-
+    401 Unauthorized when the header is absent or the token is invalid — declared
+    on all 39 operations. Observed live: every path on cloudapi.exclaimer.com
+    returns 401 with an empty body to an anonymous request, except / (the
+    reference page) and /openapi.json (the specification), which are public.
+  case_note: >-
+    The prose writes the header as "ExAPIToken" while the securityScheme declares
+    "ExApiToken". HTTP header names are case-insensitive (RFC 9110), so both
+    resolve to the same header.
+  sources:
+  - openapi/_original/exclaimer-cloud-api-openapi.json
+  - openapi/exclaimer-subscriptions-openapi.yml
+  - openapi/exclaimer-msp-openapi.yml
+  - openapi/exclaimer-subscription-users-openapi.yml
+  - openapi/exclaimer-subscription-transfers-openapi.yml
+  - openapi/exclaimer-end-users-openapi.yml
+  - openapi/exclaimer-resellers-openapi.yml
+  - openapi/exclaimer-mailboxes-openapi.yml
+  - openapi/exclaimer-reference-resources-openapi.yml
+  - openapi/exclaimer-miscellaneous-openapi.yml
+authorization:
+  model: >-
+    Coarse — permission is a property of the partner account behind the token, not
+    of the token. 403 Forbidden is returned when the token is valid but the caller
+    lacks the required permission, and specifically on the MSP operations when
+    "the API user is not an MSP type". There are no scopes and no per-token
+    restriction mechanism.
+  roles_in_api: >-
+    Subscription USERS (the humans who log into a tenant's portal) carry a Roles
+    array set via POST /1.0/subscriptions/{SubscriptionID}/users and PUT
+    /1.0/subscriptions/{SubscriptionID}/users/{UserID}/roles. Those are end-user
+    portal roles, not API token scopes.
+gaps:
+- No OAuth 2.0 or OpenID Connect; /.well-known/oauth-authorization-server and
+  /.well-known/openid-configuration return 404 on exclaimer.com.
+- No documented token lifetime, expiry or rotation for the Cloud API token.
+- No scope model, so a partner token is all-or-nothing across every operation
+  including destructive ones (end subscription, delete user, claim transfer).
+related_but_distinct:
+  name: Exclaimer Exchange Transport Agent API keys
+  docs: https://support.exclaimer.com/hc/en-gb/articles/12959044101277-API-Keys
+  note: >-
+    A separate mechanism. These keys authenticate an on-premises Exchange server
+    to the Exclaimer environment during Transport Agent installation, are managed
+    in the Exclaimer admin portal by an Exclaimer Administrator, and expire after
+    one year. They are NOT credentials for the Exclaimer Cloud API.

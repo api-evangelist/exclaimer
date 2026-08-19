@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Exclaimer Cloud API — Subscription Transfers",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "ExApiToken",
+      "value": "{{ExApiToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscription Transfers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Cancel Subscription Transfer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/transfer/cancel",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription to cancel. This is the same ID you specified when issuing the transfer request."
+              }
+            ]
+          },
+          "docs": "This request allows you to cancel a subscription transfer that you've previously issued a transfer request for. <p> Once the transfer request is cancelled, the subscription will no longer show as pending transfer. If someone tries to claim the subscription, their request will be rejected. </p>"
+        },
+        {
+          "info": {
+            "name": "Claim Subscription Transfer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/transfer/claim",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request allows you to claim a subscription that's currently owned by someone else. <p> You can optionally specify additional details for the subscription, such as providing a meaningful ID, or associating it with one of your existing resellers, and/or end users. </p><p> This is the second half or a two part transfer handshake. See <b>Initiate Subscription Transfer</b> for the first half of the process. </p><p> In order to claim a subscription you must first have a valid token that can be us"
+        },
+        {
+          "info": {
+            "name": "Initiate Subscription Transfer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/transfer",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ]
+          },
+          "docs": "This request initiates a subscription transfer. <p> This is the first half or a two part transfer handshake. See <b>Claim Subscription Transfer</b> for the second half of the process. </p><p> This requests puts the target subscription into a state of transfer until it gets claimed. The request returns a Transfer Token that may be used by another consumer to take ownership of the subscription. </p>"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

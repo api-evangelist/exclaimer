@@ -1,0 +1,177 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Exclaimer Cloud API — MSP",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "ExApiToken",
+      "value": "{{ExApiToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "MSP",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get MSP Subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/msp/subscriptions",
+            "params": [
+              {
+                "name": "Page",
+                "value": "",
+                "type": "query",
+                "description": "Page numbers start at 1. See the section \"Paging of results\" at the beginning of the document. Results are ordered by the date the subscription was added."
+              },
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to 50. Maximum 200."
+              },
+              {
+                "name": "ContinuationToken",
+                "value": "",
+                "type": "query",
+                "description": "A token that can be used to get the next page of results without supplying paging values."
+              },
+              {
+                "name": "DateFrom",
+                "value": "",
+                "type": "query",
+                "description": "Start date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together."
+              },
+              {
+                "name": "DateTo",
+                "value": "",
+                "type": "query",
+                "description": "End date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together."
+              },
+              {
+                "name": "IncludeUsage",
+                "value": "",
+                "type": "query",
+                "description": "When set to true, usage data (TotalMailboxes) will be included in the response. Defaults to false."
+              }
+            ]
+          },
+          "docs": "Returns a paged list of MSP subscriptions. This endpoint is only available to API users with MSP (Managed Service Provider) access. Set IncludeUsage to true to include usage data (TotalMailboxes) in the response. When IncludeUsage is true and no date range is provided, usage data defaults to the previous calendar month."
+        },
+        {
+          "info": {
+            "name": "Add MSP Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/msp/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new subscription for Managed Service Provider (MSP) API users. <p> This endpoint is only available to API users with MSP (Managed Service Provider) access. </p><p> If you provide a <b>SubscriptionID</b>, it must be unique for your API user account. You will need this ID for subsequent operations such as updating the subscription or ending it. </p><p> The <b>EndUser</b> and <b>Reseller</b> objects are optional. If provided, all fields within them become required. These allow you to asso"
+        },
+        {
+          "info": {
+            "name": "Get MSP Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/msp/subscriptions/:SubscriptionID",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+              },
+              {
+                "name": "DateFrom",
+                "value": "",
+                "type": "query",
+                "description": "Start date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together."
+              },
+              {
+                "name": "DateTo",
+                "value": "",
+                "type": "query",
+                "description": "End date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together."
+              },
+              {
+                "name": "IncludeUsage",
+                "value": "",
+                "type": "query",
+                "description": "When set to true, usage data (TotalMailboxes) will be included in the response. Defaults to false."
+              }
+            ]
+          },
+          "docs": "Returns details of a specific MSP subscription. This endpoint is only available to API users with MSP (Managed Service Provider) access. Set IncludeUsage to true to include usage data (TotalMailboxes) in the response. When IncludeUsage is true and no date range is provided, usage data defaults to the previous calendar month."
+        },
+        {
+          "info": {
+            "name": "Get MSP Subscription Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/msp/subscriptions/:SubscriptionID/status",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+              }
+            ]
+          },
+          "docs": "Returns the subscription status and onboarding state for an MSP subscription."
+        },
+        {
+          "info": {
+            "name": "Get MSP Senders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/msp/subscriptions/:SubscriptionID/senders/json",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+              },
+              {
+                "name": "DateFrom",
+                "value": "",
+                "type": "query",
+                "description": "Start date for usage data (format: YYYY-MM-DD). Both DateFrom and DateTo must be provided together."
+              },
+              {
+                "name": "DateTo",
+                "value": "",
+                "type": "query",
+                "description": "End date for usage data (format: YYYY-MM-DD). Both DateFrom and DateTo must be provided together."
+              }
+            ]
+          },
+          "docs": "Returns sender usage data as JSON for a specific MSP subscription. Only available to MSP API users. Defaults to previous calendar month if no date range is provided."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

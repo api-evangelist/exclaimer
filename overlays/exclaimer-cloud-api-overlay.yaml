@@ -1,0 +1,231 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Exclaimer Cloud API
+  version: 1.0.0
+  x-generated: '2026-08-13'
+  x-method: generated
+  x-source: >-
+    Generated from openapi/_original/exclaimer-cloud-api-openapi.json (fetched
+    from https://cloudapi.exclaimer.com/openapi.json on 2026-08-13) plus the
+    Introduction/Usage prose on https://cloudapi.exclaimer.com/. Captures the
+    enhancements API Evangelist would apply; the original specification is never
+    mutated.
+extends: ../openapi/_original/exclaimer-cloud-api-openapi.json
+actions:
+
+# --- Servers: the published development endpoint is missing from servers[] ---
+- target: $
+  description: >-
+    Add the development endpoint. The reference names two endpoints (Development
+    https://sandbox-cloudapi.exclaimer.com and Live https://cloudapi.exclaimer.com)
+    but servers[] carries only one, and labels it "Local" rather than "Live".
+  update:
+    servers:
+    - url: https://cloudapi.exclaimer.com/exclaimerapi
+      description: Live — production provisioning of Exclaimer Cloud tenants
+    - url: https://sandbox-cloudapi.exclaimer.com/exclaimerapi
+      description: Development — partner integration sandbox
+    - url: https://cloudapi.exclaimer.com/{partnerPrefix}
+      description: >-
+        Live with a partner-specific path prefix. The reference states a partner
+        may be issued a custom endpoint segment such as "yourcompany" in place of
+        "exclaimerapi".
+      variables:
+        partnerPrefix:
+          default: exclaimerapi
+          description: The path segment issued to your partner account by Exclaimer.
+
+# --- Contact + terms: info block carries none ---
+- target: $.info
+  description: >-
+    Add contact and documentation pointers. The published info block has no
+    contact, termsOfService or license, so a consumer parsing the spec has no
+    route to support.
+  update:
+    contact:
+      name: Exclaimer Support
+      url: https://support.exclaimer.com/hc/en-gb
+    x-api-reference: https://cloudapi.exclaimer.com/
+    x-documentation-version: '5.2'
+    x-documentation-published: '2025-07-23'
+    x-access: >-
+      Restricted to the Exclaimer distributor network. ExApiToken values are
+      issued by Exclaimer out of band; there is no self-service registration.
+
+# --- Tags: the spec declares no top-level tags[] even though every operation is tagged ---
+- target: $
+  description: >-
+    Declare the nine tag groups the operations already use. Without a top-level
+    tags[] block, generated documentation and SDKs have no descriptions for the
+    groups the reference navigation is built from.
+  update:
+    tags:
+    - name: Subscriptions
+      description: Create, read, update and change the lifecycle and commercial state of tenant subscriptions.
+    - name: Subscription Users
+      description: Manage the humans with portal access to a subscription and their roles.
+    - name: Subscription Transfers
+      description: Initiate, claim and cancel the movement of a subscription between partners.
+    - name: MSP
+      description: MSP-type partner operations, including the per-sender usage export.
+    - name: End Users
+      description: The customer companies that subscriptions belong to.
+    - name: Resellers
+      description: Resellers in the distribution chain between distributor and end user.
+    - name: Mailboxes
+      description: Seat accounting — mailbox counts and allocation.
+    - name: Reference Resources
+      description: Reference data — data centers, SKUs and tiers.
+    - name: Miscellaneous
+      description: Service status and mailbox allocation.
+
+# --- operationIds: the published spec has NONE on any of the 39 operations ---
+- target: $.paths['/v2.0/subscriptions'].post
+  description: >-
+    Add an operationId. No operation in the published specification declares one,
+    which breaks every code generator and makes the API unaddressable by agents.
+    The suggested ids follow the reference's own operation titles.
+  update:
+    operationId: addSubscriptionV2
+- target: $.paths['/1.0/subscriptions'].get
+  update:
+    operationId: getSubscriptions
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}'].get
+  update:
+    operationId: getSubscription
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}'].put
+  update:
+    operationId: updateSubscription
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/history'].get
+  update:
+    operationId: getSubscriptionHistory
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/activate-full'].put
+  update:
+    operationId: activateFullSubscription
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/deactivate'].put
+  update:
+    operationId: deactivateSubscription
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/reactivate'].put
+  update:
+    operationId: reactivateSubscription
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/end'].put
+  update:
+    operationId: endSubscription
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/migrate'].post
+  update:
+    operationId: migrateSubscription
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/change-tier'].put
+  update:
+    operationId: changeSubscriptionTier
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/change-sku'].put
+  update:
+    operationId: changeSubscriptionSku
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/nfr'].put
+  update:
+    operationId: changeSubscriptionNotForResale
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/change-owner'].post
+  update:
+    operationId: changeSubscriptionOwner
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/mailbox-count'].get
+  update:
+    operationId: getMailboxCount
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/mailbox-count'].put
+  update:
+    operationId: updateMailboxCount
+- target: $.paths['/1.0/mailbox-allocation'].get
+  update:
+    operationId: getMailboxAllocation
+- target: $.paths['/1.0/status'].get
+  update:
+    operationId: getStatus
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/users'].get
+  update:
+    operationId: getSubscriptionUsers
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/users'].post
+  update:
+    operationId: addSubscriptionUser
+- target: $.paths['/1.0/subscriptions/users'].get
+  update:
+    operationId: getAllSubscriptionUsers
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/users/{UserID}/roles'].put
+  update:
+    operationId: updateSubscriptionUserRoles
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/users/{UserID}'].delete
+  update:
+    operationId: deleteSubscriptionUser
+- target: $.paths['/1.0/end-users'].put
+  update:
+    operationId: addOrUpdateEndUser
+- target: $.paths['/1.0/end-users'].get
+  update:
+    operationId: getEndUsers
+- target: $.paths['/1.0/resellers'].put
+  update:
+    operationId: addOrUpdateReseller
+- target: $.paths['/1.0/resellers'].get
+  update:
+    operationId: getResellers
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/transfer'].post
+  update:
+    operationId: initiateSubscriptionTransfer
+- target: $.paths['/1.0/subscriptions/transfer/claim'].post
+  update:
+    operationId: claimSubscriptionTransfer
+- target: $.paths['/1.0/subscriptions/{SubscriptionID}/transfer/cancel'].put
+  update:
+    operationId: cancelSubscriptionTransfer
+- target: $.paths['/1.0/reference/data-centers'].get
+  update:
+    operationId: getDataCenters
+- target: $.paths['/1.0/reference/skus'].get
+  update:
+    operationId: getSkus
+- target: $.paths['/1.0/reference/tiers'].get
+  update:
+    operationId: getTiers
+- target: $.paths['/1.0/msp/subscriptions'].post
+  update:
+    operationId: addMspSubscription
+- target: $.paths['/1.0/msp/subscriptions'].get
+  update:
+    operationId: getMspSubscriptions
+- target: $.paths['/1.0/msp/subscriptions/{SubscriptionID}'].get
+  update:
+    operationId: getMspSubscription
+- target: $.paths['/1.0/msp/subscriptions/{SubscriptionID}/status'].get
+  update:
+    operationId: getMspSubscriptionStatus
+- target: $.paths['/1.0/msp/subscriptions/{SubscriptionID}/senders/json'].get
+  update:
+    operationId: getMspSenders
+- target: $.paths['/1.0/subscriptions'].post
+  description: Deprecated 2025-02-17; kept addressable for existing consumers.
+  update:
+    operationId: addSubscriptionDeprecated
+
+# --- Rate-limit signalling on the one operation that declares 429 ---
+- target: $.paths['/1.0/msp/subscriptions/{SubscriptionID}/senders/json'].get.responses['429']
+  description: >-
+    Document a Retry-After header on the only 429 in the API. Exclaimer publishes
+    no limit, window or header, so a client that hits it today has no runtime
+    signal to back off against.
+  update:
+    headers:
+      Retry-After:
+        description: >-
+          RECOMMENDED — not currently returned by Exclaimer. Seconds to wait
+          before retrying the sender export.
+        schema:
+          type: integer
+
+# --- Deprecation signalling ---
+- target: $.paths['/1.0/subscriptions'].post.responses
+  description: >-
+    Recommend RFC 8594 Sunset/Deprecation headers on the deprecated create
+    endpoint. Exclaimer's deprecation policy is documentation-only; a machine
+    consumer cannot detect deprecation at runtime.
+  update:
+    '400':
+      description: >-
+        Bad Request / Missing Field. Also returned to NEW consumers calling this
+        deprecated endpoint — use POST /v2.0/subscriptions instead.

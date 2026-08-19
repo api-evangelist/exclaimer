@@ -1,0 +1,361 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Exclaimer Cloud API — Subscriptions",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "ExApiToken",
+      "value": "{{ExApiToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Activate Full Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/activate-full",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ]
+          },
+          "docs": "This request will convert a trial subscription into a full subscription."
+        },
+        {
+          "info": {
+            "name": "Get Subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions",
+            "params": [
+              {
+                "name": "Page",
+                "value": "",
+                "type": "query",
+                "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the subscription was added. </p>"
+              },
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>"
+              },
+              {
+                "name": "ContinuationToken",
+                "value": "",
+                "type": "query",
+                "description": "A token that can be used to get the next page of results without supplying paging values."
+              },
+              {
+                "name": "ActiveOnly",
+                "value": "",
+                "type": "query",
+                "description": "When true, returns only subscriptions with an Active status. When false, returns all subscriptions irrespective of status*. <p> *When used in conjunction with <b>OverageOnly</b> this will return only active subscriptions that have an overage. </p>"
+              },
+              {
+                "name": "OverageOnly",
+                "value": "",
+                "type": "query",
+                "description": "When true, returns only subscriptions with an overage. When false, returns all subscriptions irrespective of whether there is overage or not*. <p> *When used in conjunction with <b>ActiveOnly</b> this will return only active subscriptions that have an overage. </p>"
+              },
+              {
+                "name": "ResellerID",
+                "value": "",
+                "type": "query",
+                "description": "When provided, returns only subscriptions for this reseller. When not provided, returns all subscriptions irrespective of reseller."
+              }
+            ]
+          },
+          "docs": "This request will return details of each of your subscriptions held in the Exclaimer Cloud service.<br /> You can apply filters: <ul><li>to only return active subscriptions, otherwise all subscriptions, including inactive ones, will be returned.</li><li>to only return subscriptions associated with a specific reseller.</li></ul> If no subscriptions match the filter, an empty array will be returned."
+        },
+        {
+          "info": {
+            "name": "Add Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "<deprecated-note><em>2025-02-17</em><br /> This endpoint is deprecated. Please use the V2 endpoint at /v2.0/subscriptions instead, which provides enhanced support for marketplace scenarios and SKU-based product specification. </deprecated-note><p> This request will create a new subscription and adds it to the Exclaimer Cloud service. </p><p> A new user will be created for the email address provided if one doesn't already exist. </p><p> If you pass a <b>SubscriptionID</b> and <b>UserID</b>, these"
+        },
+        {
+          "info": {
+            "name": "Add Subscription V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/v2.0/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request will create a new subscription using Version 2 of the API, which introduces SKU-based product specification and enhanced support for marketplace scenarios. <p> V2 changes include: <ul><li>SKU is now required and determines the product, tier, and NFR status</li><li>EndUser is required and includes a Domain field</li><li>Reseller includes a Domain field (required for non-Marketplace subscriptions)</li><li>BillingGroup is a new optional field for grouping subscriptions</li><li>Subscrip"
+        },
+        {
+          "info": {
+            "name": "Deactivate Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/deactivate",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ]
+          },
+          "docs": "This request will deactivate a subscription. <p> The service will no longer stamp emails for this subscription and the end user will no longer be able to load the template editor, however we will not block the users email. This endpoint should be used if you intend to reactivate the subscription in the near future. </p>"
+        },
+        {
+          "info": {
+            "name": "End Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/end",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ]
+          },
+          "docs": "This request will end a subscription. <p> When a subscription is ended it becomes dormant and emails will no longer be processed via the Exclaimer Cloud service. <b> The user's email needs to be redirected so it no longer gets sent through our system before calling this endpoint. </b></p><p> When actioned, the subscription is ended immediately, and the subscription will no longer appear in the Exclaimer Customer Portal. </p>"
+        },
+        {
+          "info": {
+            "name": "Migrate Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/migrate",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request allows you to assign, transfer, or remove, a reseller and/or end user, from an existing subscription."
+        },
+        {
+          "info": {
+            "name": "Reactivate Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/reactivate",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request will reactivate a previously ended, or deactivated, subscription. <p> The subscription will no longer reside in a dormant state and emails will be imprinted/processed via the Exclaimer Cloud service again. </p>"
+        },
+        {
+          "info": {
+            "name": "Get Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ]
+          },
+          "docs": "This request will return details of the specified subscription held in the Exclaimer Cloud service."
+        },
+        {
+          "info": {
+            "name": "Update Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e. when calling Add Subscription."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request can be used to update the name and currency assigned to the subscription."
+        },
+        {
+          "info": {
+            "name": "Get Subscription History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/history",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ]
+          },
+          "docs": "Provides information relating to the history of the subscription."
+        },
+        {
+          "info": {
+            "name": "Change Not For Resale",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/nfr",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request allows you to specify that the subscription is not for resale. <p> A subscription can be changed from being not for resale to a standard subscription, and vise versa, at any time. </p><p><b>N.B.</b> This feature is only available to consumers that support NFR licenses. </p>"
+        },
+        {
+          "info": {
+            "name": "Change Subscription Owner",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/change-owner",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request will assign a different user to be the owner of a subscription. <p> The new owner must already exist against the subscription, and must have the Admin role. </p><p> If you want to change the owner to a new subscription user, you can use the <b>Add Subscription User</b> API to create that user first. </p><p> If the existing subscription user does not have the Admin role, you can use the <b>Update Subscription User Roles</b> API to give them that role. </p><p> If you wish to delete th"
+        },
+        {
+          "info": {
+            "name": "Change Stock Keeping Unit",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/change-sku",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request allows you to use a code to change specific aspects of an existing subscription. <p><b>N.B.</b> You cannot change from an Office365 subscription to a GSuite subscription, or vise versa. </p>"
+        },
+        {
+          "info": {
+            "name": "Change Tier",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/change-tier",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request allows you to change the subscription tier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

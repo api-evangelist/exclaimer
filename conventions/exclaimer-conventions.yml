@@ -1,0 +1,155 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://cloudapi.exclaimer.com/ — the Introduction and Usage sections of the
+  Exclaimer Cloud API reference (documentation version 5.2, published
+  2025-07-23), carried verbatim in info.description of
+  https://cloudapi.exclaimer.com/openapi.json.
+description: >-
+  Cross-cutting request/response semantics that apply to every Exclaimer Cloud API
+  operation: URL composition, authentication, JSON casing tolerance, paging,
+  error signalling, versioning and deprecation handling.
+
+base_url: https://cloudapi.exclaimer.com/exclaimerapi
+sandbox_base_url: https://sandbox-cloudapi.exclaimer.com
+api_style: REST over HTTPS, JSON requests and responses
+
+url_composition:
+  pattern: "[endpoint]/[version]/[resource-or-action]"
+  detail: >-
+    The endpoint segment is tenant-specific. Partners are issued their own path
+    prefix; the documentation examples use "exclaimerapi", but a partner may be
+    given a custom prefix such as "yourcompany", in which case every example URL
+    substitutes that value.
+  examples:
+  - POST https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions
+  - GET https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/sub123/mailbox-count
+  - https://cloudapi.exclaimer.com/yourcompany/1.0/subscriptions
+
+authentication:
+  scheme: API key in a request header
+  header: ExApiToken
+  spec_name: ExApiToken
+  spec_note: >-
+    The prose in the API reference writes the header as "ExAPIToken"; the
+    OpenAPI securityScheme declares it as "ExApiToken". Header names are
+    case-insensitive per RFC 9110, so both forms resolve to the same header.
+  issuance: >-
+    Tokens are issued to partners by Exclaimer out of band ("a value that will be
+    provided to you separately"). There is no self-service key creation.
+  missing_or_invalid: 401 Unauthorized
+  detail: authentication/exclaimer-authentication.yml
+
+idempotency:
+  supported: false
+  mechanism: null
+  detail: >-
+    Exclaimer publishes no idempotency-key mechanism. There is no Idempotency-Key
+    header, no client-supplied request id, and no documented replay semantics.
+    Safe retry relies on HTTP method semantics only: the mutating operations are
+    predominantly PUT (activate, deactivate, end, reactivate, update, change-tier,
+    change-sku, nfr, mailbox-count, roles, transfer/cancel) which are naturally
+    idempotent, while POST operations (add subscription, add subscription user,
+    initiate/claim transfer, migrate, change-owner) are not and a retried POST can
+    create a duplicate resource.
+  recommendation: >-
+    Clients should key their own dedupe on the SubscriptionID / email address they
+    are provisioning and read back with GET before retrying a failed POST.
+
+pagination:
+  style: continuation-token, with page/page-size as an alternative
+  default_page_size: 50
+  request_params:
+    ContinuationToken: >-
+      Opaque token returned by the previous response. Supply 0 to get the first
+      page using defaults. Takes precedence over Page/PageSize when both are sent.
+    Page: 1-based page number (ignored when ContinuationToken is supplied)
+    PageSize: number of items per page (ignored when ContinuationToken is supplied)
+  response_fields:
+    ContinuationToken: >-
+      Returned while more pages remain. The property is OMITTED from the response
+      once there are no further pages — depending on the client language this
+      surfaces as null or undefined, not as an empty string.
+  loop: >-
+    Call with ContinuationToken=0, then keep calling with the ContinuationToken
+    from the previous response until the property is no longer present.
+
+casing:
+  request: >-
+    Both PascalCase and camelCase are accepted for JSON body properties AND for
+    query-string parameters. {"SubscriptionID": "sub-1"} is equivalent to
+    {"subscriptionId": "sub-1"}; /subscriptions?ContinuationToken=262145 is
+    equivalent to /subscriptions?continuationToken=262145.
+  response: Always PascalCase.
+  exceptions: >-
+    Case tolerance does NOT extend to path parameters or to JSON values, which may
+    be treated case-sensitively.
+
+content_type:
+  request: application/json
+  unsupported_media_type: 415 is returned when Content-Type names an unsupported media type.
+
+field_expansion:
+  supported: false
+metadata:
+  supported: false
+request_id_tracing:
+  supported: false
+  note: No correlation/request-id header is documented or declared in the specification.
+
+versioning:
+  style: path segment
+  current: '1.0'
+  additional: >-
+    A v2.0 segment exists for the newer Add Subscription endpoint
+    (POST /v2.0/subscriptions). Versions coexist rather than replacing one another.
+  api_version_field: '1'
+  documentation_version: '5.2'
+  documentation_published: '2025-07-23'
+  detail: lifecycle/exclaimer-lifecycle.yml
+
+deprecation:
+  policy_published: true
+  mechanism: >-
+    Deprecated APIs, properties and examples are marked in the reference with a
+    deprecated indicator, an explanation and a date of change, and are HIDDEN by
+    default. They can be revealed with the "Show deprecated features" checkbox or
+    by the query parameter ?showDeprecatedFeatures=true.
+  compatibility_promise: >-
+    Existing consumers may continue to use both old and new features until all
+    subscriptions have been migrated. NEW consumers get only the new features and
+    receive 400 Bad Request or 404 Not Found if they call deprecated
+    functionality.
+  headers: >-
+    No RFC 8594 Sunset or Deprecation response headers are declared in the
+    specification or documented in the reference. Deprecation is communicated in
+    documentation only.
+  docs: https://cloudapi.exclaimer.com/?showDeprecatedFeatures=true
+
+error_envelope:
+  format: proprietary JSON (not RFC 9457 application/problem+json)
+  detail: >-
+    Errors are signalled with standard HTTP status codes. For 400 responses "a
+    json structure will be returned detailing the missing fields" / "detailing the
+    error", but the shape of that structure is not declared in the OpenAPI —
+    every error response in the specification carries a description string and no
+    response schema.
+  catalog: errors/exclaimer-problem-types.yml
+
+rate_limit_signaling:
+  documented: false
+  observed_status: 429 Too Many Requests
+  scope_declared: >-
+    A 429 response is declared on exactly one operation —
+    GET /1.0/msp/subscriptions/{SubscriptionID}/senders/json (Get MSP Senders) —
+    the bulk sender-usage export. No limit value, window, burst allowance,
+    Retry-After or RateLimit-* header is published.
+  detail: rate-limits/exclaimer-rate-limits.yml
+
+support:
+  documentation_errors: >-
+    The reference asks consumers to report documentation errors to Exclaimer.
+  service_errors: >-
+    500 Internal Server Error is documented as "an unexpected error" that should
+    be reported to Exclaimer support.
+  channel: https://support.exclaimer.com/hc/en-gb

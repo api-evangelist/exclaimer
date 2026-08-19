@@ -1,0 +1,664 @@
+{
+  "item": [
+    {
+      "id": "6dd19205-8ebb-4350-8068-ac1c3d88af3e",
+      "name": "Reference Resources",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "51cf71f6-5771-478c-a1a7-72345c51fa71",
+          "name": "Get Data Centers",
+          "request": {
+            "name": "Get Data Centers",
+            "description": {
+              "content": "This request will return a list of data centers along with which ones can be used with Office 365, and which can be used with GSuite. If a data center is not available for a provider, then the corresponding field will not be returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "reference",
+                "data-centers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f223223c-7077-4918-b2dd-ec0ac8d2ed7f",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "data-centers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"DataCenters\\\":[{\\\"Location\\\":\\\"Australia\\\",\\\"Office365Code\\\":\\\"AUS\\\"},{\\\"Location\\\":\\\"Canada\\\",\\\"Office365Code\\\":\\\"CAN\\\"},{\\\"Location\\\":\\\"Europe\\\",\\\"Office365Code\\\":\\\"EU\\\",\\\"GSuiteCode\\\":\\\"EU\\\"},{\\\"Location\\\":\\\"UAE\\\",\\\"Office365Code\\\":\\\"IND\\\"},{\\\"Location\\\":\\\"UK\\\",\\\"Office365Code\\\":\\\"UK\\\"},{\\\"Location\\\":\\\"US\\\",\\\"Office365Code\\\":\\\"US\\\",\\\"GSuiteCode\\\":\\\"US\\\"},{\\\"Location\\\":\\\"DE\\\",\\\"Office365Code\\\":\\\"DE\\\",\\\"GSuiteCode\\\":\\\"DE\\\"}]}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a83ba69-4afb-4820-9ce3-a1ea4b9a2870",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "data-centers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "da46ddb0-d90c-4e52-8fd7-3b4820f1cc9f",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "data-centers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e87d1c0a-5f91-4008-9d44-7cc6acfa823f",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "data-centers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0f822db2-2b1f-42db-8619-6d77c243a6cf",
+          "name": "Get SKUs",
+          "request": {
+            "name": "Get SKUs",
+            "description": {
+              "content": "This request will return a list of codes used by the API when referencing SKUs. This value is used when adding a subscription, or when changing the SKU. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will still include SKUs relating to the original tiers, along with SKUs for the new tiers. The results for new consumers will only include SKUs relating to the new tiers. </deprecated-note>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "reference",
+                "skus"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "164279c3-05a0-49ff-811b-01604c1671f2",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "skus"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"SKUs\\\":[{\\\"SKU\\\":\\\"EXCL-G-PRO\\\",\\\"Description\\\":\\\"Exclaimer Pro for Google Workspace\\\"},{\\\"SKU\\\":\\\"EXCL-G-PRO-NFR\\\",\\\"Description\\\":\\\"Exclaimer Pro for Google Workspace, Not for Resale\\\"},{\\\"SKU\\\":\\\"EXCL-G-STAND\\\",\\\"Description\\\":\\\"Exclaimer Standard for Google Workspace\\\"},{\\\"SKU\\\":\\\"EXCL-G-STAND-NFR\\\",\\\"Description\\\":\\\"Exclaimer Standard for Google Workspace, Not for Resale\\\"},{\\\"SKU\\\":\\\"EXCL-G-START\\\",\\\"Description\\\":\\\"Exclaimer Starter for Google Workspace\\\"},{\\\"SKU\\\":\\\"EXCL-G-START-NFR\\\",\\\"Description\\\":\\\"Exclaimer Starter for Google Workspace, Not for Resale\\\"},{\\\"SKU\\\":\\\"EXCL-M-PRO\\\",\\\"Description\\\":\\\"Exclaimer Pro for Microsoft\\\"},{\\\"SKU\\\":\\\"EXCL-M-PRO-NFR\\\",\\\"Description\\\":\\\"Exclaimer Pro for Microsoft, Not for Resale\\\"},{\\\"SKU\\\":\\\"EXCL-M-STAND\\\",\\\"Description\\\":\\\"Exclaimer Standard for Microsoft\\\"},{\\\"SKU\\\":\\\"EXCL-M-STAND-NFR\\\",\\\"Description\\\":\\\"Exclaimer Standard for Microsoft, Not for Resale\\\"},{\\\"SKU\\\":\\\"EXCL-M-START\\\",\\\"Description\\\":\\\"Exclaimer Starter for Microsoft\\\"},{\\\"SKU\\\":\\\"EXCL-M-START-NFR\\\",\\\"Description\\\":\\\"Exclaimer Starter for Microsoft, Not for Resale\\\"}]}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5faec4a-b378-47e2-80f2-4d483c203b3d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "skus"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9cf182a8-2b63-4565-b0d1-c7621c28a669",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "skus"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4388c639-969f-4bcf-80b8-ce7f2e2004e1",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "skus"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "de86a42e-a60f-4a6b-93d0-8c2370bffa95",
+          "name": "Get Tiers",
+          "request": {
+            "name": "Get Tiers",
+            "description": {
+              "content": "This request will return a list of codes used by the API when referencing tiers. This value is used when adding a subscription, or when changing the tier. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will still include the original tiers, along with the new tiers. The results for new consumers will only include the new tiers. </deprecated-note>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "reference",
+                "tiers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "481eab7b-1339-4565-9099-208a74192cb1",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "tiers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"Tiers\\\":[{\\\"Tier\\\":\\\"ExclaimerStarter\\\",\\\"Description\\\":\\\"Exclaimer Starter\\\"},{\\\"Tier\\\":\\\"ExclaimerStandard\\\",\\\"Description\\\":\\\"Exclaimer Standard\\\"},{\\\"Tier\\\":\\\"ExclaimerPro\\\",\\\"Description\\\":\\\"Exclaimer Pro\\\"}]}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da4db0d2-064f-429f-a286-a8db3afb97bc",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "tiers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f20bc51d-fe97-4472-94c7-7ddf5a845e74",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "tiers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f6916393-4f23-4412-9c69-e6bb01e9d53e",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "reference",
+                    "tiers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cloudapi.exclaimer.com/exclaimerapi",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "ExApiToken"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8da13f78-c66e-4cf5-adb7-be0d6b81c3b2",
+    "name": "Exclaimer Cloud API — Reference Resources",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reference Resources operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.",
+      "type": "text/plain"
+    }
+  }
+}

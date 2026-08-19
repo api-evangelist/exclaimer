@@ -1,0 +1,287 @@
+openapi: 3.0.1
+info:
+  title: Exclaimer Cloud API — Subscription Transfers
+  version: '1'
+  description: The Subscription Transfers operations of the Exclaimer Cloud API, the partner/distributor
+    provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at
+    https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation
+    content is carried verbatim from the source specification.
+servers:
+- url: https://cloudapi.exclaimer.com/exclaimerapi
+  description: Local
+tags:
+- name: Subscription Transfers
+paths:
+  /1.0/subscriptions/{SubscriptionID}/transfer/cancel:
+    put:
+      tags:
+      - Subscription Transfers
+      summary: Cancel Subscription Transfer
+      description: This request allows you to cancel a subscription transfer that you've previously issued
+        a transfer request for. <p> Once the transfer request is cancelled, the subscription will no longer
+        show as pending transfer. If someone tries to claim the subscription, their request will be rejected.
+        </p>
+      parameters:
+      - name: SubscriptionID
+        in: path
+        description: Your reference for the subscription to cancel. This is the same ID you specified
+          when issuing the transfer request.
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        routeExamples:
+          Basic usage:
+            value: /subscriptions/Subscription-FKV-201/transfer/cancel
+        curlExamples:
+          Basic usage - cURL:
+            description: /subscriptions/Subscription-FKV-201/transfer/cancel
+            value: '{}'
+  /1.0/subscriptions/transfer/claim:
+    post:
+      tags:
+      - Subscription Transfers
+      summary: Claim Subscription Transfer
+      description: This request allows you to claim a subscription that's currently owned by someone else.
+        <p> You can optionally specify additional details for the subscription, such as providing a meaningful
+        ID, or associating it with one of your existing resellers, and/or end users. </p><p> This is the
+        second half or a two part transfer handshake. See <b>Initiate Subscription Transfer</b> for the
+        first half of the process. </p><p> In order to claim a subscription you must first have a valid
+        token that can be used in the transfer process. This token will be provided either by the current
+        subscription owner, or by Exclaimer. Once the token has been used, it will be invalidated, and
+        cannot be reused. </p><p><b>Self claiming:</b> It's possible to claim a subscription that you've
+        previously issued a transfer request for, right up until the point at which the subscription has
+        been claimed by someone else. While we would recommend you use the <b>Cancel Subscription Transfer</b>
+        API instead, if you do use this we recommend only specifying the <b>TransferToken</b> and no other
+        details. In this case, all existing subscription details, including Subscription ID, Reseller,
+        and End User, will remain unchanged. </p>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimSubscriptionTransfer'
+            examples:
+              Use an auto-generated ID, and do not associate with a reseller or end user:
+                value: '{"TransferToken":"e0c2669f107745b1bf1253332b4ca205"}'
+              Don't associate with existing any End User or Reseller:
+                value: '{"TransferToken":"4e9db0647cc54f51b537000a41ca4f1","SubscriptionID":"Subscription-WON-196"}'
+              Associate with an existing End User and Reseller:
+                value: '{"TransferToken":"6a5dad1dd73904c1cb6830cef161710","SubscriptionID":"Subscription-PPX-394","ResellerID":"R-55782","EndUserID":"U-ABC-592"}'
+              Specify End User and Reseller in full:
+                value: '{"TransferToken":"37a5dad1dd73904c1cb6830cef16171","SubscriptionID":"Subscription-DFU-292","Reseller":{"ResellerID":"R-55555","CompanyName":"Resellers
+                  & Co.","CountryCode":"GBR"},"EndUser":{"EndUserID":"U-ABC-321","CompanyName":"Users
+                  Ltd","CountryCode":"GBR"}}'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimSubscriptionTransferResponse'
+              examples:
+                Auto-generated:
+                  value: '{"SubscriptionID":"77dmEGy5yE5apa38WMXt8udALobQoS"}'
+                Specified:
+                  value: '{"SubscriptionID":"Subscription-CVZ-996"}'
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Use an auto-generated ID, and do not associate with a reseller or end user - cURL:
+            description: /subscriptions/transfer/claim
+            value: '{"TransferToken":"e0c2669f107745b1bf1253332b4ca205"}'
+          Don't associate with existing any End User or Reseller - cURL:
+            description: /subscriptions/transfer/claim
+            value: '{"TransferToken":"4e9db0647cc54f51b537000a41ca4f1","SubscriptionID":"Subscription-WON-196"}'
+          Associate with existing End User and Reseller - cURL:
+            description: /subscriptions/transfer/claim
+            value: '{"TransferToken":"6a5dad1dd73904c1cb6830cef161710","SubscriptionID":"Subscription-PPX-394","ResellerID":"R-55782","EndUserID":"U-ABC-592"}'
+          Specify End User and Reseller in full - cURL:
+            description: /subscriptions/transfer/claim
+            value: '{"TransferToken":"37a5dad1dd73904c1cb6830cef16171","SubscriptionID":"Subscription-DFU-292","Reseller":{"ResellerID":"R-55555","CompanyName":"Resellers
+              & Co.","CountryCode":"GBR"},"EndUser":{"EndUserID":"U-ABC-321","CompanyName":"Users Ltd","CountryCode":"GBR"}}'
+  /1.0/subscriptions/{SubscriptionID}/transfer:
+    post:
+      tags:
+      - Subscription Transfers
+      summary: Initiate Subscription Transfer
+      description: This request initiates a subscription transfer. <p> This is the first half or a two
+        part transfer handshake. See <b>Claim Subscription Transfer</b> for the second half of the process.
+        </p><p> This requests puts the target subscription into a state of transfer until it gets claimed.
+        The request returns a Transfer Token that may be used by another consumer to take ownership of
+        the subscription. </p>
+      parameters:
+      - name: SubscriptionID
+        in: path
+        description: Your reference for the subscription. This is the same ID you specified, or was automatically
+          generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiateSubscriptionTransferResponse'
+              examples:
+                Basic usage:
+                  value: '{"TransferToken":"27sfPOh6bR0ium66SMCr5sdPLdyQxC"}'
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        routeExamples:
+          Basic usage:
+            value: /subscriptions/Subscription-QAM-784/transfer
+        curlExamples:
+          Basic usage - cURL:
+            description: /subscriptions/Subscription-QAM-784/transfer
+            value: '{}'
+components:
+  schemas:
+    ClaimSubscriptionTransfer:
+      title: ClaimSubscriptionTransferRequest
+      required:
+      - TransferToken
+      properties:
+        TransferToken:
+          type: string
+          description: This token grants you the rights to transfer the subscription, and will be provided
+            either by the current subscription owner, or by Exclaimer. The token can only be used for
+            one valid request. This excludes validation errors, in which case the token will remain valid.
+        SubscriptionID:
+          type: string
+          description: Your reference for the subscription once it's been transferred. If not specified,
+            or a subscription with the same ID already exists, this will be automatically generated.
+        ResellerID:
+          type: string
+          description: Allows you to associate the transferred subscription with an existing custom reseller
+            record. <p><b>N.B. ResellerID</b> and <b>Reseller</b> are mutually exclusive. If both are
+            provided, this will result in an error. If neither are provided, then the subscription will
+            not be associated with a reseller. </p>
+        Reseller:
+          allOf:
+          - $ref: '#/components/schemas/ClaimSubscriptionTransferReseller'
+          - description: Allows you to associate the transferred subscription with a custom reseller record.
+              <p><b>N.B. Reseller</b> and <b>ResellerID</b> are mutually exclusive. If both are provided,
+              this will result in an error. If neither are provided, then the subscription will not be
+              associated with a reseller. </p>
+          - {}
+        EndUserID:
+          type: string
+          description: Allows you to associate the transferred subscription with an existing custom user
+            record. <p><b>N.B. EndUserID</b> and <b>EndUser</b> are mutually exclusive. If both are provided,
+            this will result in an error. If neither are provided, then the subscription will not be associated
+            with an end user. </p>
+        EndUser:
+          allOf:
+          - $ref: '#/components/schemas/ClaimSubscriptionTransferEndUser'
+          - description: Allows you to associate the transferred subscription with a custom user record.
+              <p><b>N.B. EndUser</b> and <b>EndUserID</b> are mutually exclusive. If both are provided,
+              this will result in an error. If neither are provided, then the subscription will not be
+              associated with an end user. </p>
+          - {}
+      description: This request allows you to claim a subscription that's currently owned by someone else.
+        <p> You can optionally specify additional details for the subscription, such as providing a meaningful
+        ID, or associating it with one of your existing resellers, and/or end users. </p><p> This is the
+        second half or a two part transfer handshake. See <b>Initiate Subscription Transfer</b> for the
+        first half of the process. </p><p> In order to claim a subscription you must first have a valid
+        token that can be used in the transfer process. This token will be provided either by the current
+        subscription owner, or by Exclaimer. Once the token has been used, it will be invalidated, and
+        cannot be reused. </p><p><b>Self claiming:</b> It's possible to claim a subscription that you've
+        previously issued a transfer request for, right up until the point at which the subscription has
+        been claimed by someone else. While we would recommend you use the <b>Cancel Subscription Transfer</b>
+        API instead, if you do use this we recommend only specifying the <b>TransferToken</b> and no other
+        details. In this case, all existing subscription details, including Subscription ID, Reseller,
+        and End User, will remain unchanged. </p>
+    ClaimSubscriptionTransferEndUser:
+      title: EndUser
+      required:
+      - EndUserID
+      - CompanyName
+      - CountryCode
+      properties:
+        EndUserID:
+          type: string
+          description: Your reference for the user. This will associate the user with the transferred
+            subscription. <p> If a user with the <b>EndUserID</b> already exists, it will be updated;
+            otherwise it will be created. </p>
+        CompanyName:
+          type: string
+          description: The name of the company to associate the transferred subscription with.
+        CountryCode:
+          type: string
+          description: The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3
+            or numeric.
+    ClaimSubscriptionTransferReseller:
+      title: Reseller
+      required:
+      - ResellerID
+      - CompanyName
+      - CountryCode
+      properties:
+        ResellerID:
+          type: string
+          description: Your reference for the reseller. This will associate the reseller with the transferred
+            subscription. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated;
+            otherwise it will be created. </p>
+        CompanyName:
+          type: string
+          description: The name of the company to associated the transferred subscription with.
+        CountryCode:
+          type: string
+          description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3
+            or numeric.
+    ClaimSubscriptionTransferResponse:
+      title: ClaimSubscriptionTransferResponse
+      properties:
+        SubscriptionID:
+          type: string
+          description: This is the ID that's been assigned to the transferred subscription. If you specified
+            a <b>SubscriptionID</b> when claiming the subscription, then that value will be returned.
+            However, if you already have a subscription with the same <b>SubscriptionID</b>, or you did
+            not specify a <b>SubscriptionID</b>, then an automatically generated value will have been
+            used.
+    InitiateSubscriptionTransferResponse:
+      title: InitiateSubscriptionTransferResponse
+      properties:
+        TransferToken:
+          type: string
+          description: The issued token that can be used to claim the subscription.
+  securitySchemes:
+    Exclaimer:
+      type: apiKey
+      name: ExApiToken
+      in: header
+security:
+- Exclaimer: []

@@ -1,0 +1,43 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://cloudapi.exclaimer.com/ (full API reference read for rate/throttle
+  language) and openapi/_original/exclaimer-cloud-api-openapi.json (429 responses)
+limit_count: 0
+note: >-
+  Exclaimer publishes NO rate limits for the Exclaimer Cloud API. The API
+  reference has no rate-limit, throttling or quota section, and the OpenAPI
+  declares no RateLimit-*, X-RateLimit-* or Retry-After response headers anywhere.
+  The only runtime evidence that limiting exists at all is a single declared 429
+  response on the bulk MSP sender export. limit_count is therefore an honest 0 —
+  limiting is enforced but undocumented, which is the finding.
+limits: []
+signals:
+- status_code: 429
+  meaning: Too Many Requests
+  operation: GET /1.0/msp/subscriptions/{SubscriptionID}/senders/json
+  operation_summary: Get MSP Senders
+  tag: MSP
+  scope: unknown — not stated whether per token, per partner, or per subscription
+  window: undocumented
+  limit: undocumented
+  burst: undocumented
+  retry_after_header: not declared
+  note: >-
+    This is the only operation of 39 that declares a 429. It returns the sender
+    usage export for an MSP subscription, i.e. the heaviest read in the API.
+response_headers:
+  rate_limit_headers_documented: false
+  ratelimit_draft_headers: none
+  x_ratelimit_headers: none
+  retry_after: none
+exhaustion_status: 429
+client_guidance: >-
+  Because no Retry-After is returned and no limit is published, clients calling
+  Get MSP Senders should use exponential backoff with jitter on 429 and should
+  schedule bulk sender exports rather than polling them.
+probe_note: >-
+  Live limits could not be observed: cloudapi.exclaimer.com answers 401 to every
+  unauthenticated request except / and /openapi.json, and tokens are issued only
+  to the Exclaimer distributor network, so no unauthenticated response headers are
+  available to read.

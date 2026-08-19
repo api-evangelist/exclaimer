@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Exclaimer Cloud API — Reference Resources",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "ExApiToken",
+      "value": "{{ExApiToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reference Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Data Centers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/reference/data-centers"
+          },
+          "docs": "This request will return a list of data centers along with which ones can be used with Office 365, and which can be used with GSuite. If a data center is not available for a provider, then the corresponding field will not be returned."
+        },
+        {
+          "info": {
+            "name": "Get SKUs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/reference/skus"
+          },
+          "docs": "This request will return a list of codes used by the API when referencing SKUs. This value is used when adding a subscription, or when changing the SKU. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will still include SKUs relating to the original tiers, along with SKUs for the new tiers. The results for new consumers"
+        },
+        {
+          "info": {
+            "name": "Get Tiers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/reference/tiers"
+          },
+          "docs": "This request will return a list of codes used by the API when referencing tiers. This value is used when adding a subscription, or when changing the tier. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will still include the original tiers, along with the new tiers. The results for new consumers will only include the n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

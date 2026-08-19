@@ -1,0 +1,225 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/_original/exclaimer-cloud-api-openapi.json — entity graph derived from
+  components.schemas $ref links and id-reference fields (SubscriptionID, UserID,
+  EndUserID, ResellerID, SKU, Tier, DataCenter).
+description: >-
+  The provisioning data model behind the Exclaimer Cloud API. Subscription is the
+  root aggregate: everything the partner API does is create a subscription, point
+  it at an end user (the customer company) and optionally a reseller, then adjust
+  its tier, SKU, seat count, users and ownership over time.
+
+id_conventions:
+  style: opaque string identifiers, PascalCase property names
+  examples_from_docs:
+  - SubscriptionID (the reference uses "sub123" / "sub-1" in examples)
+  prefixes_published: false
+  note: >-
+    Exclaimer publishes no id prefix scheme or format. Ids are declared as plain
+    strings with no pattern or format in the specification.
+
+entities:
+- name: Subscription
+  schema: Subscription
+  description: >-
+    A provisioned Exclaimer Cloud tenant subscription — the root object. Carries
+    seat counts (NumberOfUsers, AggregatedUsers, ProcessedUsers, BillableUsers,
+    Overage), commercial state (Currency, Tier, SKU, NFR, Status, InTrial,
+    TrialEndDate, StartDate) and transfer state (PendingTransfer).
+  identifier: SubscriptionID
+  operations:
+  - POST /v2.0/subscriptions
+  - POST /1.0/subscriptions (deprecated 2025-02-17)
+  - GET /1.0/subscriptions
+  - GET /1.0/subscriptions/{SubscriptionID}
+  - PUT /1.0/subscriptions/{SubscriptionID}
+  - PUT /1.0/subscriptions/{SubscriptionID}/activate-full
+  - PUT /1.0/subscriptions/{SubscriptionID}/deactivate
+  - PUT /1.0/subscriptions/{SubscriptionID}/reactivate
+  - PUT /1.0/subscriptions/{SubscriptionID}/end
+  - POST /1.0/subscriptions/{SubscriptionID}/migrate
+  - PUT /1.0/subscriptions/{SubscriptionID}/change-sku
+  - PUT /1.0/subscriptions/{SubscriptionID}/change-tier
+  - PUT /1.0/subscriptions/{SubscriptionID}/nfr
+  - POST /1.0/subscriptions/{SubscriptionID}/change-owner
+  - GET /1.0/subscriptions/{SubscriptionID}/history
+- name: EndUser
+  schema: EndUserResponse
+  description: The customer company a subscription belongs to. CompanyName plus CountryCode.
+  identifier: EndUserID
+  operations:
+  - PUT /1.0/end-users
+  - GET /1.0/end-users
+- name: Reseller
+  schema: ResellerResponse
+  description: >-
+    The reseller in the distribution chain between the distributor and the end
+    user. CompanyName plus CountryCode.
+  identifier: ResellerID
+  operations:
+  - PUT /1.0/resellers
+  - GET /1.0/resellers
+- name: SubscriptionUser
+  schema: SubscriptionUser
+  description: >-
+    A human with access to a subscription's admin portal, identified by email and
+    holding a set of roles.
+  identifier: UserID
+  operations:
+  - POST /1.0/subscriptions/{SubscriptionID}/users
+  - GET /1.0/subscriptions/{SubscriptionID}/users
+  - GET /1.0/subscriptions/users
+  - PUT /1.0/subscriptions/{SubscriptionID}/users/{UserID}/roles
+  - DELETE /1.0/subscriptions/{SubscriptionID}/users/{UserID}
+- name: MspSubscription
+  schema: MspSubscription
+  description: >-
+    The MSP-shaped projection of a subscription — end user, reseller, name and
+    TotalMailboxes — served only to callers whose API user is of MSP type.
+  identifier: SubscriptionID
+  operations:
+  - POST /1.0/msp/subscriptions
+  - GET /1.0/msp/subscriptions
+  - GET /1.0/msp/subscriptions/{SubscriptionID}
+  - GET /1.0/msp/subscriptions/{SubscriptionID}/status
+- name: MspSenderUsage
+  schema: MspSenderUsage
+  description: >-
+    Per-sender usage export for an MSP subscription: total imprints split by
+    ImprintedServer / ImprintedCloud / ImprintedOnPremises and by Outlook / Gmail.
+    The billing-evidence record.
+  identifier: UserId + Sender
+  operations:
+  - GET /1.0/msp/subscriptions/{SubscriptionID}/senders/json
+- name: MailboxCount
+  schema: MailboxCountResponse
+  description: >-
+    Seat accounting for a subscription — MailboxCount and ClientSideMailboxCount.
+  identifier: SubscriptionID (1:1)
+  operations:
+  - GET /1.0/subscriptions/{SubscriptionID}/mailbox-count
+  - PUT /1.0/subscriptions/{SubscriptionID}/mailbox-count
+  - GET /1.0/mailbox-allocation
+- name: SubscriptionTransfer
+  schema: InitiateSubscriptionTransferResponse / ClaimSubscriptionTransfer
+  description: >-
+    A pending move of a subscription between partners, initiated by the holder and
+    claimed by the receiver, cancellable until claimed. Reflected on Subscription
+    as PendingTransfer.
+  identifier: SubscriptionID
+  operations:
+  - POST /1.0/subscriptions/{SubscriptionID}/transfer
+  - POST /1.0/subscriptions/transfer/claim
+  - PUT /1.0/subscriptions/{SubscriptionID}/transfer/cancel
+- name: SKUReference
+  schema: SKUReference
+  description: Reference list of sellable SKUs (code plus description).
+  identifier: SKU
+  operations:
+  - GET /1.0/reference/skus
+- name: TierReference
+  schema: TierReference
+  description: Reference list of product tiers (code plus description).
+  identifier: Tier
+  operations:
+  - GET /1.0/reference/tiers
+- name: DataCenter
+  schema: DataCenter
+  description: >-
+    Hosting regions, each with a Location and platform-specific codes
+    (Office365Code, GSuiteCode) used when provisioning.
+  identifier: Location
+  operations:
+  - GET /1.0/reference/data-centers
+- name: SubscriptionHistory
+  schema: SubscriptionHistoryResponse
+  description: >-
+    Audit trail of commercial changes: TierHistory[] and SkuHistory[], each entry
+    carrying Date, the new value and the previous value.
+  identifier: SubscriptionID
+  operations:
+  - GET /1.0/subscriptions/{SubscriptionID}/history
+
+relationships:
+- from: Subscription
+  to: EndUser
+  type: belongs_to
+  via: EndUserID
+- from: Subscription
+  to: Reseller
+  type: belongs_to
+  via: ResellerID
+- from: Subscription
+  to: SubscriptionUser
+  type: has_many
+  via: SubscriptionID (path parameter)
+- from: Subscription
+  to: SubscriptionUser
+  type: has_one
+  via: UserID
+  note: The owning user. 403 is returned if an action would delete the subscription owner.
+- from: Subscription
+  to: SKUReference
+  type: belongs_to
+  via: SKU
+- from: Subscription
+  to: TierReference
+  type: belongs_to
+  via: Tier
+- from: Subscription
+  to: SubscriptionNFRDetails
+  type: has_one
+  via: NFRDetails ($ref, inline)
+- from: Subscription
+  to: MailboxCount
+  type: has_one
+  via: SubscriptionID
+- from: Subscription
+  to: SubscriptionHistory
+  type: has_one
+  via: SubscriptionID
+- from: SubscriptionHistory
+  to: TierHistory
+  type: has_many
+  via: TierHistory[] ($ref)
+- from: SubscriptionHistory
+  to: SkuHistory
+  type: has_many
+  via: SkuHistory[] ($ref)
+- from: Subscription
+  to: SubscriptionTransfer
+  type: has_one
+  via: PendingTransfer
+- from: MspSubscription
+  to: EndUser
+  type: belongs_to
+  via: EndUserID
+- from: MspSubscription
+  to: Reseller
+  type: belongs_to
+  via: ResellerID
+- from: MspSubscription
+  to: MspSenderUsage
+  type: has_many
+  via: SubscriptionID (path parameter)
+- from: AddSubscription
+  to: DataCenter
+  type: belongs_to
+  via: DataCenter
+- from: SubscriptionsResponse
+  to: Subscription
+  type: has_many
+  via: Subscriptions[] ($ref)
+- from: DistributorLevelSubscriptionUser
+  to: DistributorLevelSubscriptionUserInfo
+  type: has_many
+  via: Subscriptions[] ($ref)
+
+list_envelope:
+  shape: >-
+    Collection responses wrap the array alongside a count and the paging fields,
+    e.g. SubscriptionsResponse { Subscriptions[], SubscriptionCount,
+    ContinuationToken, Page, PageSize }.
+  pagination: conventions/exclaimer-conventions.yml
+schema_count: 59

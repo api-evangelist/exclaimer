@@ -1,0 +1,75 @@
+# Exclaimer
+
+> Exclaimer is a cloud-based email signature management platform that helps organizations centrally manage and deploy professional, on-brand signatures across Microsoft 365, Google Workspace, and Exchange. It eliminates inconsistency, ensures legal and brand compliance, and enables marketing campaigns directly from email signatures.
+
+## Getting started & support
+
+- [Free 14-day trial](https://go.exclaimer.com/trial): Access the full Exclaimer platform for 14 days to test signature automation and design tools with no commitment and no credit card required.
+- [Book a demo](https://exclaimer.com/product/online-demonstrations/): Schedule a personalized walkthrough with a product expert to see how Exclaimer fits your specific IT environment.
+- [Pricing](https://exclaimer.com/pricing/): View per-user, per-month subscription plans tiered by feature set and organization needs.
+- [Support / Knowledge Base](https://support.exclaimer.com/hc/en-gb): Access the central hub for technical documentation and support tickets.
+- [Connect to Microsoft 365](https://support.exclaimer.com/hc/en-gb/articles/360050643511-Onboarding-Connect-to-Microsoft-365): Step-by-step guide to integrating Exclaimer with your Microsoft 365 tenant and Azure AD.
+- [Connect to Google Workspace](https://support.exclaimer.com/hc/en-gb/articles/26502503141405-Onboarding-Connect-to-Google-Workspace): Instructions for authorizing Exclaimer to manage signatures within your Google Workspace environment.
+- [Create Your First Signature](https://support.exclaimer.com/hc/en-gb/articles/360050338892-Create-Signature): A walkthrough on using the signature designer to design your first email signature.
+- [Manage Signature Rules](https://support.exclaimer.com/hc/en-gb/articles/360050339152-Manage-Signature-Rules): How to define which signatures are applied based on sender, recipient, and more.
+
+## Core Use-Cases
+
+- [Manage email signatures](https://exclaimer.com/solutions/automate-email-signatures/): Automatically create and deploy professional signatures company-wide, eliminating the need for manual updates by end-users.
+- [Guarantee email compliance](https://exclaimer.com/solutions/achieve-email-compliance/): Centrally apply legal disclaimers and confidentiality notices to ensure every outbound email meets regulatory and industry standards.
+- [Ensure brand consistency](https://exclaimer.com/solutions/enhance-brand-consistency/): Maintain a consistent corporate identity by governing logos, fonts, and layouts across all employee emails and video call backgrounds.
+- [Run marketing campaigns](https://exclaimer.com/solutions/generate-demand/): Use email signatures as a marketing channel by adding clickable banners, tracking engagement with built-in analytics, and targeting campaigns by department, recipient, or even CRM lists.
+
+## Core Features
+
+- [Email Signature Manager](https://exclaimer.com/product/email-signature-management/): Core product for centrally designing and deploying professional email signatures across all employees, automatically applied to every outgoing email.
+- [Disclaimers](https://exclaimer.com/product/disclaimers/): Automatically append legal disclaimers, confidentiality notices, or compliance statements to outbound emails.
+- [Cloud Deployment](https://exclaimer.com/product/cloud-deployment/): Server-side signature deployment for Microsoft 365 and Google Workspace, ensuring consistency across all devices and email clients.
+- [Device Deployment](https://exclaimer.com/product/device-deployment/): Client-side deployment that renders signatures directly within Outlook so employees see their signature while composing emails.
+- [Directory Synchronization](https://exclaimer.com/product/directory-synchronization/): Syncs employee data from Azure AD, Google Directory, Okta, or HRIS platforms to keep signatures up to date automatically.
+- [Brand Kits](https://exclaimer.com/product/branding/): Governs brand identity across all digital communications, ensuring signature designs adhere to brand guidelines across teams, departments, and brands.
+- [Meeting Branding](https://exclaimer.com/product/meeting-branding/): Create and centrally deploy professional, on-brand video call backgrounds and personalized nametags across Zoom, Microsoft Teams, Google Meet, and more.
+
+## Solutions by Industry
+
+- [Healthcare](https://exclaimer.com/industries/healthcare/): Compliant email signatures for healthcare organizations, supporting HIPAA-aligned disclaimer management.
+- [Legal](https://exclaimer.com/industries/legal/): Signature and disclaimer management for law firms, supporting solicitor disclosure and confidentiality notices.
+- [Financial Services](https://exclaimer.com/industries/financial-services/): Signatures and disclaimers tailored for financial services firms and regulatory compliance requirements.
+
+## Integrations
+
+- [All Integrations](https://exclaimer.com/product/integrations/): Full list of Exclaimer integrations including Microsoft 365, Google Workspace, Exchange, HubSpot, and Salesforce.
+- [Microsoft 365](https://exclaimer.com/product/signatures-for-office-365/): Native integration with Microsoft 365 for server-side signature deployment.
+- [Google Workspace](https://exclaimer.com/product/signatures-for-google-workspace/): Native integration with Google Workspace for centrally managed Gmail signatures.
+- [Microsoft Exchange](https://exclaimer.com/product/signatures-for-exchange/): On-premise, online and hybrid Exchange signature management.
+- [HubSpot](https://exclaimer.com/product/hubspot-integration/): Use HubSpot lists to target email signatures and banners to the right audiences.
+- [Salesforce](https://exclaimer.com/product/salesforce-integration/): Use Salesforce data to target email signatures and banners for specific audiences.
+- [Social Feeds](https://exclaimer.com/product/social-feeds/): Embed latest social media posts into email signatures automatically.
+
+## Customer Stories
+
+- [Vancity](https://exclaimer.com/resources/customer-stories/vancity/): How Vancity standardized brand identity and integrated marketing banners across 2,500+ employees.
+- [Gunnebo Entrance Control](https://exclaimer.com/resources/customer-stories/gunnebo-entrance-control/): How a global security leader synchronized signature branding across its international workforce to ensure every email is professional and on-brand.
+- [Bloomerang](https://exclaimer.com/resources/customer-stories/bloomerang/): How Bloomerang reduced signature update times from weeks to 15 minutes while launching dynamic, high-engagement marketing campaigns.
+- [Denholm Good Logistics](https://exclaimer.com/resources/customer-stories/denholm-good-logistics/): How a global logistics firm saved 40+ IT hours per month and achieved 100% brand consistency across its growing workforce of 400+ employees.
+- [EMS Healthcare](https://exclaimer.com/resources/customer-stories/ems-healthcare/): How a clinical provider achieved 16,000+ banner clicks and a 40% improvement in IT productivity through fully automated compliance and marketing updates.
+
+## Company
+
+- [Security](https://exclaimer.com/product/security/): Details on Exclaimer's ISO 27001 & 27018 certifications, SOC 2 compliance, and enterprise security controls.
+- [Awards & Recognition](https://exclaimer.com/company/awards/): Industry awards and recognition received by Exclaimer.
+- [Customer Reviews](https://exclaimer.com/reviews/): Verified customer reviews and ratings from G2, Capterra, and other platforms.
+
+## Comparisons
+
+- [Exclaimer vs CodeTwo](https://exclaimer.com/compare/exclaimer-vs-codetwo/): Feature and pricing comparison between Exclaimer and CodeTwo.
+- [Exclaimer vs WiseStamp](https://exclaimer.com/compare/exclaimer-vs-wisestamp/): Feature and pricing comparison between Exclaimer and WiseStamp.
+- [Exclaimer vs Letsignit](https://exclaimer.com/compare/exclaimer-vs-letsignit/): Feature and pricing comparison between Exclaimer and Letsignit.
+- [Exclaimer vs Opensense](https://exclaimer.com/compare/exclaimer-vs-opensense/): Feature and pricing comparison between Exclaimer and Opensense.
+
+## Resources
+
+- [Email Signature Management: The complete guide](https://exclaimer.com/email-signature-handbook/simplifying-email-signature-management/): Comprehensive guide on how to streamline, secure, and scale email signature management in modern businesses.
+- [Exclaimer Deployment FAQs](https://exclaimer.com/email-signature-handbook/can-exclaimer-really-integrate-with-our-existing-setup/): A guide addressing the most common technical questions about Exclaimer.
+- [Professional Email Signature Examples](https://exclaimer.com/email-signature-handbook/professional-email-signature-examples/): Curated examples of effective, on-brand professional email signatures.
+- [Email Signature Generator](https://exclaimer.com/email-signature-generator/): Free tool to create professional email signatures with customizable templates.

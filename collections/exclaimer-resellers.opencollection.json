@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Exclaimer Cloud API — Resellers",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "ExApiToken",
+      "value": "{{ExApiToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Resellers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Resellers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/resellers",
+            "params": [
+              {
+                "name": "Page",
+                "value": "",
+                "type": "query",
+                "description": "Page numbers start at 1. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /> Results are ordered by the date the original subscription, or the reseller, was added. </p>"
+              },
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to 50. Maximum 200. <p> See the section <b>\"Paging of results\"</b> at the beginning of the document.<br /></p>"
+              },
+              {
+                "name": "ContinuationToken",
+                "value": "",
+                "type": "query",
+                "description": "A token that can be used to get the next page of results without supplying paging values."
+              }
+            ]
+          },
+          "docs": "This request will return details about each of your resellers."
+        },
+        {
+          "info": {
+            "name": "Add/Update Reseller",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/resellers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

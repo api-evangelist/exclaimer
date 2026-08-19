@@ -1,0 +1,2101 @@
+{
+  "item": [
+    {
+      "id": "6487d111-9527-46b2-bee9-5ebfa111b118",
+      "name": "MSP",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fc897e86-04c6-40de-98a9-984703b94810",
+          "name": "Add MSP Subscription",
+          "request": {
+            "name": "Add MSP Subscription",
+            "description": {
+              "content": "Creates a new subscription for Managed Service Provider (MSP) API users. <p> This endpoint is only available to API users with MSP (Managed Service Provider) access. </p><p> If you provide a <b>SubscriptionID</b>, it must be unique for your API user account. You will need this ID for subsequent operations such as updating the subscription or ending it. </p><p> The <b>EndUser</b> and <b>Reseller</b> objects are optional. If provided, all fields within them become required. These allow you to associate the subscription with your own end user and reseller references. </p>",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "msp",
+                "subscriptions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"DataCenter\": \"<string>\",\n  \"SubscriptionID\": \"<string>\",\n  \"SKU\": \"<string>\",\n  \"SubscriptionName\": \"<string>\",\n  \"EndUser\": {\n    \"EndUserID\": \"<string>\",\n    \"CompanyName\": \"<string>\",\n    \"CountryCode\": \"<string>\"\n  },\n  \"Reseller\": {\n    \"ResellerID\": \"<string>\",\n    \"CompanyName\": \"<string>\",\n    \"CountryCode\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "aeb70f87-ac43-4e19-8bcc-5956df26f64d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"DataCenter\":\"EU\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"SubscriptionID\\\":\\\"98xjD6BGyE5yq3g8A9MCXNHudobRxX\\\"}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae95f527-566b-427a-b19e-4e5e6389f5bc",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"DataCenter\":\"EU\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "54f17d44-2520-4878-804b-d597e5824c48",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"DataCenter\":\"EU\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "eed506bf-50a4-4fc2-85d7-1ba50f745796",
+              "name": "Forbidden - API user is not an MSP type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"DataCenter\":\"EU\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e3ad0e0d-0ed4-4b92-b7d3-dce229de915e",
+              "name": "Unsupported Media Type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"DataCenter\":\"EU\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "823e8322-a3d9-4248-8fb0-1e561025bf9d",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"DataCenter\":\"EU\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "06ff1f51-bff6-43fd-bc87-599f8c7d7251",
+          "name": "Get MSP Subscriptions",
+          "request": {
+            "name": "Get MSP Subscriptions",
+            "description": {
+              "content": "Returns a paged list of MSP subscriptions. This endpoint is only available to API users with MSP (Managed Service Provider) access. Set IncludeUsage to true to include usage data (TotalMailboxes) in the response. When IncludeUsage is true and no date range is provided, usage data defaults to the previous calendar month.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "msp",
+                "subscriptions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "Page",
+                  "value": "<integer>",
+                  "description": "Page numbers start at 1. See the section \"Paging of results\" at the beginning of the document. Results are ordered by the date the subscription was added."
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "<integer>",
+                  "description": "Defaults to 50. Maximum 200."
+                },
+                {
+                  "disabled": false,
+                  "key": "ContinuationToken",
+                  "value": "<integer>",
+                  "description": "A token that can be used to get the next page of results without supplying paging values."
+                },
+                {
+                  "disabled": false,
+                  "key": "DateFrom",
+                  "value": "<date>",
+                  "description": "Start date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together."
+                },
+                {
+                  "disabled": false,
+                  "key": "DateTo",
+                  "value": "<date>",
+                  "description": "End date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together."
+                },
+                {
+                  "disabled": false,
+                  "key": "IncludeUsage",
+                  "value": "<boolean>",
+                  "description": "When set to true, usage data (TotalMailboxes) will be included in the response. Defaults to false."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "199e3388-8f59-4115-b549-aa6fd7678324",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"Subscriptions\\\":[{\\\"SubscriptionID\\\":\\\"MSP-SUB-001\\\",\\\"Name\\\":\\\"Acme Corp Subscription\\\",\\\"EndUserID\\\":\\\"EU-001\\\",\\\"ResellerID\\\":\\\"RES-001\\\"},{\\\"SubscriptionID\\\":\\\"MSP-SUB-002\\\",\\\"Name\\\":\\\"Tech Solutions Subscription\\\",\\\"EndUserID\\\":\\\"EU-002\\\",\\\"ResellerID\\\":\\\"RES-001\\\"}],\\\"SubscriptionCount\\\":12,\\\"ContinuationToken\\\":26145,\\\"Page\\\":1,\\\"PageSize\\\":50}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59e1fc35-dab2-4b2d-9314-dfe849b2f377",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ec2f7480-b79b-4c7c-a640-6fdf6a7f60e5",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a7841230-c227-4e39-8cf1-4a8e834f1f24",
+              "name": "Forbidden - API user is not an MSP type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3e92f614-4c1f-4234-8df2-638d39907728",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "28b789ba-142f-494a-8f66-b0ed1c6545f9",
+          "name": "Get MSP Subscription",
+          "request": {
+            "name": "Get MSP Subscription",
+            "description": {
+              "content": "Returns details of a specific MSP subscription. This endpoint is only available to API users with MSP (Managed Service Provider) access. Set IncludeUsage to true to include usage data (TotalMailboxes) in the response. When IncludeUsage is true and no date range is provided, usage data defaults to the previous calendar month.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "msp",
+                "subscriptions",
+                ":SubscriptionID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "DateFrom",
+                  "value": "<date>",
+                  "description": "Start date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together."
+                },
+                {
+                  "disabled": false,
+                  "key": "DateTo",
+                  "value": "<date>",
+                  "description": "End date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together."
+                },
+                {
+                  "disabled": false,
+                  "key": "IncludeUsage",
+                  "value": "<boolean>",
+                  "description": "When set to true, usage data (TotalMailboxes) will be included in the response. Defaults to false."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "SubscriptionID",
+                  "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1193c879-3bba-446d-89c7-01fa30563d42",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"Subscription\\\":{\\\"SubscriptionID\\\":\\\"MSP-SUB-001\\\",\\\"Name\\\":\\\"Acme Corp Subscription\\\",\\\"EndUserID\\\":\\\"EU-001\\\",\\\"ResellerID\\\":\\\"RES-001\\\",\\\"TotalMailboxes\\\":150}}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cd18674e-2036-4166-bc11-4ff62dd9ab1d",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cb486a0e-de7b-47ae-a6b3-7bfcf0422f71",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b443cc89-5087-4cc5-9ecf-d8a7b09fc7a9",
+              "name": "Forbidden - API user is not an MSP type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "eaae9b07-af82-4d1b-9808-e40b063f5421",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7022dc5f-df0a-424f-b5f9-c5f8d9ff053b",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "IncludeUsage",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5b81f411-8e11-454b-80bc-64426f034be8",
+          "name": "Get MSP Subscription Status",
+          "request": {
+            "name": "Get MSP Subscription Status",
+            "description": {
+              "content": "Returns the subscription status and onboarding state for an MSP subscription.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "msp",
+                "subscriptions",
+                ":SubscriptionID",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "SubscriptionID",
+                  "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ff45399c-5e79-4ce1-888d-883a3c02d754",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"Status\\\":\\\"Active\\\",\\\"Onboarded\\\":true}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eec26ff2-d061-4616-ad9e-7d27d51ccfbb",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4d51840f-d42c-4d5d-90d1-1ce3a73df9b3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "77b998db-695c-4f2a-96d3-5ea71b705ff3",
+              "name": "Forbidden - API user is not an MSP type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c2113c06-df45-46a5-802a-128f53aaeab5",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "067c222c-fcf2-46b9-ace7-992da5eaa18a",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2b9e68ce-e413-448c-b62b-47b6f405de10",
+          "name": "Get MSP Senders",
+          "request": {
+            "name": "Get MSP Senders",
+            "description": {
+              "content": "Returns sender usage data as JSON for a specific MSP subscription. Only available to MSP API users. Defaults to previous calendar month if no date range is provided.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "1.0",
+                "msp",
+                "subscriptions",
+                ":SubscriptionID",
+                "senders",
+                "json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "DateFrom",
+                  "value": "<date>",
+                  "description": "Start date for usage data (format: YYYY-MM-DD). Both DateFrom and DateTo must be provided together."
+                },
+                {
+                  "disabled": false,
+                  "key": "DateTo",
+                  "value": "<date>",
+                  "description": "End date for usage data (format: YYYY-MM-DD). Both DateFrom and DateTo must be provided together."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "SubscriptionID",
+                  "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ad68274b-60e2-4fbe-9e79-678f5b6c0db3",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "senders",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\\"Senders\\\":[{\\\"UserId\\\":\\\"user-001\\\",\\\"Sender\\\":\\\"john.doe@example.com\\\",\\\"Total\\\":150,\\\"ImprintedServer\\\":50,\\\"ImprintedCloud\\\":60,\\\"ImprintedOnPremises\\\":40,\\\"Outlook\\\":100,\\\"Gmail\\\":50}]}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "75f1f0d0-7488-436a-a54d-6e38f7350018",
+              "name": "Bad Request / Missing Field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "senders",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "90472a38-b651-43f2-84f3-c5191dc641f0",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "senders",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9191d517-51bf-4d6a-8f85-038d87cd94b7",
+              "name": "Forbidden - API user is not an MSP type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "senders",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "30382149-348f-403c-9255-8efe00834fb1",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "senders",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5a4f6a4c-d7aa-46a7-8d4e-55cb7c95f81b",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "senders",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e8f5a46e-ab3f-4afa-8855-65a62cfd5072",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "1.0",
+                    "msp",
+                    "subscriptions",
+                    ":SubscriptionID",
+                    "senders",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateFrom",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "DateTo",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "SubscriptionID",
+                      "description": "(Required) Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "ExApiToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cloudapi.exclaimer.com/exclaimerapi",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "ExApiToken"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5251f88c-8655-4f1c-a55a-378170d219e1",
+    "name": "Exclaimer Cloud API — MSP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The MSP operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,127 @@
+openapi: 3.0.1
+info:
+  title: Exclaimer Cloud API — Mailboxes
+  version: '1'
+  description: The Mailboxes operations of the Exclaimer Cloud API, the partner/distributor provisioning
+    API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json
+    (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the
+    source specification.
+servers:
+- url: https://cloudapi.exclaimer.com/exclaimerapi
+  description: Local
+tags:
+- name: Mailboxes
+paths:
+  /1.0/subscriptions/{SubscriptionID}/mailbox-count:
+    get:
+      tags:
+      - Mailboxes
+      summary: Get Mailbox Count
+      description: This request will return the number of unique mailboxes (applied on the server, or
+        from a client) over the last 30 days. These number are updated at least once daily.
+      parameters:
+      - name: SubscriptionID
+        in: path
+        description: Your reference for the subscription. This is the same ID you specified, or was automatically
+          generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailboxCountResponse'
+              examples:
+                Basic response:
+                  value: '{"MailboxCount":23,"ClientSideMailboxCount":29}'
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /subscriptions/EX-Subscription-001/mailbox-count
+            value: '{}'
+    put:
+      tags:
+      - Mailboxes
+      summary: Update Mailbox Count
+      description: This request will update the number of users (mailboxes) for a subscription.
+      parameters:
+      - name: SubscriptionID
+        in: path
+        description: Your reference for the subscription. This is the same ID you specified, or was automatically
+          generated, when the subscription was created, i.e., when calling Add Subscription.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMailboxCount'
+            examples:
+              Basic usage:
+                value: '{"MailboxCount":23}'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /subscriptions/EX-Subscription-001/mailbox-count
+            value: '{"MailboxCount":20}'
+components:
+  schemas:
+    MailboxCountResponse:
+      title: MailboxCountResponse
+      properties:
+        MailboxCount:
+          type: number
+          description: The number of imprinted signatures applied as the email went through your email
+            system.
+          format: int32
+        ClientSideMailboxCount:
+          type: number
+          description: The number of downloaded signatures added directly via a client running on a machine,
+            e.g. in Outlook.
+          format: int32
+    UpdateMailboxCount:
+      title: UpdateMailboxCountRequest
+      required:
+      - MailboxCount
+      properties:
+        MailboxCount:
+          type: number
+          description: The total number of mailboxes for the subscription. For new accounts there is a
+            restriction on the minimum value, ruling it may not be set less than the current number of
+            imprinted mailboxes. <p> Where the caller is a <b>Managed Service Provider</b> on the <b>Elite
+            Program</b> the mailbox increment must not cause the total count across all subscriptions
+            to exceed the Mailbox Allocation. </p>
+          format: int32
+      description: This request will update the number of users (mailboxes) for a subscription.
+  securitySchemes:
+    Exclaimer:
+      type: apiKey
+      name: ExApiToken
+      in: header
+security:
+- Exclaimer: []

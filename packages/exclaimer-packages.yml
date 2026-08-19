@@ -1,0 +1,63 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  registry.npmjs.org search, pypi.org, azuresearch-usnc.nuget.org,
+  rubygems.org, packagist.org, crates.io, api.github.com (orgs/exclaimerltd and
+  repository search), and the Exclaimer Cloud API reference at
+  https://cloudapi.exclaimer.com/
+package_count: 0
+official_package_count: 0
+packages: []
+findings:
+- registry: npm
+  query: exclaimer
+  result: 0 packages
+  version: null
+  note: The npm registry search returns no packages for "exclaimer".
+- registry: pypi
+  query: exclaimer
+  result: HTTP 404
+  version: null
+  note: No PyPI project named exclaimer.
+- registry: nuget
+  query: exclaimer
+  result: totalHits 0
+  version: null
+  note: >-
+    Notable because the Exclaimer Cloud API is a .NET-shaped, PascalCase JSON API
+    and the company ships Windows/Exchange agents — there is still no published
+    NuGet client library.
+- registry: rubygems
+  query: exclaimer
+  result: HTTP 404
+  version: null
+- registry: packagist
+  query: exclaimer
+  result: >-
+    One match, exclaimer/ct-shared — "Package to use on Customer Thermometer
+    projects", repository github.com/mmexclaimer/ct-shared, 5 downloads. Customer
+    Thermometer is an Exclaimer group brand, but this is an internal shared
+    package for that product, not a client library for the Exclaimer Cloud API.
+  official: false
+  version: null
+  note: Not recorded as a package entry — it is not an SDK for any Exclaimer API.
+- registry: crates.io
+  query: exclaimer
+  result: no matching crate
+  version: null
+- registry: github
+  query: orgs/exclaimerltd
+  result: >-
+    Organization exists (https://github.com/exclaimerltd, "Exclaimer Ltd", 6 public
+    repos) but publishes no client libraries. The public repos are Zendesk Guide
+    themes (support.exclaimer.com, distributors.support.exclaimer.com,
+    universal-theme, support.customerthermometer.com), a job board
+    (exclaimer-job-board), and Internal-Support-Scripts (PowerShell).
+  version: null
+notes: >-
+  Exclaimer ships NO first-party SDK or client library in any language for the
+  Exclaimer Cloud API. The API reference offers cURL examples only. This is
+  consistent with the API's distribution model — access is restricted to the
+  distributor network, so there is no public developer population to serve a
+  package to. No `SDKs` pointer is wired in apis.yml because there is no SDK to
+  point at; an honest zero, not a missing measurement.

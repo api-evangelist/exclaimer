@@ -1,0 +1,51 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://cloudapi.exclaimer.com/ — Introduction section, which names the
+  development endpoint alongside the live one.
+description: >-
+  Exclaimer publishes a separate development endpoint for the Exclaimer Cloud API.
+  It is a distinct host, not a mode flag or a test-key prefix — the same
+  ExApiToken header authentication applies and partners are issued credentials for
+  it by Exclaimer.
+environments:
+- name: Development
+  base_url: https://sandbox-cloudapi.exclaimer.com
+  purpose: Partner integration development and testing against Exclaimer Cloud provisioning.
+  access: Credentials issued by Exclaimer to distributor-network partners.
+  probe:
+    fetched: '2026-08-13'
+    url: https://sandbox-cloudapi.exclaimer.com/
+    http_status: 307
+    note: >-
+      The host resolves (Cloudflare, same edge as cloudapi.exclaimer.com) and
+      answers 307 to unauthenticated requests rather than serving a public
+      reference page. Confirms the environment exists; its behaviour cannot be
+      exercised without partner credentials.
+- name: Live
+  base_url: https://cloudapi.exclaimer.com
+  purpose: Production provisioning and management of Exclaimer Cloud tenants.
+  access: Credentials issued by Exclaimer to distributor-network partners.
+
+mode_switching:
+  mechanism: separate host
+  detail: >-
+    Callers switch environment by changing the host. The path structure
+    ([endpoint]/[version]/[resource]) and the ExApiToken header are identical in
+    both.
+key_prefixes: none published
+test_data:
+  test_cards: null
+  test_identifiers: null
+  fixtures: null
+  time_simulation: null
+  note: >-
+    Exclaimer publishes no test values — no magic subscription IDs, no seeded
+    tenants, no fixture or trigger tooling, and no time/clock simulation. Nothing
+    is recorded here that Exclaimer does not publish.
+self_service:
+  available: false
+  detail: >-
+    There is no public sign-up for the API. The reference states the token "will be
+    provided to you separately"; the knowledge base states the Exclaimer Cloud API
+    is for distributor network use only.

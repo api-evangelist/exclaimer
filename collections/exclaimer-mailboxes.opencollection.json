@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Exclaimer Cloud API — Mailboxes",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "ExApiToken",
+      "value": "{{ExApiToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Mailboxes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Mailbox Count",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/mailbox-count",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling <b>Add Subscription</b>."
+              }
+            ]
+          },
+          "docs": "This request will return the number of unique mailboxes (applied on the server, or from a client) over the last 30 days. These number are updated at least once daily."
+        },
+        {
+          "info": {
+            "name": "Update Mailbox Count",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cloudapi.exclaimer.com/exclaimerapi/1.0/subscriptions/:SubscriptionID/mailbox-count",
+            "params": [
+              {
+                "name": "SubscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Your reference for the subscription. This is the same ID you specified, or was automatically generated, when the subscription was created, i.e., when calling Add Subscription."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This request will update the number of users (mailboxes) for a subscription."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

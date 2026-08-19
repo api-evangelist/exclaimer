@@ -1,0 +1,72 @@
+generated: '2026-08-13'
+method: searched
+source: https://exclaimer.com/pricing/
+currency: USD
+billing_unit: per user (mailbox) per month
+billing_period: annual (prices quoted "billed annually")
+minimum_users: 10
+free_trial:
+  available: true
+  length_days: 14
+  credit_card_required: false
+  url: https://go.exclaimer.com/trial
+api_access_note: >-
+  These are the end-customer subscription plans for the Exclaimer signature
+  management product. The Exclaimer Cloud API is NOT sold as a plan tier — it is a
+  partner/distributor provisioning API and access is granted through the Exclaimer
+  distributor network, with tokens issued by Exclaimer. No API pricing, quota or
+  metering is published.
+plan_count: 4
+plans:
+- name: Starter
+  price: '0.90'
+  currency: USD
+  unit: user/month
+  billing_period: annual
+  includes:
+  - One email signature template
+  - Centralized signature management
+  - Auto-updated employee details
+  - Branding controls
+  - Legal disclaimers
+  - Multi-device support
+  - Signature preview
+  - Template library
+- name: Standard
+  price: '1.45'
+  currency: USD
+  unit: user/month
+  billing_period: annual
+  includes:
+  - Everything in Starter
+  - Unlimited email signature templates
+  - Department-specific signatures
+  - Three Brand Kits
+  - Scheduling
+  - Recipient targeting
+- name: Pro
+  price: '1.75'
+  currency: USD
+  unit: user/month
+  billing_period: annual
+  includes:
+  - Everything in Standard
+  - Unlimited Brand Kits
+  - Advanced scheduling
+  - Social media feeds
+  - HubSpot and Salesforce integration
+  - Usage metrics
+  - Video meeting backgrounds
+  - HRIS synchronization (Workday, UKG Ready via BindBee)
+- name: Enterprise
+  price: custom
+  currency: USD
+  unit: user/month
+  billing_period: negotiated
+  includes:
+  - Choice of Standard or Pro feature tier
+  - Dedicated Customer Success Manager
+  - Tailored onboarding
+  - Guided implementation support
+  - Rollout planning assistance
+overage: not published
