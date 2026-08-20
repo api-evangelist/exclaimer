@@ -43,6 +43,17 @@ tags:
 - Email
 - Email Signatures
 - Email Signature Management
+- Microsoft-365
+- Google Workspace
+- Marketing
+- Productivity
+- Software-as-a-Service
+- Security
+tags_raw:
+- Company
+- Email
+- Email Signatures
+- Email Signature Management
 - Microsoft 365
 - Google Workspace
 - Marketing
@@ -64,6 +75,15 @@ apis:
   humanURL: https://cloudapi.exclaimer.com/
   baseURL: https://cloudapi.exclaimer.com/exclaimerapi
   tags:
+  - Email Signatures
+  - Provisioning
+  - Subscription Management
+  - Partner API
+  - Distributor
+  - MSP
+  - Reseller
+  - SaaS Management
+  tags_raw:
   - email-signatures
   - provisioning
   - subscription-management
