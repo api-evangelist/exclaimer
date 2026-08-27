@@ -61,60 +61,20 @@ tags_raw:
 - SaaS
 - Security
 apis:
-- name: Exclaimer Cloud API
-  description: >-
-    Partner and distributor provisioning API for Exclaimer Cloud tenants. Covers
-    creating and managing subscriptions (add, update, activate, deactivate, end,
-    reactivate, migrate, transfer ownership, change SKU/tier/NFR status),
-    MSP subscriptions and sender usage export, subscription users and roles,
-    resellers, end users, mailbox counts and allocation, and reference data
-    (data centers, SKUs, tiers). REST over HTTPS with JSON, authenticated with
-    an ExApiToken API key header, PascalCase-or-camelCase request tolerance, and
-    ContinuationToken paging. Access is restricted to the Exclaimer distributor
-    network; tokens are issued by Exclaimer.
+- aid: exclaimer:exclaimer-end-users-api
+  name: Exclaimer End Users API
+  description: The End Users API from Exclaimer — 1 operation(s) for end users.
   humanURL: https://cloudapi.exclaimer.com/
   baseURL: https://cloudapi.exclaimer.com/exclaimerapi
   tags:
-  - Email Signatures
-  - Provisioning
-  - Subscription Management
-  - Partner API
-  - Distributor
-  - MSP
-  - Reseller
-  - SaaS Management
-  tags_raw:
-  - email-signatures
-  - provisioning
-  - subscription-management
-  - partner-api
-  - distributor
-  - msp
-  - reseller
-  - saas-management
+  - End Users
   properties:
+  - type: OpenAPI
+    url: openapi/exclaimer-end-users-api-openapi.yml
   - type: APIReference
     url: https://cloudapi.exclaimer.com/
   - type: Documentation
     url: https://cloudapi.exclaimer.com/
-  - type: OpenAPI
-    url: openapi/exclaimer-subscriptions-openapi.yml
-  - type: OpenAPI
-    url: openapi/exclaimer-msp-openapi.yml
-  - type: OpenAPI
-    url: openapi/exclaimer-subscription-users-openapi.yml
-  - type: OpenAPI
-    url: openapi/exclaimer-subscription-transfers-openapi.yml
-  - type: OpenAPI
-    url: openapi/exclaimer-end-users-openapi.yml
-  - type: OpenAPI
-    url: openapi/exclaimer-resellers-openapi.yml
-  - type: OpenAPI
-    url: openapi/exclaimer-mailboxes-openapi.yml
-  - type: OpenAPI
-    url: openapi/exclaimer-reference-resources-openapi.yml
-  - type: OpenAPI
-    url: openapi/exclaimer-miscellaneous-openapi.yml
   - type: Authentication
     url: authentication/exclaimer-authentication.yml
   - type: Conventions
@@ -127,18 +87,243 @@ apis:
     url: rate-limits/exclaimer-rate-limits.yml
   - type: Sandbox
     url: sandbox/exclaimer-sandbox.yml
-  - type: Overlay
-    url: overlays/exclaimer-cloud-api-overlay.yaml
   - type: Conformance
     url: conformance/exclaimer-conformance.yml
-  - type: AgentSkill
-    url: skills/_index.yml
+- aid: exclaimer:exclaimer-mailboxes-api
+  name: Exclaimer Mailboxes API
+  description: The Mailboxes API from Exclaimer — 1 operation(s) for mailboxes.
+  humanURL: https://cloudapi.exclaimer.com/
+  baseURL: https://cloudapi.exclaimer.com/exclaimerapi
+  tags:
+  - Mailboxes
+  properties:
+  - type: OpenAPI
+    url: openapi/exclaimer-mailboxes-api-openapi.yml
+  - type: APIReference
+    url: https://cloudapi.exclaimer.com/
+  - type: Documentation
+    url: https://cloudapi.exclaimer.com/
+  - type: Authentication
+    url: authentication/exclaimer-authentication.yml
+  - type: Conventions
+    url: conventions/exclaimer-conventions.yml
+  - type: ErrorCatalog
+    url: errors/exclaimer-problem-types.yml
+  - type: DataModel
+    url: data-model/exclaimer-data-model.yml
+  - type: RateLimits
+    url: rate-limits/exclaimer-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/exclaimer-sandbox.yml
+  - type: Conformance
+    url: conformance/exclaimer-conformance.yml
+- aid: exclaimer:exclaimer-miscellaneous-api
+  name: Exclaimer Miscellaneous API
+  description: The Miscellaneous API from Exclaimer — 2 operation(s) for miscellaneous.
+  humanURL: https://cloudapi.exclaimer.com/
+  baseURL: https://cloudapi.exclaimer.com/exclaimerapi
+  tags:
+  - Miscellaneous
+  properties:
+  - type: OpenAPI
+    url: openapi/exclaimer-miscellaneous-api-openapi.yml
+  - type: APIReference
+    url: https://cloudapi.exclaimer.com/
+  - type: Documentation
+    url: https://cloudapi.exclaimer.com/
+  - type: Authentication
+    url: authentication/exclaimer-authentication.yml
+  - type: Conventions
+    url: conventions/exclaimer-conventions.yml
+  - type: ErrorCatalog
+    url: errors/exclaimer-problem-types.yml
+  - type: DataModel
+    url: data-model/exclaimer-data-model.yml
+  - type: RateLimits
+    url: rate-limits/exclaimer-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/exclaimer-sandbox.yml
+  - type: Conformance
+    url: conformance/exclaimer-conformance.yml
+- aid: exclaimer:exclaimer-msp-api
+  name: Exclaimer MSP API
+  description: The MSP API from Exclaimer — 4 operation(s) for msp.
+  humanURL: https://cloudapi.exclaimer.com/
+  baseURL: https://cloudapi.exclaimer.com/exclaimerapi
+  tags:
+  - MSP
+  properties:
+  - type: OpenAPI
+    url: openapi/exclaimer-msp-api-openapi.yml
+  - type: APIReference
+    url: https://cloudapi.exclaimer.com/
+  - type: Documentation
+    url: https://cloudapi.exclaimer.com/
+  - type: Authentication
+    url: authentication/exclaimer-authentication.yml
+  - type: Conventions
+    url: conventions/exclaimer-conventions.yml
+  - type: ErrorCatalog
+    url: errors/exclaimer-problem-types.yml
+  - type: DataModel
+    url: data-model/exclaimer-data-model.yml
+  - type: RateLimits
+    url: rate-limits/exclaimer-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/exclaimer-sandbox.yml
+  - type: Conformance
+    url: conformance/exclaimer-conformance.yml
+- aid: exclaimer:exclaimer-reference-resources-api
+  name: Exclaimer Reference Resources API
+  description: The Reference Resources API from Exclaimer — 3 operation(s) for reference resources.
+  humanURL: https://cloudapi.exclaimer.com/
+  baseURL: https://cloudapi.exclaimer.com/exclaimerapi
+  tags:
+  - Reference Resources
+  properties:
+  - type: OpenAPI
+    url: openapi/exclaimer-reference-resources-api-openapi.yml
+  - type: APIReference
+    url: https://cloudapi.exclaimer.com/
+  - type: Documentation
+    url: https://cloudapi.exclaimer.com/
+  - type: Authentication
+    url: authentication/exclaimer-authentication.yml
+  - type: Conventions
+    url: conventions/exclaimer-conventions.yml
+  - type: ErrorCatalog
+    url: errors/exclaimer-problem-types.yml
+  - type: DataModel
+    url: data-model/exclaimer-data-model.yml
+  - type: RateLimits
+    url: rate-limits/exclaimer-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/exclaimer-sandbox.yml
+  - type: Conformance
+    url: conformance/exclaimer-conformance.yml
+- aid: exclaimer:exclaimer-resellers-api
+  name: Exclaimer Resellers API
+  description: The Resellers API from Exclaimer — 1 operation(s) for resellers.
+  humanURL: https://cloudapi.exclaimer.com/
+  baseURL: https://cloudapi.exclaimer.com/exclaimerapi
+  tags:
+  - Resellers
+  properties:
+  - type: OpenAPI
+    url: openapi/exclaimer-resellers-api-openapi.yml
+  - type: APIReference
+    url: https://cloudapi.exclaimer.com/
+  - type: Documentation
+    url: https://cloudapi.exclaimer.com/
+  - type: Authentication
+    url: authentication/exclaimer-authentication.yml
+  - type: Conventions
+    url: conventions/exclaimer-conventions.yml
+  - type: ErrorCatalog
+    url: errors/exclaimer-problem-types.yml
+  - type: DataModel
+    url: data-model/exclaimer-data-model.yml
+  - type: RateLimits
+    url: rate-limits/exclaimer-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/exclaimer-sandbox.yml
+  - type: Conformance
+    url: conformance/exclaimer-conformance.yml
+- aid: exclaimer:exclaimer-subscription-transfers-api
+  name: Exclaimer Subscription Transfers API
+  description: >-
+    The Subscription Transfers API from Exclaimer — 3 operation(s) for subscription transfers.
+  humanURL: https://cloudapi.exclaimer.com/
+  baseURL: https://cloudapi.exclaimer.com/exclaimerapi
+  tags:
+  - Subscription Transfers
+  properties:
+  - type: OpenAPI
+    url: openapi/exclaimer-subscription-transfers-api-openapi.yml
+  - type: APIReference
+    url: https://cloudapi.exclaimer.com/
+  - type: Documentation
+    url: https://cloudapi.exclaimer.com/
+  - type: Authentication
+    url: authentication/exclaimer-authentication.yml
+  - type: Conventions
+    url: conventions/exclaimer-conventions.yml
+  - type: ErrorCatalog
+    url: errors/exclaimer-problem-types.yml
+  - type: DataModel
+    url: data-model/exclaimer-data-model.yml
+  - type: RateLimits
+    url: rate-limits/exclaimer-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/exclaimer-sandbox.yml
+  - type: Conformance
+    url: conformance/exclaimer-conformance.yml
+- aid: exclaimer:exclaimer-subscription-users-api
+  name: Exclaimer Subscription Users API
+  description: The Subscription Users API from Exclaimer — 4 operation(s) for subscription users.
+  humanURL: https://cloudapi.exclaimer.com/
+  baseURL: https://cloudapi.exclaimer.com/exclaimerapi
+  tags:
+  - Subscription Users
+  properties:
+  - type: OpenAPI
+    url: openapi/exclaimer-subscription-users-api-openapi.yml
+  - type: APIReference
+    url: https://cloudapi.exclaimer.com/
+  - type: Documentation
+    url: https://cloudapi.exclaimer.com/
+  - type: Authentication
+    url: authentication/exclaimer-authentication.yml
+  - type: Conventions
+    url: conventions/exclaimer-conventions.yml
+  - type: ErrorCatalog
+    url: errors/exclaimer-problem-types.yml
+  - type: DataModel
+    url: data-model/exclaimer-data-model.yml
+  - type: RateLimits
+    url: rate-limits/exclaimer-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/exclaimer-sandbox.yml
+  - type: Conformance
+    url: conformance/exclaimer-conformance.yml
+- aid: exclaimer:exclaimer-subscriptions-api
+  name: Exclaimer Subscriptions API
+  description: The Subscriptions API from Exclaimer — 13 operation(s) for subscriptions.
+  humanURL: https://cloudapi.exclaimer.com/
+  baseURL: https://cloudapi.exclaimer.com/exclaimerapi
+  tags:
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/exclaimer-subscriptions-api-openapi.yml
+  - type: APIReference
+    url: https://cloudapi.exclaimer.com/
+  - type: Documentation
+    url: https://cloudapi.exclaimer.com/
+  - type: Authentication
+    url: authentication/exclaimer-authentication.yml
+  - type: Conventions
+    url: conventions/exclaimer-conventions.yml
+  - type: ErrorCatalog
+    url: errors/exclaimer-problem-types.yml
+  - type: DataModel
+    url: data-model/exclaimer-data-model.yml
+  - type: RateLimits
+    url: rate-limits/exclaimer-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/exclaimer-sandbox.yml
+  - type: Conformance
+    url: conformance/exclaimer-conformance.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/exclaimer-cloud-api-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
 - type: Website
   url: https://exclaimer.com/
 - type: Pricing
