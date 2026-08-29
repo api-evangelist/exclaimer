@@ -14,6 +14,18 @@ description: >-
   transfers and reference data. It operates a multi-region Exclaimer Cloud with
   a real-time status page and a strong security and compliance program (SOC 2
   Type II, ISO 27001/27018, HIPAA, PCI DSS, CSA STAR, Cyber Essentials).
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: approval
