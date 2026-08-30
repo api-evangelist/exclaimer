@@ -1,0 +1,473 @@
+openapi: 3.2.0
+info:
+  title: Exclaimer Cloud MSP API
+  version: '1'
+  description: The MSP operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.
+servers:
+- url: https://cloudapi.exclaimer.com/exclaimerapi
+  description: Local
+security:
+- Exclaimer: []
+tags:
+- name: MSP
+paths:
+  /1.0/msp/subscriptions:
+    post:
+      tags:
+      - MSP
+      summary: Add MSP Subscription
+      description: Creates a new subscription for Managed Service Provider (MSP) API users. <p> This endpoint is only available to API users with MSP (Managed Service Provider) access. </p><p> If you provide a <b>SubscriptionID</b>, it must be unique for your API user account. You will need this ID for subsequent operations such as updating the subscription or ending it. </p><p> The <b>EndUser</b> and <b>Reseller</b> objects are optional. If provided, all fields within them become required. These allow you to associate the subscription with your own end user and reseller references. </p>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMspSubscription'
+            examples:
+              Minimum:
+                value: '{"DataCenter":"EU"}'
+              With custom Subscription ID:
+                value: '{"DataCenter":"US","SubscriptionID":"MSP-SUB-001"}'
+              With End User:
+                value: '{"DataCenter":"EU","EndUser":{"EndUserID":"EU-001","CompanyName":"Acme Corp","CountryCode":"GB"}}'
+              Complete:
+                value: '{"DataCenter":"EU","SubscriptionID":"MSP-SUB-002","SKU":"EXCL-M-PRO","SubscriptionName":"Tech Solutions Subscription","EndUser":{"EndUserID":"EU-002","CompanyName":"Tech Solutions Ltd","CountryCode":"GB"},"Reseller":{"ResellerID":"RES-001","CompanyName":"Partner Inc","CountryCode":"US"}}'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddMspSubscriptionResponse'
+              examples:
+                Auto-generated:
+                  value: '{"SubscriptionID":"98xjD6BGyE5yq3g8A9MCXNHudobRxX"}'
+                Specified:
+                  value: '{"SubscriptionID":"MSP-SUB-001"}'
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - API user is not an MSP type
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Minimum - data center only:
+            description: /1.0/msp/subscriptions
+            value: '{"DataCenter":"EU"}'
+          With custom subscription ID:
+            description: /1.0/msp/subscriptions
+            value: '{"DataCenter":"US","SubscriptionID":"MSP-SUB-001"}'
+          Complete with end user and reseller:
+            description: /1.0/msp/subscriptions
+            value: '{"DataCenter":"EU","SubscriptionID":"MSP-SUB-002","SKU":"EXCL-M-PRO","SubscriptionName":"Tech Solutions Subscription","EndUser":{"EndUserID":"EU-002","CompanyName":"Tech Solutions Ltd","CountryCode":"GB"},"Reseller":{"ResellerID":"RES-001","CompanyName":"Partner Inc","CountryCode":"US"}}'
+    get:
+      tags:
+      - MSP
+      summary: Get MSP Subscriptions
+      description: Returns a paged list of MSP subscriptions. This endpoint is only available to API users with MSP (Managed Service Provider) access. Set IncludeUsage to true to include usage data (TotalMailboxes) in the response. When IncludeUsage is true and no date range is provided, usage data defaults to the previous calendar month.
+      parameters:
+      - name: Page
+        in: query
+        description: Page numbers start at 1. See the section "Paging of results" at the beginning of the document. Results are ordered by the date the subscription was added.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: PageSize
+        in: query
+        description: Defaults to 50. Maximum 200.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: ContinuationToken
+        in: query
+        description: A token that can be used to get the next page of results without supplying paging values.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: DateFrom
+        in: query
+        description: 'Start date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: DateTo
+        in: query
+        description: 'End date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: IncludeUsage
+        in: query
+        description: When set to true, usage data (TotalMailboxes) will be included in the response. Defaults to false.
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMspSubscriptionsResponse'
+              examples:
+                Basic response:
+                  value: '{"Subscriptions":[{"SubscriptionID":"MSP-SUB-001","Name":"Acme Corp Subscription","EndUserID":"EU-001","ResellerID":"RES-001"},{"SubscriptionID":"MSP-SUB-002","Name":"Tech Solutions Subscription","EndUserID":"EU-002","ResellerID":"RES-001"}],"SubscriptionCount":12,"ContinuationToken":26145,"Page":1,"PageSize":50}'
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - API user is not an MSP type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /1.0/msp/subscriptions
+            value: '{}'
+          With usage data - cURL:
+            description: /1.0/msp/subscriptions?IncludeUsage=true
+            value: '{}'
+          With usage data and date range - cURL:
+            description: /1.0/msp/subscriptions?IncludeUsage=true&DateFrom=2025-01-01&DateTo=2025-01-31
+            value: '{}'
+  /1.0/msp/subscriptions/{SubscriptionID}:
+    get:
+      tags:
+      - MSP
+      summary: Get MSP Subscription
+      description: Returns details of a specific MSP subscription. This endpoint is only available to API users with MSP (Managed Service Provider) access. Set IncludeUsage to true to include usage data (TotalMailboxes) in the response. When IncludeUsage is true and no date range is provided, usage data defaults to the previous calendar month.
+      parameters:
+      - name: SubscriptionID
+        in: path
+        description: Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>.
+        required: true
+        schema:
+          type: string
+      - name: DateFrom
+        in: query
+        description: 'Start date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: DateTo
+        in: query
+        description: 'End date for usage data (format: YYYY-MM-DD). Only applies when IncludeUsage is true. Both DateFrom and DateTo must be provided together.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: IncludeUsage
+        in: query
+        description: When set to true, usage data (TotalMailboxes) will be included in the response. Defaults to false.
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMspSubscriptionResponse'
+              examples:
+                Basic response:
+                  value: '{"Subscription":{"SubscriptionID":"MSP-SUB-001","Name":"Acme Corp Subscription","EndUserID":"EU-001","ResellerID":"RES-001","TotalMailboxes":150}}'
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - API user is not an MSP type
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /1.0/msp/subscriptions/MSP-SUB-001
+            value: '{}'
+          With usage data - cURL:
+            description: /1.0/msp/subscriptions/MSP-SUB-001?IncludeUsage=true
+            value: '{}'
+          With usage data and date range - cURL:
+            description: /1.0/msp/subscriptions/MSP-SUB-001?IncludeUsage=true&DateFrom=2025-01-01&DateTo=2025-01-31
+            value: '{}'
+  /1.0/msp/subscriptions/{SubscriptionID}/status:
+    get:
+      tags:
+      - MSP
+      summary: Get MSP Subscription Status
+      description: Returns the subscription status and onboarding state for an MSP subscription.
+      parameters:
+      - name: SubscriptionID
+        in: path
+        description: Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMspSubscriptionStatusResponse'
+              examples:
+                Basic response:
+                  value: '{"Status":"Active","Onboarded":true}'
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - API user is not an MSP type
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /subscriptions/MSP-SUB-001/status
+            value: '{}'
+  /1.0/msp/subscriptions/{SubscriptionID}/senders/json:
+    get:
+      tags:
+      - MSP
+      summary: Get MSP Senders
+      description: Returns sender usage data as JSON for a specific MSP subscription. Only available to MSP API users. Defaults to previous calendar month if no date range is provided.
+      parameters:
+      - name: SubscriptionID
+        in: path
+        description: Your reference for the subscription. This is the same ID you specified, or was automatically generated, when calling <b>Add MSP Subscription</b>.
+        required: true
+        schema:
+          type: string
+      - name: DateFrom
+        in: query
+        description: 'Start date for usage data (format: YYYY-MM-DD). Both DateFrom and DateTo must be provided together.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: DateTo
+        in: query
+        description: 'End date for usage data (format: YYYY-MM-DD). Both DateFrom and DateTo must be provided together.'
+        required: false
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMspSendersResponse'
+              examples:
+                Basic response:
+                  value: '{"Senders":[{"UserId":"user-001","Sender":"john.doe@example.com","Total":150,"ImprintedServer":50,"ImprintedCloud":60,"ImprintedOnPremises":40,"Outlook":100,"Gmail":50}]}'
+                Empty senders:
+                  value: '{"Senders":[]}'
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - API user is not an MSP type
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /1.0/msp/subscriptions/MSP-SUB-001/senders/json
+            value: '{}'
+          With date range - cURL:
+            description: /1.0/msp/subscriptions/MSP-SUB-001/senders/json?DateFrom=2025-01-01&DateTo=2025-01-31
+            value: '{}'
+components:
+  schemas:
+    GetMspSendersResponse:
+      title: GetMspSendersResponse
+      properties:
+        Senders:
+          type: array
+          items:
+            $ref: '#/components/schemas/MspSenderUsage'
+          description: An array of sender usage objects.
+    GetMspSubscriptionsResponse:
+      title: GetMspSubscriptionsResponse
+      properties:
+        Subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MspSubscription'
+          description: If there are more subscriptions than the PageSize, then this will contain a subset of all subscriptions.
+        SubscriptionCount:
+          type: number
+          description: The total number of subscriptions available.
+          format: int32
+        ContinuationToken:
+          type: number
+          description: See the section "Paging of results" at the beginning of the document.
+          format: int32
+        Page:
+          type: number
+          description: See the section "Paging of results" at the beginning of the document.
+          format: int32
+        PageSize:
+          type: number
+          description: See the section "Paging of results" at the beginning of the document.
+          format: int32
+    MspSenderUsage:
+      title: MspSenderUsage
+      properties:
+        UserId:
+          type: string
+          description: The unique identifier of the user.
+        Sender:
+          type: string
+          description: The email address of the sender.
+        Total:
+          type: number
+          description: The total number of messages sent.
+          format: int32
+        ImprintedServer:
+          type: number
+          description: The number of messages imprinted via server-side.
+          format: int32
+        ImprintedCloud:
+          type: number
+          description: The number of messages imprinted via cloud.
+          format: int32
+        ImprintedOnPremises:
+          type: number
+          description: The number of messages imprinted via on-premises.
+          format: int32
+        Outlook:
+          type: number
+          description: The number of messages sent via Outlook.
+          format: int32
+        Gmail:
+          type: number
+          description: The number of messages sent via Gmail.
+          format: int32
+    AddMspSubscription:
+      title: AddMspSubscriptionRequest
+      required:
+      - DataCenter
+      properties:
+        DataCenter:
+          type: string
+          description: The data center where the subscription will be created. <p> EU - Europe<br /> UK - UK<br /> US - US<br /> AUS - Australia<br /> CAN - Canada<br /> DE - Germany<br /> IND - UAE </p>
+        SubscriptionID:
+          type: string
+          description: Your reference for the subscription. If not specified, this will be automatically generated (30 characters). Must be unique for your API user account. Maximum 50 characters.
+        SKU:
+          type: string
+          description: 'A code representing the type of product being requested. Defaults to EXCL-M-PRO if not specified. <p> MSP accounts are limited to PRO tier subscriptions. Available SKUs: </p><p> EXCL-M-PRO - Exclaimer Pro for Microsoft 365<br /> EXCL-G-PRO - Exclaimer Pro for Google Workspace </p>'
+        SubscriptionName:
+          type: string
+          description: The name of the subscription. If not specified, this will default to the EndUser.CompanyName
+        EndUser:
+          $ref: '#/components/schemas/AddMspSubscriptionEndUser'
+        Reseller:
+          $ref: '#/components/schemas/AddMspSubscriptionReseller'
+      description: Creates a new subscription for Managed Service Provider (MSP) API users.
+    GetMspSubscriptionResponse:
+      title: GetMspSubscriptionResponse
+      properties:
+        Subscription:
+          $ref: '#/components/schemas/MspSubscription'
+    GetMspSubscriptionStatusResponse:
+      title: GetMspSubscriptionStatusResponse
+      required:
+      - Status
+      - Onboarded
+      properties:
+        Status:
+          type: string
+          description: Active<br /> Suspended<br /> Cancelled<br /> Ended<br /> Unknown
+        Onboarded:
+          type: boolean
+          description: Indicates whether the tenant has completed onboarding.
+    AddMspSubscriptionReseller:
+      title: AddMspSubscriptionReseller
+      required:
+      - ResellerID
+      - CompanyName
+      - CountryCode
+      properties:
+        ResellerID:
+          type: string
+          description: Your reference for the reseller. Maximum 100 characters.
+        CompanyName:
+          type: string
+          description: The name of the company. Maximum 100 characters.
+        CountryCode:
+          type: string
+          description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters).
+      description: Allows you to associate the subscription with a custom reseller record. If provided, all fields within are required.
+    AddMspSubscriptionEndUser:
+      title: AddMspSubscriptionEndUser
+      required:
+      - EndUserID
+      - CompanyName
+      - CountryCode
+      properties:
+        EndUserID:
+          type: string
+          description: Your reference for the end user. Maximum 100 characters.
+        CompanyName:
+          type: string
+          description: The name of the company. Maximum 100 characters.
+        CountryCode:
+          type: string
+          description: The country code where the end user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters).
+      description: Allows you to associate the subscription with a custom end user record. If provided, all fields within are required.
+    AddMspSubscriptionResponse:
+      title: AddMspSubscriptionResponse
+      properties:
+        SubscriptionID:
+          type: string
+          description: If specified in the request, this will be the value you passed. If not specified, this will be an automatically generated value (30 characters).
+    MspSubscription:
+      title: MspSubscription
+      properties:
+        EndUserID:
+          type: string
+          description: Your reference for the end user.
+        Name:
+          type: string
+          description: The name of the subscription.
+        ResellerID:
+          type: string
+          description: Your reference for the reseller.
+        SubscriptionID:
+          type: string
+          description: Your reference for the subscription.
+        TotalMailboxes:
+          type: number
+          description: The total number of mailboxes with usage for the supplied date range. Only returned when IncludeUsage is true. Defaults to the previous calendar month if no dates are supplied.
+          format: int32
+  securitySchemes:
+    Exclaimer:
+      type: apiKey
+      name: ExApiToken
+      in: header

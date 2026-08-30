@@ -1,0 +1,155 @@
+openapi: 3.2.0
+info:
+  title: Exclaimer Cloud Resellers API
+  version: '1'
+  description: The Resellers operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.
+servers:
+- url: https://cloudapi.exclaimer.com/exclaimerapi
+  description: Local
+security:
+- Exclaimer: []
+tags:
+- name: Resellers
+paths:
+  /1.0/resellers:
+    put:
+      tags:
+      - Resellers
+      summary: Add/Update Reseller
+      description: This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddReseller'
+            examples:
+              Basic usage:
+                value: '{"ResellerID":"Email Services","CompanyName":"The Spencer Group","CountryCode":"GBR"}'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /resellers
+            value: '{"ResellerID":"EX-Reseller-001","CompanyName":"EX-Company-002","CountryCode":"GB"}'
+    get:
+      tags:
+      - Resellers
+      summary: Get Resellers
+      description: This request will return details about each of your resellers.
+      parameters:
+      - name: Page
+        in: query
+        description: Page numbers start at 1. <p> See the section <b>"Paging of results"</b> at the beginning of the document.<br /> Results are ordered by the date the original subscription, or the reseller, was added. </p>
+        schema:
+          type: number
+          format: int32
+      - name: PageSize
+        in: query
+        description: Defaults to 50. Maximum 200. <p> See the section <b>"Paging of results"</b> at the beginning of the document.<br /></p>
+        schema:
+          type: number
+          format: int32
+      - name: ContinuationToken
+        in: query
+        description: A token that can be used to get the next page of results without supplying paging values.
+        schema:
+          type: number
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResellersResponse'
+              examples:
+                Basic response:
+                  value: '{"Resellers":[{"ResellerID":"FINTECH-01-D","CompanyName":"Kings Ltd","CountryCode":"DE"},{"ResellerID":"ENT-11-U","CompanyName":"Lang & Co","CountryCode":"GBR"},{"ResellerID":"ED-85-T","CompanyName":"Bucks Ed","CountryCode":"GBR"}],"ResellerCount":15,"ContinuationToken":26145,"Page":4,"PageSize":3}'
+        '400':
+          description: Bad Request / Missing Field
+        '401':
+          description: Unauthorized
+        '415':
+          description: Unsupported Media Type
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        routeExamples:
+          Basic usage:
+            value: /resellers
+          Paging:
+            value: /resellers?Page=4&PageSize=3
+        curlExamples:
+          Subset of resellers defined by page and size - cURL:
+            description: /resellers?Page=2&PageSize=2
+            value: '{}'
+components:
+  schemas:
+    ResellersResponse:
+      title: ResellersResponse
+      properties:
+        Resellers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResellerResponse'
+          description: If there are more resellers than the <b>PageSize</b>, then this will contain a subset of all resellers.
+        ResellerCount:
+          type: number
+          description: The total number of resellers available. This is useful for when the number of resellers is greater than the current page size.
+          format: int32
+        ContinuationToken:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
+        Page:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
+        PageSize:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
+    ResellerResponse:
+      title: Reseller
+      properties:
+        ResellerID:
+          type: string
+          description: Your reference for the reseller. This is the same ID you specified when the subscription was created via <b>Add Subscription</b>, or when calling <b>Add/Update Reseller</b>.
+        CompanyName:
+          type: string
+          description: The name of the company.
+        CountryCode:
+          type: string
+          description: The country code where the reseller is based.<br /> Returned as alpha-3 ISO 3166-1.
+    AddReseller:
+      title: AddResellerRequest
+      required:
+      - ResellerID
+      - CompanyName
+      - CountryCode
+      properties:
+        ResellerID:
+          type: string
+          description: Your reference for the reseller.
+        CompanyName:
+          type: string
+          description: The name of the company.
+        CountryCode:
+          type: string
+          description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
+      description: This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>
+  securitySchemes:
+    Exclaimer:
+      type: apiKey
+      name: ExApiToken
+      in: header

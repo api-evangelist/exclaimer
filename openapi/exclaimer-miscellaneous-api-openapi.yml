@@ -1,0 +1,94 @@
+openapi: 3.2.0
+info:
+  title: Exclaimer Cloud Miscellaneous API
+  version: '1'
+  description: The Miscellaneous operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.
+servers:
+- url: https://cloudapi.exclaimer.com/exclaimerapi
+  description: Local
+security:
+- Exclaimer: []
+tags:
+- name: Miscellaneous
+paths:
+  /1.0/mailbox-allocation:
+    get:
+      tags:
+      - Miscellaneous
+      summary: Get Mailbox Allocation
+      description: This request returns the current usage against the ApiUser's mailbox allocation. <p><b>Note:</b> This end-point is only available to Managed Service Providers on the Elite program. </p>
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailboxAllocationResponse'
+              examples:
+                Response:
+                  value: '{"MailboxAllocation":10000,"Allocated":7000,"Remaining":3000}'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        routeExamples:
+          Usage:
+            value: /mailbox-allocation
+        curlExamples:
+          Usage - cURL:
+            description: /mailbox-allocation
+            value: '{}'
+  /1.0/status:
+    get:
+      tags:
+      - Miscellaneous
+      summary: Status
+      description: This request can be used to verify that the server is available.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+              examples:
+                Basic usage:
+                  value: '{"CurrentTime":"2025-09-02T07:54:59"}'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      x-documentation:
+        curlExamples:
+          Basic usage - cURL:
+            description: /status
+            value: '{}'
+components:
+  schemas:
+    MailboxAllocationResponse:
+      title: MailboxAllocationResponse
+      properties:
+        MailboxAllocation:
+          type: number
+          description: The limit to the total number of mailboxes that can be allocated.
+          format: int32
+        Allocated:
+          type: number
+          description: The number of mailboxes that have been allocated.
+          format: int32
+        Remaining:
+          type: number
+          description: The number of mailboxes remaining that may be allocated.
+          format: int32
+    StatusResponse:
+      title: StatusResponse
+      properties:
+        CurrentTime:
+          type: string
+          description: The current time on the Exclaimer Cloud API server.
+  securitySchemes:
+    Exclaimer:
+      type: apiKey
+      name: ExApiToken
+      in: header
