@@ -134,7 +134,8 @@ apis:
   description: The Miscellaneous API from Exclaimer — 2 operation(s) for miscellaneous.
   humanURL: https://cloudapi.exclaimer.com/
   baseURL: https://cloudapi.exclaimer.com/exclaimerapi
-  tags:
+  tags: []
+  tags_raw:
   - Miscellaneous
   properties:
   - type: OpenAPI
@@ -304,6 +305,8 @@ apis:
   humanURL: https://cloudapi.exclaimer.com/
   baseURL: https://cloudapi.exclaimer.com/exclaimerapi
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
