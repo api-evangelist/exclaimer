@@ -1,0 +1,55 @@
+{
+  "provider": "exclaimer",
+  "sources": [
+    "_original/exclaimer-cloud-api-openapi.json"
+  ],
+  "outputs": [
+    "exclaimer-end-users-api-openapi.yml",
+    "exclaimer-msp-api-openapi.yml",
+    "exclaimer-mailboxes-api-openapi.yml",
+    "exclaimer-miscellaneous-api-openapi.yml",
+    "exclaimer-reference-resources-api-openapi.yml",
+    "exclaimer-resellers-api-openapi.yml",
+    "exclaimer-subscription-transfers-api-openapi.yml",
+    "exclaimer-subscription-users-api-openapi.yml",
+    "exclaimer-subscriptions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "9 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "exclaimer-cloud-api-openapi.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "exclaimer-cloud-api-openapi.json: declared missing tag: End Users",
+    "exclaimer-cloud-api-openapi.json: declared missing tag: MSP",
+    "exclaimer-cloud-api-openapi.json: declared missing tag: Mailboxes",
+    "exclaimer-cloud-api-openapi.json: declared missing tag: Miscellaneous",
+    "exclaimer-cloud-api-openapi.json: declared missing tag: Reference Resources",
+    "exclaimer-cloud-api-openapi.json: declared missing tag: Resellers",
+    "exclaimer-cloud-api-openapi.json: declared missing tag: Subscription Transfers",
+    "exclaimer-cloud-api-openapi.json: declared missing tag: Subscription Users",
+    "exclaimer-cloud-api-openapi.json: declared missing tag: Subscriptions",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/exclaimer-subscriptions-openapi.yml: archived document superseded by a larger archived document",
+    "_original/exclaimer-subscription-users-openapi.yml: archived document superseded by a larger archived document",
+    "_original/exclaimer-subscription-transfers-openapi.yml: archived document superseded by a larger archived document",
+    "_original/exclaimer-resellers-openapi.yml: archived document superseded by a larger archived document",
+    "_original/exclaimer-reference-resources-openapi.yml: archived document superseded by a larger archived document",
+    "_original/exclaimer-msp-openapi.yml: archived document superseded by a larger archived document",
+    "_original/exclaimer-miscellaneous-openapi.yml: archived document superseded by a larger archived document",
+    "_original/exclaimer-mailboxes-openapi.yml: archived document superseded by a larger archived document",
+    "_original/exclaimer-end-users-openapi.yml: archived document superseded by a larger archived document",
+    "exclaimer-end-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "exclaimer-mailboxes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "exclaimer-miscellaneous-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "exclaimer-msp-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "exclaimer-reference-resources-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "exclaimer-resellers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "exclaimer-subscription-transfers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "exclaimer-subscription-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "exclaimer-subscriptions-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

@@ -1,8 +1,14 @@
 openapi: 3.2.0
 info:
   title: Exclaimer Cloud Subscription Users API
+  description: 'Introduction
+
+
+    The Exclaimer Cloud API is designed to offer partners the ability to provision and manage Exclaimer Cloud tenants.'
   version: '1'
-  description: The Subscription Users operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.
+  x-documentation:
+    documentVersion: '5.2'
+    datePublished: '2025-07-23 14:34:13Z'
 servers:
 - url: https://cloudapi.exclaimer.com/exclaimerapi
   description: Local
@@ -16,7 +22,12 @@ paths:
       tags:
       - Subscription Users
       summary: Add Subscription User
-      description: This request allows you to add new users to a subscription. <p> The same user can be added to multiple subscriptions. </p><p> Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added. </p>
+      description: 'This request allows you to add new users to a subscription.
+
+        The same user can be added to multiple subscriptions.
+
+
+        Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added.'
       parameters:
       - name: SubscriptionID
         in: path
@@ -48,6 +59,8 @@ paths:
           Basic usage - cURL:
             description: /subscriptions/EX-Subscription-001/users
             value: '{"UserID":"EX-User-003","EmailAddress":"ex.user.003@example.com","Roles":["Admin","Editor"],"SendWelcomeEmailToCustomer":false}'
+      operationId: post10SubscriptionsBySubscriptionIDUsers
+      x-operation-id-source: derived
     get:
       tags:
       - Subscription Users
@@ -108,12 +121,22 @@ paths:
           Basic usage - cURL:
             description: /subscriptions/EX-Subscription-001/users
             value: '{}'
+      operationId: get10SubscriptionsBySubscriptionIDUsers
+      x-operation-id-source: derived
   /1.0/subscriptions/{SubscriptionID}/users/{UserID}:
     delete:
       tags:
       - Subscription Users
       summary: Delete Subscription User
-      description: This request allows you to remove a user from a subscription. <p> Note that this only removes the user from the specified subscription. If they have also been added to other subscriptions, those will remain unaffected. </p><p> You cannot remove the subscription owner, added during <b>Add Subscription</b>. You will receive a 403 Forbidden if you try. </p><p> If you wish to re-add a deleted user, just call <b>Add Subscription User</b> again. </p>
+      description: 'This request allows you to remove a user from a subscription.
+
+        Note that this only removes the user from the specified subscription. If they have also been added to other subscriptions, those will remain unaffected.
+
+
+        You cannot remove the subscription owner, added during Add Subscription. You will receive a 403 Forbidden if you try.
+
+
+        If you wish to re-add a deleted user, just call Add Subscription User again.'
       parameters:
       - name: SubscriptionID
         in: path
@@ -153,12 +176,19 @@ paths:
           Delete using an email address - cURL:
             description: /subscriptions/EX-Subscription-002/users/george.miller@example.com
             value: '{}'
+      operationId: delete10SubscriptionsBySubscriptionIDUsersByUserID
+      x-operation-id-source: derived
   /1.0/subscriptions/users:
     get:
       tags:
       - Subscription Users
       summary: Get All Subscription Users
-      description: This request returns a list of all users across all of your subscriptions. <p> An entry is returned for each unique user along with details of which subscriptions they have access to, and the roles they're assigned within those subscriptions. </p><p> The same user, determined by email address, can have a different UserID within each subscription. </p>
+      description: 'This request returns a list of all users across all of your subscriptions.
+
+        An entry is returned for each unique user along with details of which subscriptions they have access to, and the roles they''re assigned within those subscriptions.
+
+
+        The same user, determined by email address, can have a different UserID within each subscription.'
       parameters:
       - name: Page
         in: query
@@ -211,12 +241,16 @@ paths:
           Subset of users defined by page and size, with all their subscriptions - cURL:
             description: /subscriptions/users?Page=2&PageSize=2
             value: '{}'
+      operationId: get10SubscriptionsUsers
+      x-operation-id-source: derived
   /1.0/subscriptions/{SubscriptionID}/users/{UserID}/roles:
     put:
       tags:
       - Subscription Users
       summary: Update Subscription User Roles
-      description: This request allows you to modify the roles of an existing subscription user. <p> Note that the subscription owner, added during <b>Add Subscription</b>, must have the Admin role. You will receive a 403 Forbidden if you try to remove it. </p>
+      description: 'This request allows you to modify the roles of an existing subscription user.
+
+        Note that the subscription owner, added during Add Subscription, must have the Admin role. You will receive a 403 Forbidden if you try to remove it.'
       parameters:
       - name: SubscriptionID
         in: path
@@ -256,42 +290,10 @@ paths:
           Basic usage - cURL:
             description: /subscriptions/EX-Subscription-001/users/{UserID}/roles
             value: '{"Roles":["Admin"]}'
+      operationId: put10SubscriptionsBySubscriptionIDUsersByUserIDRoles
+      x-operation-id-source: derived
 components:
   schemas:
-    AddSubscriptionUser:
-      title: AddSubscriptionUserRequest
-      required:
-      - UserID
-      - EmailAddress
-      - Roles
-      properties:
-        UserID:
-          type: string
-          description: Your reference for the user. Must only contain upper case letters, lower case letters, numbers, '-' and '_'.
-        EmailAddress:
-          type: string
-          description: The email address of the user.
-        Roles:
-          type: array
-          items:
-            type: string
-          description: The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive.
-        SendWelcomeEmailToCustomer:
-          type: boolean
-          description: Specifies whether an email will be sent to the customer asking them to login for the first time, or informing them they have been added to the subscription. This defaults to true.
-      description: This request allows you to add new users to a subscription. <p> The same user can be added to multiple subscriptions. </p><p> Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added. </p>
-    SubscriptionUsersResponse:
-      title: SubscriptionUsersResponse
-      properties:
-        Users:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubscriptionUser'
-          description: If there are more users than the <b>PageSize</b>, then this will contain a subset of all users.
-        UserCount:
-          type: number
-          description: The total number of users available. This is useful for when the number of users is greater than the current page size.
-          format: int32
     UpdateSubscriptionUserRoles:
       title: UpdateSubscriptionUserRolesRequest
       required:
@@ -303,20 +305,17 @@ components:
             type: string
           description: The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive.
       description: This request allows you to modify the roles of an existing subscription user. <p> Note that the subscription owner, added during <b>Add Subscription</b>, must have the Admin role. You will receive a 403 Forbidden if you try to remove it. </p>
-    DistributorLevelSubscriptionUserInfo:
-      title: UserSubscriptionDetails
+    DistributorLevelSubscriptionUser:
+      title: User
       properties:
-        SubscriptionID:
+        Email:
           type: string
-          description: Your reference to the subscription. This is the same ID you specified when the subscription was create via <b>Add Subscription</b>.
-        UserID:
-          type: string
-          description: Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>. <p> The same user can have a different UserID for each subscription. </p><p> If the user was not created via the Cloud API, then this value will not be returned. This means that although you can view their details, you will not be able to reference this user when making calls to the Cloud API. </p>
-        Roles:
+          description: Email address of the user.
+        Subscriptions:
           type: array
           items:
-            type: string
-          description: The same user can have different roles for each subscription. <p> Admin<br /> Editor </p>
+            $ref: '#/components/schemas/DistributorLevelSubscriptionUserInfo'
+          description: The subscriptions the user is a member of.
     DistributorLevelSubscriptionUsersResponse:
       title: DistributorLevelSubscriptionUsersResponse
       properties:
@@ -341,6 +340,28 @@ components:
           type: number
           description: See the section <b>"Paging of results"</b> at the beginning of the document.
           format: int32
+    AddSubscriptionUser:
+      title: AddSubscriptionUserRequest
+      required:
+      - UserID
+      - EmailAddress
+      - Roles
+      properties:
+        UserID:
+          type: string
+          description: Your reference for the user. Must only contain upper case letters, lower case letters, numbers, '-' and '_'.
+        EmailAddress:
+          type: string
+          description: The email address of the user.
+        Roles:
+          type: array
+          items:
+            type: string
+          description: The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive.
+        SendWelcomeEmailToCustomer:
+          type: boolean
+          description: Specifies whether an email will be sent to the customer asking them to login for the first time, or informing them they have been added to the subscription. This defaults to true.
+      description: This request allows you to add new users to a subscription. <p> The same user can be added to multiple subscriptions. </p><p> Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added. </p>
     SubscriptionUser:
       title: SubscriptionUser
       properties:
@@ -354,17 +375,32 @@ components:
           items:
             type: string
           description: Admin<br /> Editor
-    DistributorLevelSubscriptionUser:
-      title: User
+    DistributorLevelSubscriptionUserInfo:
+      title: UserSubscriptionDetails
       properties:
-        Email:
+        SubscriptionID:
           type: string
-          description: Email address of the user.
-        Subscriptions:
+          description: Your reference to the subscription. This is the same ID you specified when the subscription was create via <b>Add Subscription</b>.
+        UserID:
+          type: string
+          description: Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>. <p> The same user can have a different UserID for each subscription. </p><p> If the user was not created via the Cloud API, then this value will not be returned. This means that although you can view their details, you will not be able to reference this user when making calls to the Cloud API. </p>
+        Roles:
           type: array
           items:
-            $ref: '#/components/schemas/DistributorLevelSubscriptionUserInfo'
-          description: The subscriptions the user is a member of.
+            type: string
+          description: The same user can have different roles for each subscription. <p> Admin<br /> Editor </p>
+    SubscriptionUsersResponse:
+      title: SubscriptionUsersResponse
+      properties:
+        Users:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionUser'
+          description: If there are more users than the <b>PageSize</b>, then this will contain a subset of all users.
+        UserCount:
+          type: number
+          description: The total number of users available. This is useful for when the number of users is greater than the current page size.
+          format: int32
   securitySchemes:
     Exclaimer:
       type: apiKey

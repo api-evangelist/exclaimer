@@ -1,8 +1,14 @@
 openapi: 3.2.0
 info:
   title: Exclaimer Cloud Mailboxes API
+  description: 'Introduction
+
+
+    The Exclaimer Cloud API is designed to offer partners the ability to provision and manage Exclaimer Cloud tenants.'
   version: '1'
-  description: The Mailboxes operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.
+  x-documentation:
+    documentVersion: '5.2'
+    datePublished: '2025-07-23 14:34:13Z'
 servers:
 - url: https://cloudapi.exclaimer.com/exclaimerapi
   description: Local
@@ -47,6 +53,8 @@ paths:
           Basic usage - cURL:
             description: /subscriptions/EX-Subscription-001/mailbox-count
             value: '{}'
+      operationId: get10SubscriptionsBySubscriptionIDMailboxCount
+      x-operation-id-source: derived
     put:
       tags:
       - Mailboxes
@@ -85,18 +93,10 @@ paths:
           Basic usage - cURL:
             description: /subscriptions/EX-Subscription-001/mailbox-count
             value: '{"MailboxCount":20}'
+      operationId: put10SubscriptionsBySubscriptionIDMailboxCount
+      x-operation-id-source: derived
 components:
   schemas:
-    UpdateMailboxCount:
-      title: UpdateMailboxCountRequest
-      required:
-      - MailboxCount
-      properties:
-        MailboxCount:
-          type: number
-          description: The total number of mailboxes for the subscription. For new accounts there is a restriction on the minimum value, ruling it may not be set less than the current number of imprinted mailboxes. <p> Where the caller is a <b>Managed Service Provider</b> on the <b>Elite Program</b> the mailbox increment must not cause the total count across all subscriptions to exceed the Mailbox Allocation. </p>
-          format: int32
-      description: This request will update the number of users (mailboxes) for a subscription.
     MailboxCountResponse:
       title: MailboxCountResponse
       properties:
@@ -108,6 +108,16 @@ components:
           type: number
           description: The number of downloaded signatures added directly via a client running on a machine, e.g. in Outlook.
           format: int32
+    UpdateMailboxCount:
+      title: UpdateMailboxCountRequest
+      required:
+      - MailboxCount
+      properties:
+        MailboxCount:
+          type: number
+          description: The total number of mailboxes for the subscription. For new accounts there is a restriction on the minimum value, ruling it may not be set less than the current number of imprinted mailboxes. <p> Where the caller is a <b>Managed Service Provider</b> on the <b>Elite Program</b> the mailbox increment must not cause the total count across all subscriptions to exceed the Mailbox Allocation. </p>
+          format: int32
+      description: This request will update the number of users (mailboxes) for a subscription.
   securitySchemes:
     Exclaimer:
       type: apiKey

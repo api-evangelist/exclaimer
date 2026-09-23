@@ -1,8 +1,14 @@
 openapi: 3.2.0
 info:
   title: Exclaimer Cloud End Users API
+  description: 'Introduction
+
+
+    The Exclaimer Cloud API is designed to offer partners the ability to provision and manage Exclaimer Cloud tenants.'
   version: '1'
-  description: The End Users operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.
+  x-documentation:
+    documentVersion: '5.2'
+    datePublished: '2025-07-23 14:34:13Z'
 servers:
 - url: https://cloudapi.exclaimer.com/exclaimerapi
   description: Local
@@ -16,7 +22,9 @@ paths:
       tags:
       - End Users
       summary: Add/Update End User
-      description: This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>
+      description: 'This request allows you to store custom user details within the Exclaimer Cloud service.
+
+        If a user with the EndUserID already exists, it will be updated; otherwise it will be created.'
       requestBody:
         content:
           application/json:
@@ -41,6 +49,8 @@ paths:
           Basic usage - cURL:
             description: /end-users
             value: '{"EndUserID":"EX-EndUser-001","CompanyName":"EX-Company-001","CountryCode":"USA"}'
+      operationId: put10EndUsers
+      x-operation-id-source: derived
     get:
       tags:
       - End Users
@@ -93,6 +103,8 @@ paths:
           Subset of custom users defined by page and size - cURL:
             description: /end-users?Page=2&PageSize=2
             value: '{}'
+      operationId: get10EndUsers
+      x-operation-id-source: derived
 components:
   schemas:
     EndUserResponse:
@@ -107,6 +119,23 @@ components:
         CountryCode:
           type: string
           description: The country code where the user is based.<br /> Returned as alpha-3 ISO 3166-1.
+    AddEndUser:
+      title: AddEndUserRequest
+      required:
+      - EndUserID
+      - CompanyName
+      - CountryCode
+      properties:
+        EndUserID:
+          type: string
+          description: Your reference for the user.
+        CompanyName:
+          type: string
+          description: The name of the company.
+        CountryCode:
+          type: string
+          description: The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
+      description: This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>
     EndUsersResponse:
       title: EndUsersResponse
       properties:
@@ -131,23 +160,6 @@ components:
           type: number
           description: See the section <b>"Paging of results"</b> at the beginning of the document.
           format: int32
-    AddEndUser:
-      title: AddEndUserRequest
-      required:
-      - EndUserID
-      - CompanyName
-      - CountryCode
-      properties:
-        EndUserID:
-          type: string
-          description: Your reference for the user.
-        CompanyName:
-          type: string
-          description: The name of the company.
-        CountryCode:
-          type: string
-          description: The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
-      description: This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>
   securitySchemes:
     Exclaimer:
       type: apiKey

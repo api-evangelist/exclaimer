@@ -1,8 +1,14 @@
 openapi: 3.2.0
 info:
   title: Exclaimer Cloud Reference Resources API
+  description: 'Introduction
+
+
+    The Exclaimer Cloud API is designed to offer partners the ability to provision and manage Exclaimer Cloud tenants.'
   version: '1'
-  description: The Reference Resources operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.
+  x-documentation:
+    documentVersion: '5.2'
+    datePublished: '2025-07-23 14:34:13Z'
 servers:
 - url: https://cloudapi.exclaimer.com/exclaimerapi
   description: Local
@@ -38,12 +44,16 @@ paths:
           Basic usage - cURL:
             description: /reference/data-centers
             value: '{}'
+      operationId: get10ReferenceDataCenters
+      x-operation-id-source: derived
   /1.0/reference/skus:
     get:
       tags:
       - Reference Resources
       summary: Get SKUs
-      description: This request will return a list of codes used by the API when referencing SKUs. This value is used when adding a subscription, or when changing the SKU. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will still include SKUs relating to the original tiers, along with SKUs for the new tiers. The results for new consumers will only include SKUs relating to the new tiers. </deprecated-note>
+      description: 'This request will return a list of codes used by the API when referencing SKUs. This value is used when adding a subscription, or when changing the SKU. 2023-04-03
+
+        The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will still include SKUs relating to the original tiers, along with SKUs for the new tiers. The results for new consumers will only include SKUs relating to the new tiers.'
       responses:
         '200':
           description: Success
@@ -69,12 +79,16 @@ paths:
           Basic usage - cURL:
             description: /reference/skus
             value: '{}'
+      operationId: get10ReferenceSkus
+      x-operation-id-source: derived
   /1.0/reference/tiers:
     get:
       tags:
       - Reference Resources
       summary: Get Tiers
-      description: This request will return a list of codes used by the API when referencing tiers. This value is used when adding a subscription, or when changing the tier. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will still include the original tiers, along with the new tiers. The results for new consumers will only include the new tiers. </deprecated-note>
+      description: 'This request will return a list of codes used by the API when referencing tiers. This value is used when adding a subscription, or when changing the tier. 2023-04-03
+
+        The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, the results for existing consumers will still include the original tiers, along with the new tiers. The results for new consumers will only include the new tiers.'
       responses:
         '200':
           description: Success
@@ -100,29 +114,19 @@ paths:
           Basic usage - cURL:
             description: /reference/tiers
             value: '{}'
+      operationId: get10ReferenceTiers
+      x-operation-id-source: derived
 components:
   schemas:
-    TierReferencesResponse:
-      title: TierReferencesResponse
+    SKUReference:
+      title: SKUReference
       properties:
-        Tiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/TierReference'
-    SKUReferencesResponse:
-      title: SKUReferencesResponse
-      properties:
-        SKUs:
-          type: array
-          items:
-            $ref: '#/components/schemas/SKUReference'
-    DataCentersResponse:
-      title: DataCentersResponse
-      properties:
-        DataCenters:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataCenter'
+        SKU:
+          type: string
+          description: The code to use when referencing the SKU.
+        Description:
+          type: string
+          description: A human readable description of the SKU.
     DataCenter:
       title: DataCenter
       properties:
@@ -135,15 +139,27 @@ components:
         GSuiteCode:
           type: string
           description: The code to use in <b>Add Subscription</b> when using GSuite.
-    SKUReference:
-      title: SKUReference
+    SKUReferencesResponse:
+      title: SKUReferencesResponse
       properties:
-        SKU:
-          type: string
-          description: The code to use when referencing the SKU.
-        Description:
-          type: string
-          description: A human readable description of the SKU.
+        SKUs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SKUReference'
+    TierReferencesResponse:
+      title: TierReferencesResponse
+      properties:
+        Tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TierReference'
+    DataCentersResponse:
+      title: DataCentersResponse
+      properties:
+        DataCenters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataCenter'
     TierReference:
       title: TierReference
       properties:

@@ -1,8 +1,14 @@
 openapi: 3.2.0
 info:
   title: Exclaimer Cloud MSP API
+  description: 'Introduction
+
+
+    The Exclaimer Cloud API is designed to offer partners the ability to provision and manage Exclaimer Cloud tenants.'
   version: '1'
-  description: The MSP operations of the Exclaimer Cloud API, the partner/distributor provisioning API for Exclaimer Cloud tenants. Split by tag from the provider-published OpenAPI at https://cloudapi.exclaimer.com/openapi.json (documentation version 5.2, published 2025-07-23). Operation content is carried verbatim from the source specification.
+  x-documentation:
+    documentVersion: '5.2'
+    datePublished: '2025-07-23 14:34:13Z'
 servers:
 - url: https://cloudapi.exclaimer.com/exclaimerapi
   description: Local
@@ -16,7 +22,15 @@ paths:
       tags:
       - MSP
       summary: Add MSP Subscription
-      description: Creates a new subscription for Managed Service Provider (MSP) API users. <p> This endpoint is only available to API users with MSP (Managed Service Provider) access. </p><p> If you provide a <b>SubscriptionID</b>, it must be unique for your API user account. You will need this ID for subsequent operations such as updating the subscription or ending it. </p><p> The <b>EndUser</b> and <b>Reseller</b> objects are optional. If provided, all fields within them become required. These allow you to associate the subscription with your own end user and reseller references. </p>
+      description: 'Creates a new subscription for Managed Service Provider (MSP) API users.
+
+        This endpoint is only available to API users with MSP (Managed Service Provider) access.
+
+
+        If you provide a SubscriptionID, it must be unique for your API user account. You will need this ID for subsequent operations such as updating the subscription or ending it.
+
+
+        The EndUser and Reseller objects are optional. If provided, all fields within them become required. These allow you to associate the subscription with your own end user and reseller references.'
       requestBody:
         content:
           application/json:
@@ -64,6 +78,8 @@ paths:
           Complete with end user and reseller:
             description: /1.0/msp/subscriptions
             value: '{"DataCenter":"EU","SubscriptionID":"MSP-SUB-002","SKU":"EXCL-M-PRO","SubscriptionName":"Tech Solutions Subscription","EndUser":{"EndUserID":"EU-002","CompanyName":"Tech Solutions Ltd","CountryCode":"GB"},"Reseller":{"ResellerID":"RES-001","CompanyName":"Partner Inc","CountryCode":"US"}}'
+      operationId: post10MspSubscriptions
+      x-operation-id-source: derived
     get:
       tags:
       - MSP
@@ -140,6 +156,8 @@ paths:
           With usage data and date range - cURL:
             description: /1.0/msp/subscriptions?IncludeUsage=true&DateFrom=2025-01-01&DateTo=2025-01-31
             value: '{}'
+      operationId: get10MspSubscriptions
+      x-operation-id-source: derived
   /1.0/msp/subscriptions/{SubscriptionID}:
     get:
       tags:
@@ -204,6 +222,8 @@ paths:
           With usage data and date range - cURL:
             description: /1.0/msp/subscriptions/MSP-SUB-001?IncludeUsage=true&DateFrom=2025-01-01&DateTo=2025-01-31
             value: '{}'
+      operationId: get10MspSubscriptionsBySubscriptionID
+      x-operation-id-source: derived
   /1.0/msp/subscriptions/{SubscriptionID}/status:
     get:
       tags:
@@ -242,6 +262,8 @@ paths:
           Basic usage - cURL:
             description: /subscriptions/MSP-SUB-001/status
             value: '{}'
+      operationId: get10MspSubscriptionsBySubscriptionIDStatus
+      x-operation-id-source: derived
   /1.0/msp/subscriptions/{SubscriptionID}/senders/json:
     get:
       tags:
@@ -301,40 +323,33 @@ paths:
           With date range - cURL:
             description: /1.0/msp/subscriptions/MSP-SUB-001/senders/json?DateFrom=2025-01-01&DateTo=2025-01-31
             value: '{}'
+      operationId: get10MspSubscriptionsBySubscriptionIDSendersJson
+      x-operation-id-source: derived
 components:
   schemas:
-    GetMspSendersResponse:
-      title: GetMspSendersResponse
+    AddMspSubscriptionResponse:
+      title: AddMspSubscriptionResponse
       properties:
-        Senders:
-          type: array
-          items:
-            $ref: '#/components/schemas/MspSenderUsage'
-          description: An array of sender usage objects.
-    GetMspSubscriptionsResponse:
-      title: GetMspSubscriptionsResponse
+        SubscriptionID:
+          type: string
+          description: If specified in the request, this will be the value you passed. If not specified, this will be an automatically generated value (30 characters).
+    AddMspSubscriptionReseller:
+      title: AddMspSubscriptionReseller
+      required:
+      - ResellerID
+      - CompanyName
+      - CountryCode
       properties:
-        Subscriptions:
-          type: array
-          items:
-            $ref: '#/components/schemas/MspSubscription'
-          description: If there are more subscriptions than the PageSize, then this will contain a subset of all subscriptions.
-        SubscriptionCount:
-          type: number
-          description: The total number of subscriptions available.
-          format: int32
-        ContinuationToken:
-          type: number
-          description: See the section "Paging of results" at the beginning of the document.
-          format: int32
-        Page:
-          type: number
-          description: See the section "Paging of results" at the beginning of the document.
-          format: int32
-        PageSize:
-          type: number
-          description: See the section "Paging of results" at the beginning of the document.
-          format: int32
+        ResellerID:
+          type: string
+          description: Your reference for the reseller. Maximum 100 characters.
+        CompanyName:
+          type: string
+          description: The name of the company. Maximum 100 characters.
+        CountryCode:
+          type: string
+          description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters).
+      description: Allows you to associate the subscription with a custom reseller record. If provided, all fields within are required.
     MspSenderUsage:
       title: MspSenderUsage
       properties:
@@ -368,6 +383,43 @@ components:
           type: number
           description: The number of messages sent via Gmail.
           format: int32
+    AddMspSubscriptionEndUser:
+      title: AddMspSubscriptionEndUser
+      required:
+      - EndUserID
+      - CompanyName
+      - CountryCode
+      properties:
+        EndUserID:
+          type: string
+          description: Your reference for the end user. Maximum 100 characters.
+        CompanyName:
+          type: string
+          description: The name of the company. Maximum 100 characters.
+        CountryCode:
+          type: string
+          description: The country code where the end user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters).
+      description: Allows you to associate the subscription with a custom end user record. If provided, all fields within are required.
+    GetMspSendersResponse:
+      title: GetMspSendersResponse
+      properties:
+        Senders:
+          type: array
+          items:
+            $ref: '#/components/schemas/MspSenderUsage'
+          description: An array of sender usage objects.
+    GetMspSubscriptionStatusResponse:
+      title: GetMspSubscriptionStatusResponse
+      required:
+      - Status
+      - Onboarded
+      properties:
+        Status:
+          type: string
+          description: Active<br /> Suspended<br /> Cancelled<br /> Ended<br /> Unknown
+        Onboarded:
+          type: boolean
+          description: Indicates whether the tenant has completed onboarding.
     AddMspSubscription:
       title: AddMspSubscriptionRequest
       required:
@@ -390,63 +442,6 @@ components:
         Reseller:
           $ref: '#/components/schemas/AddMspSubscriptionReseller'
       description: Creates a new subscription for Managed Service Provider (MSP) API users.
-    GetMspSubscriptionResponse:
-      title: GetMspSubscriptionResponse
-      properties:
-        Subscription:
-          $ref: '#/components/schemas/MspSubscription'
-    GetMspSubscriptionStatusResponse:
-      title: GetMspSubscriptionStatusResponse
-      required:
-      - Status
-      - Onboarded
-      properties:
-        Status:
-          type: string
-          description: Active<br /> Suspended<br /> Cancelled<br /> Ended<br /> Unknown
-        Onboarded:
-          type: boolean
-          description: Indicates whether the tenant has completed onboarding.
-    AddMspSubscriptionReseller:
-      title: AddMspSubscriptionReseller
-      required:
-      - ResellerID
-      - CompanyName
-      - CountryCode
-      properties:
-        ResellerID:
-          type: string
-          description: Your reference for the reseller. Maximum 100 characters.
-        CompanyName:
-          type: string
-          description: The name of the company. Maximum 100 characters.
-        CountryCode:
-          type: string
-          description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters).
-      description: Allows you to associate the subscription with a custom reseller record. If provided, all fields within are required.
-    AddMspSubscriptionEndUser:
-      title: AddMspSubscriptionEndUser
-      required:
-      - EndUserID
-      - CompanyName
-      - CountryCode
-      properties:
-        EndUserID:
-          type: string
-          description: Your reference for the end user. Maximum 100 characters.
-        CompanyName:
-          type: string
-          description: The name of the company. Maximum 100 characters.
-        CountryCode:
-          type: string
-          description: The country code where the end user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters).
-      description: Allows you to associate the subscription with a custom end user record. If provided, all fields within are required.
-    AddMspSubscriptionResponse:
-      title: AddMspSubscriptionResponse
-      properties:
-        SubscriptionID:
-          type: string
-          description: If specified in the request, this will be the value you passed. If not specified, this will be an automatically generated value (30 characters).
     MspSubscription:
       title: MspSubscription
       properties:
@@ -466,6 +461,35 @@ components:
           type: number
           description: The total number of mailboxes with usage for the supplied date range. Only returned when IncludeUsage is true. Defaults to the previous calendar month if no dates are supplied.
           format: int32
+    GetMspSubscriptionsResponse:
+      title: GetMspSubscriptionsResponse
+      properties:
+        Subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MspSubscription'
+          description: If there are more subscriptions than the PageSize, then this will contain a subset of all subscriptions.
+        SubscriptionCount:
+          type: number
+          description: The total number of subscriptions available.
+          format: int32
+        ContinuationToken:
+          type: number
+          description: See the section "Paging of results" at the beginning of the document.
+          format: int32
+        Page:
+          type: number
+          description: See the section "Paging of results" at the beginning of the document.
+          format: int32
+        PageSize:
+          type: number
+          description: See the section "Paging of results" at the beginning of the document.
+          format: int32
+    GetMspSubscriptionResponse:
+      title: GetMspSubscriptionResponse
+      properties:
+        Subscription:
+          $ref: '#/components/schemas/MspSubscription'
   securitySchemes:
     Exclaimer:
       type: apiKey
