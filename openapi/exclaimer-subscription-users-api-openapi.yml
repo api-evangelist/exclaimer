@@ -294,28 +294,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UpdateSubscriptionUserRoles:
-      title: UpdateSubscriptionUserRolesRequest
-      required:
-      - Roles
-      properties:
-        Roles:
-          type: array
-          items:
-            type: string
-          description: The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive.
-      description: This request allows you to modify the roles of an existing subscription user. <p> Note that the subscription owner, added during <b>Add Subscription</b>, must have the Admin role. You will receive a 403 Forbidden if you try to remove it. </p>
-    DistributorLevelSubscriptionUser:
-      title: User
-      properties:
-        Email:
-          type: string
-          description: Email address of the user.
-        Subscriptions:
-          type: array
-          items:
-            $ref: '#/components/schemas/DistributorLevelSubscriptionUserInfo'
-          description: The subscriptions the user is a member of.
     DistributorLevelSubscriptionUsersResponse:
       title: DistributorLevelSubscriptionUsersResponse
       properties:
@@ -362,19 +340,17 @@ components:
           type: boolean
           description: Specifies whether an email will be sent to the customer asking them to login for the first time, or informing them they have been added to the subscription. This defaults to true.
       description: This request allows you to add new users to a subscription. <p> The same user can be added to multiple subscriptions. </p><p> Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added. </p>
-    SubscriptionUser:
-      title: SubscriptionUser
+    UpdateSubscriptionUserRoles:
+      title: UpdateSubscriptionUserRolesRequest
+      required:
+      - Roles
       properties:
-        Email:
-          type: string
-        UserID:
-          type: string
-          description: Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>. <p> If the user was not created via the Cloud API, then this value will not be returned. This means that although you can view their details, you will not be able to reference this user when making calls to the Cloud API. </p>
         Roles:
           type: array
           items:
             type: string
-          description: Admin<br /> Editor
+          description: The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive.
+      description: This request allows you to modify the roles of an existing subscription user. <p> Note that the subscription owner, added during <b>Add Subscription</b>, must have the Admin role. You will receive a 403 Forbidden if you try to remove it. </p>
     DistributorLevelSubscriptionUserInfo:
       title: UserSubscriptionDetails
       properties:
@@ -389,6 +365,19 @@ components:
           items:
             type: string
           description: The same user can have different roles for each subscription. <p> Admin<br /> Editor </p>
+    SubscriptionUser:
+      title: SubscriptionUser
+      properties:
+        Email:
+          type: string
+        UserID:
+          type: string
+          description: Your reference for the user. This is the same ID you specified, or was automatically generated, when the subscription was created i.e., when calling <b>Add Subscription</b>, or when adding a user through <b>Add Subscription User</b>. <p> If the user was not created via the Cloud API, then this value will not be returned. This means that although you can view their details, you will not be able to reference this user when making calls to the Cloud API. </p>
+        Roles:
+          type: array
+          items:
+            type: string
+          description: Admin<br /> Editor
     SubscriptionUsersResponse:
       title: SubscriptionUsersResponse
       properties:
@@ -401,6 +390,17 @@ components:
           type: number
           description: The total number of users available. This is useful for when the number of users is greater than the current page size.
           format: int32
+    DistributorLevelSubscriptionUser:
+      title: User
+      properties:
+        Email:
+          type: string
+          description: Email address of the user.
+        Subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/DistributorLevelSubscriptionUserInfo'
+          description: The subscriptions the user is a member of.
   securitySchemes:
     Exclaimer:
       type: apiKey

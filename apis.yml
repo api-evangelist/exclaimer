@@ -55,7 +55,7 @@ tags:
 - Email
 - Email Signatures
 - Email Signature Management
-- Microsoft-365
+- Microsoft 365
 - Google Workspace
 - Marketing
 - Productivity
@@ -72,6 +72,7 @@ tags_raw:
 - Productivity
 - SaaS
 - Security
+- Microsoft-365
 apis:
 - aid: exclaimer:exclaimer-end-users-api
   name: Exclaimer End Users API

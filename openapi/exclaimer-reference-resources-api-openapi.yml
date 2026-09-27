@@ -118,41 +118,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SKUReference:
-      title: SKUReference
-      properties:
-        SKU:
-          type: string
-          description: The code to use when referencing the SKU.
-        Description:
-          type: string
-          description: A human readable description of the SKU.
-    DataCenter:
-      title: DataCenter
-      properties:
-        Location:
-          type: string
-          description: The country, or region, where the data center is located.
-        Office365Code:
-          type: string
-          description: The code to use in <b>Add Subscription</b> when using Office365.
-        GSuiteCode:
-          type: string
-          description: The code to use in <b>Add Subscription</b> when using GSuite.
-    SKUReferencesResponse:
-      title: SKUReferencesResponse
-      properties:
-        SKUs:
-          type: array
-          items:
-            $ref: '#/components/schemas/SKUReference'
-    TierReferencesResponse:
-      title: TierReferencesResponse
-      properties:
-        Tiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/TierReference'
     DataCentersResponse:
       title: DataCentersResponse
       properties:
@@ -169,6 +134,41 @@ components:
         Description:
           type: string
           description: A human readable description of the tier.
+    DataCenter:
+      title: DataCenter
+      properties:
+        Location:
+          type: string
+          description: The country, or region, where the data center is located.
+        Office365Code:
+          type: string
+          description: The code to use in <b>Add Subscription</b> when using Office365.
+        GSuiteCode:
+          type: string
+          description: The code to use in <b>Add Subscription</b> when using GSuite.
+    TierReferencesResponse:
+      title: TierReferencesResponse
+      properties:
+        Tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TierReference'
+    SKUReferencesResponse:
+      title: SKUReferencesResponse
+      properties:
+        SKUs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SKUReference'
+    SKUReference:
+      title: SKUReference
+      properties:
+        SKU:
+          type: string
+          description: The code to use when referencing the SKU.
+        Description:
+          type: string
+          description: A human readable description of the SKU.
   securitySchemes:
     Exclaimer:
       type: apiKey

@@ -107,6 +107,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ResellerResponse:
+      title: Reseller
+      properties:
+        ResellerID:
+          type: string
+          description: Your reference for the reseller. This is the same ID you specified when the subscription was created via <b>Add Subscription</b>, or when calling <b>Add/Update Reseller</b>.
+        CompanyName:
+          type: string
+          description: The name of the company.
+        CountryCode:
+          type: string
+          description: The country code where the reseller is based.<br /> Returned as alpha-3 ISO 3166-1.
     ResellersResponse:
       title: ResellersResponse
       properties:
@@ -148,18 +160,6 @@ components:
           type: string
           description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
       description: This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>
-    ResellerResponse:
-      title: Reseller
-      properties:
-        ResellerID:
-          type: string
-          description: Your reference for the reseller. This is the same ID you specified when the subscription was created via <b>Add Subscription</b>, or when calling <b>Add/Update Reseller</b>.
-        CompanyName:
-          type: string
-          description: The name of the company.
-        CountryCode:
-          type: string
-          description: The country code where the reseller is based.<br /> Returned as alpha-3 ISO 3166-1.
   securitySchemes:
     Exclaimer:
       type: apiKey

@@ -107,6 +107,30 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    EndUsersResponse:
+      title: EndUsersResponse
+      properties:
+        EndUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/EndUserResponse'
+          description: If there are more custom users than the <b>PageSize</b>, then this will contain a subset of all custom users.
+        EndUserCount:
+          type: number
+          description: The total number of custom users available. This is useful for when the number of custom users is greater than the current page size.
+          format: int32
+        ContinuationToken:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
+        Page:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
+        PageSize:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
     EndUserResponse:
       title: EndUser
       properties:
@@ -136,30 +160,6 @@ components:
           type: string
           description: The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
       description: This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>
-    EndUsersResponse:
-      title: EndUsersResponse
-      properties:
-        EndUsers:
-          type: array
-          items:
-            $ref: '#/components/schemas/EndUserResponse'
-          description: If there are more custom users than the <b>PageSize</b>, then this will contain a subset of all custom users.
-        EndUserCount:
-          type: number
-          description: The total number of custom users available. This is useful for when the number of custom users is greater than the current page size.
-          format: int32
-        ContinuationToken:
-          type: number
-          description: See the section <b>"Paging of results"</b> at the beginning of the document.
-          format: int32
-        Page:
-          type: number
-          description: See the section <b>"Paging of results"</b> at the beginning of the document.
-          format: int32
-        PageSize:
-          type: number
-          description: See the section <b>"Paging of results"</b> at the beginning of the document.
-          format: int32
   securitySchemes:
     Exclaimer:
       type: apiKey
