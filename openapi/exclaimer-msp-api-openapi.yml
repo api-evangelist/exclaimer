@@ -327,39 +327,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    MspSenderUsage:
-      title: MspSenderUsage
+    GetMspSubscriptionStatusResponse:
+      title: GetMspSubscriptionStatusResponse
+      required:
+      - Status
+      - Onboarded
       properties:
-        UserId:
+        Status:
           type: string
-          description: The unique identifier of the user.
-        Sender:
-          type: string
-          description: The email address of the sender.
-        Total:
-          type: number
-          description: The total number of messages sent.
-          format: int32
-        ImprintedServer:
-          type: number
-          description: The number of messages imprinted via server-side.
-          format: int32
-        ImprintedCloud:
-          type: number
-          description: The number of messages imprinted via cloud.
-          format: int32
-        ImprintedOnPremises:
-          type: number
-          description: The number of messages imprinted via on-premises.
-          format: int32
-        Outlook:
-          type: number
-          description: The number of messages sent via Outlook.
-          format: int32
-        Gmail:
-          type: number
-          description: The number of messages sent via Gmail.
-          format: int32
+          description: Active<br /> Suspended<br /> Cancelled<br /> Ended<br /> Unknown
+        Onboarded:
+          type: boolean
+          description: Indicates whether the tenant has completed onboarding.
     AddMspSubscriptionEndUser:
       title: AddMspSubscriptionEndUser
       required:
@@ -377,67 +356,6 @@ components:
           type: string
           description: The country code where the end user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters).
       description: Allows you to associate the subscription with a custom end user record. If provided, all fields within are required.
-    MspSubscription:
-      title: MspSubscription
-      properties:
-        EndUserID:
-          type: string
-          description: Your reference for the end user.
-        Name:
-          type: string
-          description: The name of the subscription.
-        ResellerID:
-          type: string
-          description: Your reference for the reseller.
-        SubscriptionID:
-          type: string
-          description: Your reference for the subscription.
-        TotalMailboxes:
-          type: number
-          description: The total number of mailboxes with usage for the supplied date range. Only returned when IncludeUsage is true. Defaults to the previous calendar month if no dates are supplied.
-          format: int32
-    GetMspSubscriptionStatusResponse:
-      title: GetMspSubscriptionStatusResponse
-      required:
-      - Status
-      - Onboarded
-      properties:
-        Status:
-          type: string
-          description: Active<br /> Suspended<br /> Cancelled<br /> Ended<br /> Unknown
-        Onboarded:
-          type: boolean
-          description: Indicates whether the tenant has completed onboarding.
-    AddMspSubscriptionReseller:
-      title: AddMspSubscriptionReseller
-      required:
-      - ResellerID
-      - CompanyName
-      - CountryCode
-      properties:
-        ResellerID:
-          type: string
-          description: Your reference for the reseller. Maximum 100 characters.
-        CompanyName:
-          type: string
-          description: The name of the company. Maximum 100 characters.
-        CountryCode:
-          type: string
-          description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters).
-      description: Allows you to associate the subscription with a custom reseller record. If provided, all fields within are required.
-    GetMspSubscriptionResponse:
-      title: GetMspSubscriptionResponse
-      properties:
-        Subscription:
-          $ref: '#/components/schemas/MspSubscription'
-    GetMspSendersResponse:
-      title: GetMspSendersResponse
-      properties:
-        Senders:
-          type: array
-          items:
-            $ref: '#/components/schemas/MspSenderUsage'
-          description: An array of sender usage objects.
     AddMspSubscriptionResponse:
       title: AddMspSubscriptionResponse
       properties:
@@ -489,6 +407,88 @@ components:
         PageSize:
           type: number
           description: See the section "Paging of results" at the beginning of the document.
+          format: int32
+    GetMspSubscriptionResponse:
+      title: GetMspSubscriptionResponse
+      properties:
+        Subscription:
+          $ref: '#/components/schemas/MspSubscription'
+    GetMspSendersResponse:
+      title: GetMspSendersResponse
+      properties:
+        Senders:
+          type: array
+          items:
+            $ref: '#/components/schemas/MspSenderUsage'
+          description: An array of sender usage objects.
+    MspSubscription:
+      title: MspSubscription
+      properties:
+        EndUserID:
+          type: string
+          description: Your reference for the end user.
+        Name:
+          type: string
+          description: The name of the subscription.
+        ResellerID:
+          type: string
+          description: Your reference for the reseller.
+        SubscriptionID:
+          type: string
+          description: Your reference for the subscription.
+        TotalMailboxes:
+          type: number
+          description: The total number of mailboxes with usage for the supplied date range. Only returned when IncludeUsage is true. Defaults to the previous calendar month if no dates are supplied.
+          format: int32
+    AddMspSubscriptionReseller:
+      title: AddMspSubscriptionReseller
+      required:
+      - ResellerID
+      - CompanyName
+      - CountryCode
+      properties:
+        ResellerID:
+          type: string
+          description: Your reference for the reseller. Maximum 100 characters.
+        CompanyName:
+          type: string
+          description: The name of the company. Maximum 100 characters.
+        CountryCode:
+          type: string
+          description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 format (2-3 characters).
+      description: Allows you to associate the subscription with a custom reseller record. If provided, all fields within are required.
+    MspSenderUsage:
+      title: MspSenderUsage
+      properties:
+        UserId:
+          type: string
+          description: The unique identifier of the user.
+        Sender:
+          type: string
+          description: The email address of the sender.
+        Total:
+          type: number
+          description: The total number of messages sent.
+          format: int32
+        ImprintedServer:
+          type: number
+          description: The number of messages imprinted via server-side.
+          format: int32
+        ImprintedCloud:
+          type: number
+          description: The number of messages imprinted via cloud.
+          format: int32
+        ImprintedOnPremises:
+          type: number
+          description: The number of messages imprinted via on-premises.
+          format: int32
+        Outlook:
+          type: number
+          description: The number of messages sent via Outlook.
+          format: int32
+        Gmail:
+          type: number
+          description: The number of messages sent via Gmail.
           format: int32
   securitySchemes:
     Exclaimer:

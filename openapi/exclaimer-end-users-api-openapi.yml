@@ -107,6 +107,23 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AddEndUser:
+      title: AddEndUserRequest
+      required:
+      - EndUserID
+      - CompanyName
+      - CountryCode
+      properties:
+        EndUserID:
+          type: string
+          description: Your reference for the user.
+        CompanyName:
+          type: string
+          description: The name of the company.
+        CountryCode:
+          type: string
+          description: The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
+      description: This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>
     EndUsersResponse:
       title: EndUsersResponse
       properties:
@@ -143,23 +160,6 @@ components:
         CountryCode:
           type: string
           description: The country code where the user is based.<br /> Returned as alpha-3 ISO 3166-1.
-    AddEndUser:
-      title: AddEndUserRequest
-      required:
-      - EndUserID
-      - CompanyName
-      - CountryCode
-      properties:
-        EndUserID:
-          type: string
-          description: Your reference for the user.
-        CompanyName:
-          type: string
-          description: The name of the company.
-        CountryCode:
-          type: string
-          description: The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
-      description: This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>
   securitySchemes:
     Exclaimer:
       type: apiKey
