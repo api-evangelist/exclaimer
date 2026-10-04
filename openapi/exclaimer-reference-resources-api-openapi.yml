@@ -118,15 +118,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TierReference:
-      title: TierReference
+    SKUReferencesResponse:
+      title: SKUReferencesResponse
       properties:
-        Tier:
-          type: string
-          description: The code to use when referencing the tier.
-        Description:
-          type: string
-          description: A human readable description of the tier.
+        SKUs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SKUReference'
     SKUReference:
       title: SKUReference
       properties:
@@ -136,6 +134,27 @@ components:
         Description:
           type: string
           description: A human readable description of the SKU.
+    TierReference:
+      title: TierReference
+      properties:
+        Tier:
+          type: string
+          description: The code to use when referencing the tier.
+        Description:
+          type: string
+          description: A human readable description of the tier.
+    DataCenter:
+      title: DataCenter
+      properties:
+        Location:
+          type: string
+          description: The country, or region, where the data center is located.
+        Office365Code:
+          type: string
+          description: The code to use in <b>Add Subscription</b> when using Office365.
+        GSuiteCode:
+          type: string
+          description: The code to use in <b>Add Subscription</b> when using GSuite.
     TierReferencesResponse:
       title: TierReferencesResponse
       properties:
@@ -150,25 +169,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataCenter'
-    SKUReferencesResponse:
-      title: SKUReferencesResponse
-      properties:
-        SKUs:
-          type: array
-          items:
-            $ref: '#/components/schemas/SKUReference'
-    DataCenter:
-      title: DataCenter
-      properties:
-        Location:
-          type: string
-          description: The country, or region, where the data center is located.
-        Office365Code:
-          type: string
-          description: The code to use in <b>Add Subscription</b> when using Office365.
-        GSuiteCode:
-          type: string
-          description: The code to use in <b>Add Subscription</b> when using GSuite.
   securitySchemes:
     Exclaimer:
       type: apiKey

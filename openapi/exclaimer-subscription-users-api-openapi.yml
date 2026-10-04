@@ -330,6 +330,39 @@ components:
           type: number
           description: See the section <b>"Paging of results"</b> at the beginning of the document.
           format: int32
+    AddSubscriptionUser:
+      title: AddSubscriptionUserRequest
+      required:
+      - UserID
+      - EmailAddress
+      - Roles
+      properties:
+        UserID:
+          type: string
+          description: Your reference for the user. Must only contain upper case letters, lower case letters, numbers, '-' and '_'.
+        EmailAddress:
+          type: string
+          description: The email address of the user.
+        Roles:
+          type: array
+          items:
+            type: string
+          description: The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive.
+        SendWelcomeEmailToCustomer:
+          type: boolean
+          description: Specifies whether an email will be sent to the customer asking them to login for the first time, or informing them they have been added to the subscription. This defaults to true.
+      description: This request allows you to add new users to a subscription. <p> The same user can be added to multiple subscriptions. </p><p> Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added. </p>
+    UpdateSubscriptionUserRoles:
+      title: UpdateSubscriptionUserRolesRequest
+      required:
+      - Roles
+      properties:
+        Roles:
+          type: array
+          items:
+            type: string
+          description: The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive.
+      description: This request allows you to modify the roles of an existing subscription user. <p> Note that the subscription owner, added during <b>Add Subscription</b>, must have the Admin role. You will receive a 403 Forbidden if you try to remove it. </p>
     DistributorLevelSubscriptionUserInfo:
       title: UserSubscriptionDetails
       properties:
@@ -344,17 +377,6 @@ components:
           items:
             type: string
           description: The same user can have different roles for each subscription. <p> Admin<br /> Editor </p>
-    UpdateSubscriptionUserRoles:
-      title: UpdateSubscriptionUserRolesRequest
-      required:
-      - Roles
-      properties:
-        Roles:
-          type: array
-          items:
-            type: string
-          description: The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive.
-      description: This request allows you to modify the roles of an existing subscription user. <p> Note that the subscription owner, added during <b>Add Subscription</b>, must have the Admin role. You will receive a 403 Forbidden if you try to remove it. </p>
     DistributorLevelSubscriptionUser:
       title: User
       properties:
@@ -379,28 +401,6 @@ components:
           items:
             type: string
           description: Admin<br /> Editor
-    AddSubscriptionUser:
-      title: AddSubscriptionUserRequest
-      required:
-      - UserID
-      - EmailAddress
-      - Roles
-      properties:
-        UserID:
-          type: string
-          description: Your reference for the user. Must only contain upper case letters, lower case letters, numbers, '-' and '_'.
-        EmailAddress:
-          type: string
-          description: The email address of the user.
-        Roles:
-          type: array
-          items:
-            type: string
-          description: The roles you wish to user to have. The user must be assigned a role, but can have one or both. <p> Admin - Has full control over signatures and settings<br /> Editor - Can create/edit and re-order signatures for permitted folders </p> Roles are not case-sensitive.
-        SendWelcomeEmailToCustomer:
-          type: boolean
-          description: Specifies whether an email will be sent to the customer asking them to login for the first time, or informing them they have been added to the subscription. This defaults to true.
-      description: This request allows you to add new users to a subscription. <p> The same user can be added to multiple subscriptions. </p><p> Note that you cannot modify an existing subscription user with this API. However, if the user has previously been deleted, they can be re-added. </p>
   securitySchemes:
     Exclaimer:
       type: apiKey

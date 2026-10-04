@@ -78,6 +78,12 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    StatusResponse:
+      title: StatusResponse
+      properties:
+        CurrentTime:
+          type: string
+          description: The current time on the Exclaimer Cloud API server.
     MailboxAllocationResponse:
       title: MailboxAllocationResponse
       properties:
@@ -93,12 +99,6 @@ components:
           type: number
           description: The number of mailboxes remaining that may be allocated.
           format: int32
-    StatusResponse:
-      title: StatusResponse
-      properties:
-        CurrentTime:
-          type: string
-          description: The current time on the Exclaimer Cloud API server.
   securitySchemes:
     Exclaimer:
       type: apiKey

@@ -180,12 +180,6 @@ components:
         TransferToken:
           type: string
           description: The issued token that can be used to claim the subscription.
-    ClaimSubscriptionTransferResponse:
-      title: ClaimSubscriptionTransferResponse
-      properties:
-        SubscriptionID:
-          type: string
-          description: This is the ID that's been assigned to the transferred subscription. If you specified a <b>SubscriptionID</b> when claiming the subscription, then that value will be returned. However, if you already have a subscription with the same <b>SubscriptionID</b>, or you did not specify a <b>SubscriptionID</b>, then an automatically generated value will have been used.
     ClaimSubscriptionTransferEndUser:
       title: EndUser
       required:
@@ -230,6 +224,12 @@ components:
           - description: Allows you to associate the transferred subscription with a custom user record. <p><b>N.B. EndUser</b> and <b>EndUserID</b> are mutually exclusive. If both are provided, this will result in an error. If neither are provided, then the subscription will not be associated with an end user. </p>
           - {}
       description: This request allows you to claim a subscription that's currently owned by someone else. <p> You can optionally specify additional details for the subscription, such as providing a meaningful ID, or associating it with one of your existing resellers, and/or end users. </p><p> This is the second half or a two part transfer handshake. See <b>Initiate Subscription Transfer</b> for the first half of the process. </p><p> In order to claim a subscription you must first have a valid token that can be used in the transfer process. This token will be provided either by the current subscription owner, or by Exclaimer. Once the token has been used, it will be invalidated, and cannot be reused. </p><p><b>Self claiming:</b> It's possible to claim a subscription that you've previously issued a transfer request for, right up until the point at which the subscription has been claimed by someone else. While we would recommend you use the <b>Cancel Subscription Transfer</b> API instead, if you do use this we recommend only specifying the <b>TransferToken</b> and no other details. In this case, all existing subscription details, including Subscription ID, Reseller, and End User, will remain unchanged. </p>
+    ClaimSubscriptionTransferResponse:
+      title: ClaimSubscriptionTransferResponse
+      properties:
+        SubscriptionID:
+          type: string
+          description: This is the ID that's been assigned to the transferred subscription. If you specified a <b>SubscriptionID</b> when claiming the subscription, then that value will be returned. However, if you already have a subscription with the same <b>SubscriptionID</b>, or you did not specify a <b>SubscriptionID</b>, then an automatically generated value will have been used.
     ClaimSubscriptionTransferReseller:
       title: Reseller
       required:

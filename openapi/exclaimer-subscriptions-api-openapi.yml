@@ -876,6 +876,30 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    SubscriptionsResponse:
+      title: SubscriptionsResponse
+      properties:
+        Subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription'
+          description: If there are more subscriptions than the <b>PageSize</b>, then this will contain a subset of all subscriptions.
+        SubscriptionCount:
+          type: number
+          description: The total number of subscriptions available. This is useful for when the number of subscriptions is greater than the current page size.
+          format: int32
+        ContinuationToken:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
+        Page:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
+        PageSize:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
     UpdateSubscriptionOwner:
       title: UpdateSubscriptionOwnerRequest
       properties:
@@ -899,6 +923,136 @@ components:
           description: Specifies the number of users allocated as not for resale.<br /><b>N.B.</b> When the SKU includes NRF, this value is required; providing this value when NFR is not included will result in an error.
           format: int32
       description: This request allows you to use a code to change specific aspects of an existing subscription. <p><b>N.B.</b> You cannot change from an Office365 subscription to a GSuite subscription, or vise versa. </p>
+    AddSubscriptionReseller:
+      title: Reseller
+      required:
+      - ResellerID
+      - CompanyName
+      - CountryCode
+      properties:
+        ResellerID:
+          type: string
+          description: Your reference for the reseller. This will associate the reseller with the new subscription. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>
+        CompanyName:
+          type: string
+          description: The name of the company to associated the subscription with.
+        CountryCode:
+          type: string
+          description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
+    UpdateSubscriptionDetails:
+      title: UpdateSubscriptionRequest
+      properties:
+        SubscriptionName:
+          type: string
+          description: The name to be assigned to the subscription.
+        CurrencyCode:
+          type: string
+          description: The currency to be assigned to the subscription. <p> USD - US Dollar<br /> GBP - UK Sterling<br /> EUR - Euro<br /> AUD - Australian Dollars<br /> CAD - Canadian Dollars </p>
+      description: This request can be used to update the name and currency assigned to the subscription.
+    AddSubscriptionEndUserV2:
+      title: EndUserV2
+      required:
+      - Domain
+      properties:
+        Domain:
+          type: string
+          description: The domain associated with the end user.
+        FirstName:
+          type: string
+          description: The first name of the end user. Optional for Marketplace subscriptions.
+        LastName:
+          type: string
+          description: The last name of the end user. Optional for Marketplace subscriptions.
+        EmailAddress:
+          type: string
+          description: The email address of the end user. Optional for Marketplace subscriptions.
+        AddressLine1:
+          type: string
+          description: The first line of the address. Optional for Marketplace subscriptions.
+        AddressLine2:
+          type: string
+          description: The second line of the address. Optional for Marketplace subscriptions.
+        State:
+          type: string
+          description: The state or region. Optional for Marketplace subscriptions.
+        PhoneNumber:
+          type: string
+          description: The phone number of the end user. Optional for Marketplace subscriptions.
+    TierHistory:
+      title: TierHistory
+      properties:
+        Date:
+          type: string
+          description: The date of the tier was changed.
+          format: date-time
+        Tier:
+          type: string
+          description: The name of the new tier that was assigned.
+        PreviousTier:
+          type: string
+          description: The name of the previously assigned tier.
+    Subscription:
+      title: Subscription
+      properties:
+        SubscriptionID:
+          type: string
+        Name:
+          type: string
+        UserID:
+          type: string
+          description: The current owner of the subscription.
+        EndUserID:
+          type: string
+        ResellerID:
+          type: string
+        StartDate:
+          type: string
+          format: date-time
+        NumberOfUsers:
+          type: number
+          format: int32
+        AggregatedUsers:
+          type: number
+          format: int32
+        ProcessedUsers:
+          type: number
+          format: int32
+        Currency:
+          type: string
+          description: USD - US Dollar<br /> GBP - UK Sterling<br /> EUR - Euro<br /> AUD - Australian Dollars<br /> CAD - Canadian Dollars<br />
+        Status:
+          type: string
+          description: Active<br /> Suspended<br /> Cancelled<br /> Ended
+        InTrial:
+          type: boolean
+        TrialEndDate:
+          type: string
+          description: The date the trial is due to end. This value will only be returned when the subscription is a trial and the status is either Active or Suspended.
+          format: date-time
+        BillableUsers:
+          type: number
+          format: int32
+        Overage:
+          type: number
+          description: This value will only be returned if you've exceeded the number of licensed users.
+          format: int32
+        Tier:
+          type: string
+          description: <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use the original tiers, along with the new tiers. New consumers can only use the new tiers. </deprecated-note> ExclaimerStarter<br /> ExclaimerStandard<br /> ExclaimerPro<br /><deprecated>ExclaimerCloud <deprecated-indicator /><br /></deprecated><deprecated>SignatureMarketingSuite <deprecated-indicator /></deprecated>
+        NFR:
+          type: boolean
+          description: Indicates whether the subscription is not for resale.
+        NFRDetails:
+          allOf:
+          - $ref: '#/components/schemas/SubscriptionNFRDetails'
+          - description: This value will only be included when <b>NFR</b> is true.
+          - {}
+        SKU:
+          type: string
+          description: A code representing the type of product. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use SKUs relating to the original tiers, along with SKUs for the new tiers. New consumers can only use SKUs relating to the new tiers. </deprecated-note><p> EXCL-M-START<br /> EXCL-M-STAND<br /> EXCL-M-PRO<br /> EXCL-G-START<br /> EXCL-G-STAND<br /> EXCL-G-PRO<br /> EXCL-M-START-NFR<br /> EXCL-M-STAND-NFR<br /> EXCL-M-PRO-NFR<br /> EXCL-G-START-NFR<br /> EXCL-G-STAND-NFR<br /> EXCL-G-PRO-NFR<br /><deprecated>EXCL-M-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD-NFR <deprecated-indicator /></deprecated></p>
+        PendingTransfer:
+          type: boolean
+          description: Indicates a transfer of the subscription has been issued, but has yet to be claimed.
     UpdateSubscriptionTier:
       title: UpdateSubscriptionTierRequest
       required:
@@ -908,6 +1062,26 @@ components:
           type: string
           description: 'The tier you want to change to. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use the original tiers, along with the new tiers. New consumers can only use the new tiers. </deprecated-note><p> ExclaimerStarter<br /> ExclaimerStandard<br /> ExclaimerPro<br /><deprecated>ExclaimerCloud <deprecated-indicator /><br /></deprecated><deprecated>SignatureMarketingSuite <deprecated-indicator /></deprecated></p><p> Note: Managed-Service-Provider accounts are limited to only creating ExclaimerPro tier subscriptions. </p>'
       description: This request allows you to change the subscription tier.
+    AddSubscriptionResellerV2:
+      title: ResellerV2
+      required:
+      - Domain
+      properties:
+        Domain:
+          type: string
+          description: The domain associated with the reseller. This field is required for non-Marketplace subscriptions in V2.
+    SingleSubscriptionResponse:
+      title: SingleSubscriptionResponse
+      properties:
+        Subscription:
+          $ref: '#/components/schemas/Subscription'
+    ReactivateSubscription:
+      title: ReactivateSubscriptionRequest
+      properties:
+        InTrial:
+          type: boolean
+          description: When true, the subscription will be reactivated as if it were a new trial. When false, the existing trial status will be unchanged. i.e. If the subscription is still within the original trial period, you will continue to get those remaining days. If the subscription was fully active then no additional trial will be provided. Defaults to false.
+      description: This request will reactivate a previously ended, or deactivated, subscription. <p> The subscription will no longer reside in a dormant state and emails will be imprinted/processed via the Exclaimer Cloud service again. </p>
     UpdateSubscriptionNFR:
       title: UpdateSubscriptionNFRRequest
       required:
@@ -921,19 +1095,22 @@ components:
           description: Specifies the number of users allocated as not for resale.<br /><b>N.B.</b> When <b>NFR</b> is true, this value is required; when false, providing this value will result in an error.
           format: int32
       description: This request allows you to specify that the subscription is not for resale. <p> A subscription can be changed from being not for resale to a standard subscription, and vise versa, at any time. </p><p><b>N.B.</b> This feature is only available to consumers that support NFR licenses. </p>
-    SubscriptionHistoryResponse:
-      title: SubscriptionHistoryResponse
+    AddSubscriptionEndUser:
+      title: EndUser
+      required:
+      - EndUserID
+      - CompanyName
+      - CountryCode
       properties:
-        TierHistory:
-          type: array
-          items:
-            $ref: '#/components/schemas/TierHistory'
-          description: An array describing changes made to subscription's tier
-        SkuHistory:
-          type: array
-          items:
-            $ref: '#/components/schemas/SkuHistory'
-          description: An array describing changes made to subscription's SKU
+        EndUserID:
+          type: string
+          description: Your reference for the user. This will associate the user with the new subscription. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>
+        CompanyName:
+          type: string
+          description: The name of the company to associate the subscription with.
+        CountryCode:
+          type: string
+          description: The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
     AddSubscription:
       title: AddSubscriptionRequest
       required:
@@ -1003,130 +1180,19 @@ components:
           type: string
           description: 'A code representing the type of product being requested. <p> If <b>SKU</b> is specified in conjunction with <b>SubscriptionProductCode</b>, <b>Tier</b>, or <b>NFR</b>, they will be ignored and this value will take precedence. <p></p><b>N.B.</b> The use of <b>NFR</b> within a SKU is only available to consumers that support NFR licenses.<br /> When including <b>NFR</b>, you must also include the <b>NumberOfNFRUsers</b> field. </p><deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use SKUs relating to the original tiers, along with SKUs for the new tiers. New consumers can only use SKUs relating to the new tiers. </deprecated-note><p> M - Office365<br /> G - GSuite<br /> START - ExclaimerStarter<br /> STAND - ExclaimerStandard<br /> PRO - ExclaimerPro<br /><deprecated>MNGT - ExclaimerCloud <deprecated-indicator /><br /></deprecated><deprecated>MRKT - SignatureMarketingSuite <deprecated-indicator /><br /></deprecated> NFR - Not For Resale </p><p> EXCL-M-START<br /> EXCL-M-STAND<br /> EXCL-M-PRO<br /> EXCL-G-START<br /> EXCL-G-STAND<br /> EXCL-G-PRO<br /> EXCL-M-START-NFR<br /> EXCL-M-STAND-NFR<br /> EXCL-M-PRO-NFR<br /> EXCL-G-START-NFR<br /> EXCL-G-STAND-NFR<br /> EXCL-G-PRO-NFR<br /><deprecated>EXCL-M-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD-NFR <deprecated-indicator /></deprecated></p><p> Note: Managed-Service-Provider accounts are limited to only creating PRO (ExclaimerPro) tier subscriptions. </p>'
       description: This request will create a new subscription and adds it to the Exclaimer Cloud service. <p> A new user will be created for the email address provided if one doesn't already exist. </p><p> If you pass a <b>SubscriptionID</b> and <b>UserID</b>, these values will be used when creating the subscription, otherwise they'll be randomly generated and returned to you. You will need the subscription ID for other operations, such as updating the mailbox count, or ending the subscription. </p>
-    SubscriptionNFRDetails:
-      title: NFRDetails
+    SubscriptionHistoryResponse:
+      title: SubscriptionHistoryResponse
       properties:
-        NumberOfUsers:
-          type: number
-          format: int32
-        DateApplied:
-          type: string
-          description: Indicates when the subscription was last set to be not for resale.
-          format: date-time
-    AddSubscriptionEndUser:
-      title: EndUser
-      required:
-      - EndUserID
-      - CompanyName
-      - CountryCode
-      properties:
-        EndUserID:
-          type: string
-          description: Your reference for the user. This will associate the user with the new subscription. <p> If a user with the <b>EndUserID</b> already exists, it will be updated; otherwise it will be created. </p>
-        CompanyName:
-          type: string
-          description: The name of the company to associate the subscription with.
-        CountryCode:
-          type: string
-          description: The country code where the user is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
-    AddSubscriptionResponse:
-      title: AddSubscriptionResponse
-      properties:
-        SubscriptionID:
-          type: string
-          description: If specified in the request, this will be the value you passed. If not specified, this will be an automatically generated value.
-        UserID:
-          type: string
-          description: If specified in the request, this will be the value you passed. If not specified, this will be an automatically generated value.
-    AddSubscriptionReseller:
-      title: Reseller
-      required:
-      - ResellerID
-      - CompanyName
-      - CountryCode
-      properties:
-        ResellerID:
-          type: string
-          description: Your reference for the reseller. This will associate the reseller with the new subscription. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>
-        CompanyName:
-          type: string
-          description: The name of the company to associated the subscription with.
-        CountryCode:
-          type: string
-          description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
-    ReactivateSubscription:
-      title: ReactivateSubscriptionRequest
-      properties:
-        InTrial:
-          type: boolean
-          description: When true, the subscription will be reactivated as if it were a new trial. When false, the existing trial status will be unchanged. i.e. If the subscription is still within the original trial period, you will continue to get those remaining days. If the subscription was fully active then no additional trial will be provided. Defaults to false.
-      description: This request will reactivate a previously ended, or deactivated, subscription. <p> The subscription will no longer reside in a dormant state and emails will be imprinted/processed via the Exclaimer Cloud service again. </p>
-    TierHistory:
-      title: TierHistory
-      properties:
-        Date:
-          type: string
-          description: The date of the tier was changed.
-          format: date-time
-        Tier:
-          type: string
-          description: The name of the new tier that was assigned.
-        PreviousTier:
-          type: string
-          description: The name of the previously assigned tier.
-    AddSubscriptionEndUserV2:
-      title: EndUserV2
-      required:
-      - Domain
-      properties:
-        Domain:
-          type: string
-          description: The domain associated with the end user.
-        FirstName:
-          type: string
-          description: The first name of the end user. Optional for Marketplace subscriptions.
-        LastName:
-          type: string
-          description: The last name of the end user. Optional for Marketplace subscriptions.
-        EmailAddress:
-          type: string
-          description: The email address of the end user. Optional for Marketplace subscriptions.
-        AddressLine1:
-          type: string
-          description: The first line of the address. Optional for Marketplace subscriptions.
-        AddressLine2:
-          type: string
-          description: The second line of the address. Optional for Marketplace subscriptions.
-        State:
-          type: string
-          description: The state or region. Optional for Marketplace subscriptions.
-        PhoneNumber:
-          type: string
-          description: The phone number of the end user. Optional for Marketplace subscriptions.
-    SubscriptionsResponse:
-      title: SubscriptionsResponse
-      properties:
-        Subscriptions:
+        TierHistory:
           type: array
           items:
-            $ref: '#/components/schemas/Subscription'
-          description: If there are more subscriptions than the <b>PageSize</b>, then this will contain a subset of all subscriptions.
-        SubscriptionCount:
-          type: number
-          description: The total number of subscriptions available. This is useful for when the number of subscriptions is greater than the current page size.
-          format: int32
-        ContinuationToken:
-          type: number
-          description: See the section <b>"Paging of results"</b> at the beginning of the document.
-          format: int32
-        Page:
-          type: number
-          description: See the section <b>"Paging of results"</b> at the beginning of the document.
-          format: int32
-        PageSize:
-          type: number
-          description: See the section <b>"Paging of results"</b> at the beginning of the document.
-          format: int32
+            $ref: '#/components/schemas/TierHistory'
+          description: An array describing changes made to subscription's tier
+        SkuHistory:
+          type: array
+          items:
+            $ref: '#/components/schemas/SkuHistory'
+          description: An array describing changes made to subscription's SKU
     AddSubscriptionV2:
       title: AddSubscriptionV2Request
       required:
@@ -1188,16 +1254,26 @@ components:
           type: boolean
           description: When set to true, specifies that no trial period is needed and that the subscriptions should become active immediately. If <b>TrialDays</b> is specified when this is true, it will be ignore. Defaults to false.
       description: This request will create a new subscription using Version 2 of the API. V2 requires SKU and EndUser (with Domain) fields. The SubscriptionProductCode, Tier, NFR, and NumberOfNFRUsers fields from V1 are deprecated in V2. <p> A new user will be created for the email address provided if one doesn't already exist. </p><p> If you pass a <b>SubscriptionID</b> and <b>UserID</b>, these values will be used when creating the subscription, otherwise they'll be randomly generated and returned to you. You will need the subscription ID for other operations, such as updating the mailbox count, or ending the subscription. </p>
-    UpdateSubscriptionDetails:
-      title: UpdateSubscriptionRequest
+    SubscriptionNFRDetails:
+      title: NFRDetails
       properties:
-        SubscriptionName:
+        NumberOfUsers:
+          type: number
+          format: int32
+        DateApplied:
           type: string
-          description: The name to be assigned to the subscription.
-        CurrencyCode:
+          description: Indicates when the subscription was last set to be not for resale.
+          format: date-time
+    MigrateSubscription:
+      title: MigrateSubscriptionRequest
+      properties:
+        ResellerID:
           type: string
-          description: The currency to be assigned to the subscription. <p> USD - US Dollar<br /> GBP - UK Sterling<br /> EUR - Euro<br /> AUD - Australian Dollars<br /> CAD - Canadian Dollars </p>
-      description: This request can be used to update the name and currency assigned to the subscription.
+          description: Your reference for the reseller you want to migrate the subscription to. <p> If you don't want to change the existing reseller, then don't specify this property.<br /> If you want to remove, or clear, the existing reseller, supply an empty value.<br /> When providing the <b>ResellerID</b>, a reseller with that ID must already exist. </p>
+        EndUserID:
+          type: string
+          description: Your reference for the end user you want to migrate the subscription to. <p> If you don't want to change the existing end user, then don't specify this property.<br /> If you want to remove, or clear, the existing end user, supply an empty value.<br /> When providing the <b>EndUserID</b>, an end user with that ID must already exist. </p>
+      description: This request allows you to assign, transfer, or remove, a reseller and/or end user, from an existing subscription.
     SkuHistory:
       title: SkuHistory
       properties:
@@ -1211,91 +1287,15 @@ components:
         PreviousSku:
           type: string
           description: The name of the previously assigned SKU.
-    AddSubscriptionResellerV2:
-      title: ResellerV2
-      required:
-      - Domain
-      properties:
-        Domain:
-          type: string
-          description: The domain associated with the reseller. This field is required for non-Marketplace subscriptions in V2.
-    Subscription:
-      title: Subscription
+    AddSubscriptionResponse:
+      title: AddSubscriptionResponse
       properties:
         SubscriptionID:
           type: string
-        Name:
-          type: string
+          description: If specified in the request, this will be the value you passed. If not specified, this will be an automatically generated value.
         UserID:
           type: string
-          description: The current owner of the subscription.
-        EndUserID:
-          type: string
-        ResellerID:
-          type: string
-        StartDate:
-          type: string
-          format: date-time
-        NumberOfUsers:
-          type: number
-          format: int32
-        AggregatedUsers:
-          type: number
-          format: int32
-        ProcessedUsers:
-          type: number
-          format: int32
-        Currency:
-          type: string
-          description: USD - US Dollar<br /> GBP - UK Sterling<br /> EUR - Euro<br /> AUD - Australian Dollars<br /> CAD - Canadian Dollars<br />
-        Status:
-          type: string
-          description: Active<br /> Suspended<br /> Cancelled<br /> Ended
-        InTrial:
-          type: boolean
-        TrialEndDate:
-          type: string
-          description: The date the trial is due to end. This value will only be returned when the subscription is a trial and the status is either Active or Suspended.
-          format: date-time
-        BillableUsers:
-          type: number
-          format: int32
-        Overage:
-          type: number
-          description: This value will only be returned if you've exceeded the number of licensed users.
-          format: int32
-        Tier:
-          type: string
-          description: <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use the original tiers, along with the new tiers. New consumers can only use the new tiers. </deprecated-note> ExclaimerStarter<br /> ExclaimerStandard<br /> ExclaimerPro<br /><deprecated>ExclaimerCloud <deprecated-indicator /><br /></deprecated><deprecated>SignatureMarketingSuite <deprecated-indicator /></deprecated>
-        NFR:
-          type: boolean
-          description: Indicates whether the subscription is not for resale.
-        NFRDetails:
-          allOf:
-          - $ref: '#/components/schemas/SubscriptionNFRDetails'
-          - description: This value will only be included when <b>NFR</b> is true.
-          - {}
-        SKU:
-          type: string
-          description: A code representing the type of product. <deprecated-note><em>2023-04-03</em><br /> The ExclaimerCloud and SignatureMarketingSuite tiers have been replaced by ExclaimerStarter, ExclaimerStandard, and ExclaimerPro. For compatibility, existing consumers can continue to use SKUs relating to the original tiers, along with SKUs for the new tiers. New consumers can only use SKUs relating to the new tiers. </deprecated-note><p> EXCL-M-START<br /> EXCL-M-STAND<br /> EXCL-M-PRO<br /> EXCL-G-START<br /> EXCL-G-STAND<br /> EXCL-G-PRO<br /> EXCL-M-START-NFR<br /> EXCL-M-STAND-NFR<br /> EXCL-M-PRO-NFR<br /> EXCL-G-START-NFR<br /> EXCL-G-STAND-NFR<br /> EXCL-G-PRO-NFR<br /><deprecated>EXCL-M-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-M-MRKT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MNGT-CLOUD-NFR <deprecated-indicator /><br /></deprecated><deprecated>EXCL-G-MRKT-CLOUD-NFR <deprecated-indicator /></deprecated></p>
-        PendingTransfer:
-          type: boolean
-          description: Indicates a transfer of the subscription has been issued, but has yet to be claimed.
-    SingleSubscriptionResponse:
-      title: SingleSubscriptionResponse
-      properties:
-        Subscription:
-          $ref: '#/components/schemas/Subscription'
-    MigrateSubscription:
-      title: MigrateSubscriptionRequest
-      properties:
-        ResellerID:
-          type: string
-          description: Your reference for the reseller you want to migrate the subscription to. <p> If you don't want to change the existing reseller, then don't specify this property.<br /> If you want to remove, or clear, the existing reseller, supply an empty value.<br /> When providing the <b>ResellerID</b>, a reseller with that ID must already exist. </p>
-        EndUserID:
-          type: string
-          description: Your reference for the end user you want to migrate the subscription to. <p> If you don't want to change the existing end user, then don't specify this property.<br /> If you want to remove, or clear, the existing end user, supply an empty value.<br /> When providing the <b>EndUserID</b>, an end user with that ID must already exist. </p>
-      description: This request allows you to assign, transfer, or remove, a reseller and/or end user, from an existing subscription.
+          description: If specified in the request, this will be the value you passed. If not specified, this will be an automatically generated value.
   securitySchemes:
     Exclaimer:
       type: apiKey

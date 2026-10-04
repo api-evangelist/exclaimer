@@ -107,6 +107,30 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ResellersResponse:
+      title: ResellersResponse
+      properties:
+        Resellers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResellerResponse'
+          description: If there are more resellers than the <b>PageSize</b>, then this will contain a subset of all resellers.
+        ResellerCount:
+          type: number
+          description: The total number of resellers available. This is useful for when the number of resellers is greater than the current page size.
+          format: int32
+        ContinuationToken:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
+        Page:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
+        PageSize:
+          type: number
+          description: See the section <b>"Paging of results"</b> at the beginning of the document.
+          format: int32
     ResellerResponse:
       title: Reseller
       properties:
@@ -136,30 +160,6 @@ components:
           type: string
           description: The country code where the reseller is based.<br /> Specify in ISO 3166-1 alpha-2/alpha-3 or numeric.
       description: This request allows you to store custom user details within the Exclaimer Cloud service. <p> If a reseller with the <b>ResellerID</b> already exists, it will be updated; otherwise it will be created. </p>
-    ResellersResponse:
-      title: ResellersResponse
-      properties:
-        Resellers:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResellerResponse'
-          description: If there are more resellers than the <b>PageSize</b>, then this will contain a subset of all resellers.
-        ResellerCount:
-          type: number
-          description: The total number of resellers available. This is useful for when the number of resellers is greater than the current page size.
-          format: int32
-        ContinuationToken:
-          type: number
-          description: See the section <b>"Paging of results"</b> at the beginning of the document.
-          format: int32
-        Page:
-          type: number
-          description: See the section <b>"Paging of results"</b> at the beginning of the document.
-          format: int32
-        PageSize:
-          type: number
-          description: See the section <b>"Paging of results"</b> at the beginning of the document.
-          format: int32
   securitySchemes:
     Exclaimer:
       type: apiKey
