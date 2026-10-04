@@ -1,0 +1,57 @@
+slug: exclaimer
+provider: Exclaimer
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Subscriptions
+  spec_file: exclaimer-subscriptions-api-openapi.yml
+  capability_id: BC-4240
+  capability_id_l1: BC-4240
+  capability_name: Subscription Lifecycle Management
+  confidence: 0.9
+  evidence: '"Activate Full Subscription", "Deactivate Subscription", "End Subscription", "Reactivate
+    Subscription", "Migrate Subscription", schemas UpdateSubscriptionTier, UpdateSubscriptionSKU'
+  reason: Plainly the end-to-end commercial subscription lifecycle (create, activate, modify tier/SKU,
+    deactivate, end). Spans provisioning, modification and termination so L1 only.
+- tag: MSP
+  spec_file: exclaimer-msp-api-openapi.yml
+  capability_id: BC-4240
+  capability_id_l1: BC-4240
+  capability_name: Subscription Lifecycle Management
+  confidence: 0.8
+  evidence: POST /1.0/msp/subscriptions  Add MSP Subscription; GET /1.0/msp/subscriptions/{SubscriptionID}/status  Get
+    MSP Subscription Status
+  reason: Operations create and inspect SaaS subscriptions (with reseller and end-user parties and sender
+    usage), which is subscription lifecycle management. Left at L1 because the surface mixes provisioning,
+    status and usage retrieval rather than naming one sub-capability.
+- tag: Subscription Transfers
+  spec_file: exclaimer-subscription-transfers-api-openapi.yml
+  capability_id: BC-4240
+  capability_id_l1: BC-4240
+  capability_name: Subscription Lifecycle Management
+  confidence: 0.78
+  evidence: '"Initiate Subscription Transfer", "Claim Subscription Transfer", "Cancel Subscription Transfer"
+    with schemas ClaimSubscriptionTransferReseller / ClaimSubscriptionTransferEndUser'
+  reason: Operations transfer ownership of a SaaS subscription between resellers/end users — part of the
+    subscription commercial lifecycle (BC-4240). No single L2 cleanly covers ownership transfer, so L1
+    only.
+- tag: Mailboxes
+  spec_file: exclaimer-mailboxes-api-openapi.yml
+  capability_id: BC-4240.40
+  capability_id_l1: BC-4240
+  capability_name: Subscription Modification
+  confidence: 0.7
+  evidence: PUT /1.0/subscriptions/{SubscriptionID}/mailbox-count  Update Mailbox Count; schema UpdateMailboxCount
+  reason: Reading and changing the licensed mailbox (seat) count on an existing subscription is an in-life
+    seat adjustment, matching Subscription Modification. Some chance the intended fit is provisioning
+    instead, hence 0.7.
