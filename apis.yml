@@ -336,6 +336,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: RateLimits
+  url: rate-limits/exclaimer-rate-limits.yml
 - type: CapabilityMap
   url: capabilities/exclaimer-capability-edges.yml
   name: Exclaimer Business Capability Map
