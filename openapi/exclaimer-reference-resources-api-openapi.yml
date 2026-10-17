@@ -134,15 +134,20 @@ components:
         Description:
           type: string
           description: A human readable description of the SKU.
-    TierReference:
-      title: TierReference
+    DataCentersResponse:
+      title: DataCentersResponse
       properties:
-        Tier:
-          type: string
-          description: The code to use when referencing the tier.
-        Description:
-          type: string
-          description: A human readable description of the tier.
+        DataCenters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataCenter'
+    TierReferencesResponse:
+      title: TierReferencesResponse
+      properties:
+        Tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TierReference'
     DataCenter:
       title: DataCenter
       properties:
@@ -155,20 +160,15 @@ components:
         GSuiteCode:
           type: string
           description: The code to use in <b>Add Subscription</b> when using GSuite.
-    TierReferencesResponse:
-      title: TierReferencesResponse
+    TierReference:
+      title: TierReference
       properties:
-        Tiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/TierReference'
-    DataCentersResponse:
-      title: DataCentersResponse
-      properties:
-        DataCenters:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataCenter'
+        Tier:
+          type: string
+          description: The code to use when referencing the tier.
+        Description:
+          type: string
+          description: A human readable description of the tier.
   securitySchemes:
     Exclaimer:
       type: apiKey
