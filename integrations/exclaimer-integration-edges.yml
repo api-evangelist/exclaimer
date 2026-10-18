@@ -1,7 +1,9 @@
 generated: '2026-10-13'
 method: searched
 checked:
+- google-workspace/integrations/google-workspace-integration-edges.yml
 - https://azuremarketplace.microsoft.com/
+- zoom/integrations/zoom-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: Microsoft Azure Marketplace
@@ -20,3 +22,40 @@ edges:
   seller_name: EXCLAIMER LTD
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
+- partner_name: Google Workspace (own)
+  partner: google-workspace
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://workspace.google.com/marketplace/app/exclaimer_email_signature_management/441020792836
+  mirror_of: google-workspace/integrations/google-workspace-integration-edges.yml
+  apps:
+  - Exclaimer Email Signature Management
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Google Workspace app
+- partner_name: Zoom (own)
+  partner: zoom
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.zoom.us/apps/SLRT1sFcS3-jlDzfEY1uwQ
+  mirror_of: zoom/integrations/zoom-integration-edges.yml
+  apps:
+  - Meeting Branding by Exclaimer
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Zoom app
+source:
+- google-workspace/integrations/google-workspace-integration-edges.yml
+- zoom/integrations/zoom-integration-edges.yml
