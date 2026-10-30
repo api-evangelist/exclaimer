@@ -64,6 +64,147 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Exclaimer is a company surfaced as a portfolio company of insight-partners and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Exclaimer is an email signature management platform used by IT, marketing, and sales teams to centrally create, deploy, and govern corporate email signatures across Microsoft 365, Microsoft Exchange, and Google Workspace. It manages signatures for more than 9 million email accounts, adding campaign banners, meeting-branding backgrounds, click-tracking analytics, directory synchronization with Azure AD and Google Directory, and role-based access control. Exclaimer publishes the Exclaimer Cloud API — a partner/distributor provisioning REST API documented at cloudapi.exclaimer.com with a machine- readable OpenAPI 3.0.1 definition covering subscriptions, MSP subscriptions, subscription users, resellers, end users, mailbox counts, subscription transfers and reference data. It operates a multi-region Exclaimer Cloud with a real-time status page and a strong security and compliance program (SOC 2 Type II, ISO 27001/27018, HIPAA, PCI DSS, CSA STAR, Cyber Essentials).
 
-Backed by: insight-partners — https://exclaimer.com/
+**Areas:** Company · Email · Email Signatures · Email Signature Management · Microsoft 365 · Google Workspace · Marketing · Productivity · Software-as-a-Service · Security
+
+## Exclaimer on APIs.io
+
+Everything profiled for Exclaimer is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/exclaimer/](https://apis.io/providers/exclaimer/)** — or go straight to one of the APIs or properties below.
+
+### APIs (9)
+
+- [Exclaimer End Users API](https://apis.io/apis/exclaimer/exclaimer-end-users-api/) — The End Users API from Exclaimer — 1 operation(s) for end users.
+- [Exclaimer Mailboxes API](https://apis.io/apis/exclaimer/exclaimer-mailboxes-api/) — The Mailboxes API from Exclaimer — 1 operation(s) for mailboxes.
+- [Exclaimer Miscellaneous API](https://apis.io/apis/exclaimer/exclaimer-miscellaneous-api/) — The Miscellaneous API from Exclaimer — 2 operation(s) for miscellaneous.
+- [Exclaimer MSP API](https://apis.io/apis/exclaimer/exclaimer-msp-api/) — The MSP API from Exclaimer — 4 operation(s) for msp.
+- [Exclaimer Reference Resources API](https://apis.io/apis/exclaimer/exclaimer-reference-resources-api/) — The Reference Resources API from Exclaimer — 3 operation(s) for reference resources.
+- [Exclaimer Resellers API](https://apis.io/apis/exclaimer/exclaimer-resellers-api/) — The Resellers API from Exclaimer — 1 operation(s) for resellers.
+- [Exclaimer Subscription Transfers API](https://apis.io/apis/exclaimer/exclaimer-subscription-transfers-api/) — The Subscription Transfers API from Exclaimer — 3 operation(s) for subscription transfers.
+- [Exclaimer Subscription Users API](https://apis.io/apis/exclaimer/exclaimer-subscription-users-api/) — The Subscription Users API from Exclaimer — 4 operation(s) for subscription users.
+- [Exclaimer Subscriptions API](https://apis.io/apis/exclaimer/exclaimer-subscriptions-api/) — The Subscriptions API from Exclaimer — 13 operation(s) for subscriptions.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [exclaimer-cloud](https://apis.io/servers/exclaimer/exclaimer-cloud/)
+
+#### Collections (9)
+
+Postman and Open Collection request collections.
+
+- [Exclaimer Cloud API — End Users](https://apis.io/collections/exclaimer/open-exclaimer-end-users/)
+- [Exclaimer Cloud API — Mailboxes](https://apis.io/collections/exclaimer/open-exclaimer-mailboxes/)
+- [Exclaimer Cloud API — Miscellaneous](https://apis.io/collections/exclaimer/open-exclaimer-miscellaneous/)
+- [Exclaimer Cloud API — MSP](https://apis.io/collections/exclaimer/open-exclaimer-msp/)
+- [Exclaimer Cloud API — Reference Resources](https://apis.io/collections/exclaimer/open-exclaimer-reference-resources/)
+- [Exclaimer Cloud API — Resellers](https://apis.io/collections/exclaimer/open-exclaimer-resellers/)
+- [Exclaimer Cloud API — Subscription Transfers](https://apis.io/collections/exclaimer/open-exclaimer-subscription-transfers/)
+- [Exclaimer Cloud API — Subscription Users](https://apis.io/collections/exclaimer/open-exclaimer-subscription-users/)
+- [Exclaimer Cloud API — Subscriptions](https://apis.io/collections/exclaimer/open-exclaimer-subscriptions/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Exclaimer Cloud Api Overlay](https://apis.io/overlays/exclaimer/exclaimer-cloud-api-overlay/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Exclaimer Authentication](https://apis.io/security/exclaimer/exclaimer-authentication/)
+- [Exclaimer Domain Security](https://apis.io/security/exclaimer/exclaimer-domain-security/)
+- [Exclaimer Trust Center](https://apis.io/security/exclaimer/exclaimer-trust-center/)
+- [Exclaimer Vulnerability Disclosure](https://apis.io/security/exclaimer/exclaimer-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Exclaimer Plans Pricing](https://apis.io/plans/exclaimer/exclaimer-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Exclaimer Rate Limits](https://apis.io/rate-limits/exclaimer/exclaimer-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://exclaimer.com/)
+- [Documentation](https://support.exclaimer.com/hc/en-gb)
+- [Getting started](https://support.exclaimer.com/hc/en-gb/articles/360050643511-Onboarding-Connect-to-Microsoft-365)
+- [API reference](https://cloudapi.exclaimer.com/)
+- [Pricing](https://exclaimer.com/pricing/)
+- [Sign up](https://go.exclaimer.com/trial)
+- [Support](https://support.exclaimer.com/hc/en-gb)
+- [Blog](https://exclaimer.com/blog/)
+- [Security](https://vdp.exclaimer.com/p/Welcome)
+- [Compliance](https://exclaimer.com/product/security/)
+- [Terms of service](https://exclaimer.com/legal/website-terms-of-use/)
+- [Privacy policy](https://exclaimer.com/legal/privacy-policy/)
+- [GitHub](https://github.com/exclaimerltd)
+- [Status](https://status.exclaimer.com/)
+
+## API Evangelist rating
+
+**Kin Score 63.1** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 51.0 |
+| Contract governance | 4.5 |
+| Operational transparency | 52.6 |
+| Developer ergonomics | 66.1 |
+| Access clarity | 92.1 |
+
+**Agent readiness 30.0** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 35.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/exclaimer/](https://apis.io/providers/exclaimer/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Exclaimer: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/exclaimer/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
